@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>css-block-layout</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    main {
+      width: 700px;
+    }
+
+    main p {
+      background-color: red;
+    }
+
+    .box {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .box :hover {
+      background-color: rgba(0, 128, 0, 0.151);
+    }
+
+    .sub,.inline span {
+      width: 200px;
+      height: 40px;
+      background-color: pink;
+      border: 3px black solid;
+      text-align: center;
+      line-height: 40px;
+    }
+
+    .container {
+      margin-top: 100px;
+      margin-bottom: 25px;
+    }
+    
+    .inline span{
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+
+    .inline :nth-child(3n+1) {
+      margin-bottom: 15px;
+      margin-right: 39px;
+    }
+
+    .inline :nth-child(3n+2) {
+      margin-right: 38px;
+    }
+
+    section {
+      margin-bottom: 10px;
+    }
+    section div {
+      border-bottom: 1px dashed black;
+    }
+
+    footer {
+      background-color: rgb(174, 53, 211);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <p><span>你好人类,这是我的世界!</span></p>
+    <div class="container">
+      <div class="box">
+        <div class="sub">甲</div>
+        <div class="sub">甲</div>
+        <div class="sub">甲</div>
+      </div>
+      <div class="box">
+        <div class="sub">乙</div>
+        <div class="sub">乙</div>
+        <div class="sub">乙</div>
+      </div>
+      <div class="box">
+        <div class="sub">丙</div>
+        <div class="sub">丙</div>
+        <div class="sub">丙</div>
+      </div>
+      <div class="box">
+        <div class="sub">丁</div>
+        <div class="sub">丁</div>
+        <div class="sub">丁</div>
+      </div>
+    </div>
+
+    <div class="inline">
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+      <span>hello</span>
+    </div>
+    
+    <section>
+      <div>link</div>
+      <div>link</div>
+      <div>link</div>
+      <div>link</div>
+      <div>link</div>
+    </section>
+
+    <footer>
+      @版权所有,禁止转载!
+    </footer>
+  </main>
+</body>
+
+</html>
