@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Margin重叠现象</title>
+  <style>
+    * {
+      margin: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      margin: 20px;
+    }
+
+    .container {
+      overflow: hidden;
+    }
+
+    /* 通过overflow来触发BFC */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="box"></div>
+  </div>
+  <div class="container">
+    <div class="box"></div>
+  </div>
+</body>
+
+</html>
