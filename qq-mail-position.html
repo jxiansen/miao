@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>qq-mail-position</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: larger;
+      text-align: center;
+    }
+
+    header {
+      height: 150px;
+      background-color: aquamarine;
+    }
+
+    .container {
+      position: relative;
+      /* 绝对定位依据最近的非static定位的祖先元素 */
+    }
+
+    .left {
+      position: absolute;
+      width: 150px;
+      left: 0;
+      top: 0;
+      height: calc(100vh - 150px);
+      background-color: aqua;
+    }
+
+    .right {
+      position: absolute;
+      top: 0;
+      left: 150px;
+      height: calc(100vh - 150px);
+      background-color: darkcyan;
+      width: calc(100vw - 150px);
+    }
+  </style>
+</head>
+
+<body>
+  <header>QQ邮箱</header>
+  <div class="container">
+    <div class="left">左列定宽</div>
+    <div class="right">右列自适应</div>
+  </div>
+</body>
+
+</html>
