@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>twitter-heart</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+    }
+
+    .heart {
+      cursor: pointer;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background-image: url(https://cssanimation.rocks/images/posts/steps/heart.png);
+      background-position: left;
+      background-repeat: no-repeat;
+      background-size: 3000%;
+      text-align: center;
+    }
+
+    .heart:hover {
+      animation: heart-burst 1s steps(28);
+    }
+
+    @keyframes heart-burst {
+      from {
+        background-position: left;
+      }
+
+      to {
+        background-position: right
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="heart">hover切换</div>
+</body>
+
+</html>
