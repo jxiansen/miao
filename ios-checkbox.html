@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ios-checkbox</title>
+  <style>
+    /* 在根元素定义CSS变量,可以让任何位置都可以访问到 */
+    :root {
+      --button-width: 500px;
+      /* 按钮宽度 */
+      --button-height: 295px;
+      /* 按钮高度 */
+      --toggle-diameter: 255px;
+      /* 按钮中心圆形直径 */
+      --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+      /* 按钮与里面圆形之间的距离 */
+      --color-grey: #E9E9EA;
+      /* 浅灰色 */
+      --color-green: #30D158;
+      /* 选中后的绿色 */
+      --toggle-shadow-offset: 10px;
+      /* 里面园形阴影的大小 */
+      --toggle-wider: 333px;
+      /* 圆形变长后的长度 */
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    span {
+      display: inline-block;
+      height: var(--button-height);
+      width: var(--button-width);
+      border-radius: calc(var(--button-height) / 2);
+      background-color: var(--color-grey);
+      position: relative;
+      transition: .4s all ease-in-out;
+    }
+
+    span::after {
+      content: '';
+      display: inline-block;
+      width: var(--toggle-diameter);
+      height: var(--toggle-diameter);
+      background-color: white;
+      border-radius: calc(var(--toggle-diameter) / 2);
+      /* 此处的边框圆角还不能用50%做,否则后期会出现椭圆效果 */
+      position: absolute;
+      top: var(--button-toggle-offset);
+      transform: translateX(var(--button-toggle-offset));
+      box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, .1);
+      /* 阴影属性: X轴偏移量,y轴偏移量,模糊半径,扩散半径,阴影颜色 */
+      transition: .4s all ease-in-out;
+    }
+
+    /* 选中后背景色变绿 */
+    input[type="checkbox"]:checked+span {
+      background-color: var(--color-green);
+    }
+
+    input[type="checkbox"]:checked+span::after {
+      transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+      /* 按下后圆形移动向右移动 */
+      box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, .1);
+      /* 右侧阴影变成左侧阴影 */
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    input[type="checkbox"]:active+span::after {
+      width: var(--toggle-wider);
+    }
+    /* 按下后圆形被拉长 */
+
+    input[type="checkbox"]:checked:active+span::after {
+      transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+      /* 按下后圆形按钮长度变长,会超出外界范围所以需要偏移 */
+    }
+  </style>
+</head>
+
+<body>
+  <label for="toggle">
+    <input type="checkbox" id="toggle">
+
+    <span></span>
+  </label>
+  <!-- span 标签按钮是包含在 label 中的,所以选中左下角的 checkbox 也会选中触发按钮 -->
+</body>
+
+</html>
