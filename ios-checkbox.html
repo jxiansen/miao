@@ -62,7 +62,8 @@
 
     /* 选中后背景色变绿 */
     input[type="checkbox"]:checked+span {
-      background-color: var(--color-green);
+      box-shadow: inset 0 0 10px calc(var(--button-height) / 2) var(--color-green);
+      /* 内阴影 X和Y的偏移量为0 模糊半径 扩展半径 阴影颜色 */
     }
 
     input[type="checkbox"]:checked+span::after {
@@ -79,6 +80,7 @@
     input[type="checkbox"]:active+span::after {
       width: var(--toggle-wider);
     }
+
     /* 按下后圆形被拉长 */
 
     input[type="checkbox"]:checked:active+span::after {
