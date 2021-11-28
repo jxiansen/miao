@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9-grid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      /* 总体样式设置 */
+      list-style: none;
+      text-align: center;
+      line-height: 80px;
+      font-size: 25px;
+      color: green;
+      box-sizing: border-box;
+      /* 设置为 border-box 盒子包括边框的长度就是100px */
+    }
+
+    /* float 布局 */
+    .float {
+      width: 300px;
+      height: 300px;
+      margin: 50px;
+    }
+
+    .float>li {
+      width: 100px;
+      height: 100px;
+      box-sizing: border-box;
+      border: 10px blue solid;
+      float: left;
+      margin: -10px 0 0 -10px;
+    }
+
+    .float>li:hover {
+      border-color: red;
+      position: relative;
+    }
+
+    /* flex 布局 */
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      /* flex 一行放不下自动换行,默认属性 nowrap不换行 */
+      width: 300px;
+      margin: 50px;
+    }
+
+    .flex>li {
+      width: 100px;
+      height: 100px;
+      box-sizing: border-box;
+      border: 10px solid blue;
+      line-height: 80px;
+      margin: -10px 0 0 -10px;
+    }
+
+    .flex>li:hover {
+      border-color: red;
+      z-index: 2;
+      /* hover 时候提高层叠等级 */
+    }
+
+    /* inline-block */
+    .inline-block {
+      margin: 50px;
+      width: 300px;
+      font-size: 0;
+    }
+
+    .inline-block>li {
+      width: 100px;
+      height: 100px;
+      border: 10px blue solid;
+      display: inline-block;
+      margin: -10px 0 0 -10px;
+      position: relative;
+    }
+
+    .inline-block>li:hover {
+      border-color: red;
+      z-index: 2;
+    }
+
+    /* table */
+    .table {
+      margin: 50px;
+      width: 300px;
+      height: 300px;
+      text-align: center;
+      border: 10px solid rgb(0, 0, 255);
+      border-collapse: collapse;
+      /* 单元格之间边框是否分开 */
+      box-sizing: border-box;
+    }
+
+    .table td {
+      height: 100px;
+      width: 100px;
+      border: 10px solid rgb(0, 0, 255);
+      text-align: center;
+      box-sizing: border-box;
+      line-height: 100px;
+      font-size: 25px;
+      color: green;
+    }
+
+    .table td:hover {
+      border-color: red;
+      position: absolute;
+      /* 使用绝对定位来脱离文档流以提高层叠等级 */
+      width: 86px;
+      height: 100px;
+      margin-top: -10px;
+      margin-left: -10px;
+      box-sizing: content-box;
+    }
+
+    /* 按住放大 */
+    .hover {
+      width: 400px;
+      height: 100px;
+      display: table-cell;
+      /* 更改表格显示方式为单元格形式 */
+      border: 2px solid black;
+      vertical-align: bottom;
+    }
+
+    .hover:active {
+      font-size: 70px;
+      transition: 2s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>float思路</h1>
+  <ul class="float">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
+
+  <h1>flex思路</h1>
+  <ul class="flex">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
+
+  <h1>inline-block思路</h1>
+  <ul class="inline-block">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
+
+  <h1>table思路</h1>
+  <table class="table">
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </table>
+
+  <h1>博客按住放大</h1>
+  <div class="hover">订阅博客</div>
+</body>
+
+</html>
