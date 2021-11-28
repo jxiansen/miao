@@ -123,18 +123,19 @@
       box-sizing: content-box;
     }
 
-    /* 按住放大 */
-    .hover {
-      width: 400px;
-      height: 100px;
-      display: table-cell;
-      /* 更改表格显示方式为单元格形式 */
+    /* 订阅放大 */
+    label {
+      display: block;
+      width: 600px;
+      height: 200px;
       border: 2px solid black;
+      display: table-cell;
+      /* 更改显示方式为表格单元格 */
       vertical-align: bottom;
     }
 
-    .hover:active {
-      font-size: 70px;
+    input:checked+label {
+      font-size: 100px;
       transition: 2s ease-in-out;
     }
   </style>
@@ -200,7 +201,10 @@
   </table>
 
   <h1>博客按住放大</h1>
-  <div class="hover">订阅博客</div>
+  <input type="checkbox" id="subscribe" hidden>
+  <label for="subscribe">
+    <div>订阅博客</div>
+  </label>
 </body>
 
 </html>
