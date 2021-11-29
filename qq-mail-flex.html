@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>qq-mail-flex</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    header {
+      background-color: pink;
+      height: 150px;
+    }
+
+    .main {
+      display: flex;
+      width: 100%;
+      height: calc(100% - 150px);
+    }
+
+    .main nav {
+      width: 200px;
+      background-color: rgba(0, 128, 0, 0.363);
+      justify-content: flex-start;
+    }
+
+    .main article {
+      background-color: antiquewhite;
+      flex-grow: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <header>头部宽高写死</header>
+  <div class="main">
+    <nav>左边定宽,主轴方向 flex-start 对齐</nav>
+    <article>右侧使用 flex-grow: 1 自适应撑满主轴方向上剩余空间</article>
+  </div>
+</body>
+
+</html>
