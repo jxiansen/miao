@@ -20,36 +20,35 @@
       width: 100%;
     }
 
-    header {
-      background-color: pink;
+    body {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .header {
+      width: 100%;
       height: 150px;
+      background-color: rgba(72, 79, 173, 0.452);
+    }
+
+    .nav {
+      width: 150px;
+      height: calc(100% - 150px);
+      background-color: rgba(40, 102, 68, 0.404);
     }
 
     .main {
-      display: flex;
-      width: 100%;
-      height: calc(100% - 150px);
-    }
-
-    .main nav {
-      width: 200px;
-      background-color: rgba(0, 128, 0, 0.363);
-      justify-content: flex-start;
-    }
-
-    .main article {
-      background-color: antiquewhite;
       flex-grow: 1;
+      background-color: pink;
     }
   </style>
 </head>
 
 <body>
-  <header>头部宽高写死</header>
-  <div class="main">
-    <nav>左边定宽,主轴方向 flex-start 对齐</nav>
-    <article>右侧使用 flex-grow: 1 自适应撑满主轴方向上剩余空间</article>
-  </div>
+  <div class="header">头部宽度设置百分之百,占据全部空间.flex容器设置 wrap 使其自动换行</div>
+  <div class="nav">左边定宽,主轴方向 flex-start 对齐</div>
+  <div class="main">右侧使用 flex-grow: 1 自适应撑满主轴方向上剩余空间</div>
 </body>
 
 </html>
