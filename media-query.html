@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>media-query</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-size: 40px;
+    }
+
+    html,
+    body,
+    .container {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 最大宽度限制在400px */
+    @media screen and (max-width: 400px) {
+      .container {
+        background-color: red;
+      }
+    }
+
+    /* 宽度最小为400px,最大为600px,使用 and 操作符号,将多个查询条件进行组合 */
+    @media screen and (min-width: 400px) and (max-width: 600px) {
+      .container {
+        background-color: green;
+      }
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 800px) {
+      .container {
+        background-color: blue;
+      }
+    }
+
+    @media screen and (min-width: 800px) and (max-width: 1000px) {
+      .container {
+        background-color: yellow;
+      }
+    }
+
+    @media screen and (min-width: 1000px) {
+      .container {
+        background-color: purple;
+      }
+    }
+
+    /* 
+      媒体查询常用属性:
+        height: 输出设备中可见区域的高度
+        width: 输出设备中可见取悦的宽度
+        min-width: 输出设备中可见区域的最小宽度
+        min-height
+        max-width
+        max-height
+
+        逻辑运算符: 
+        and : 组合条件,都要满足(与)
+        ,(逗号): 多个条件组合,满足其中一个就行(或)
+        only: 在不支持媒体查询的浏览器中不添加样式.浏览器处理以 only 开头的关键词时候将会忽略 only 
+        not: 条件取反(非)
+      */
+  </style>
+
+<body>
+  <div class="container">拉伸窗口来观察页面情况</div>
+</body>
+
+</html>
