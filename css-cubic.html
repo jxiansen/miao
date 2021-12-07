@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS-Cubic</title>
+  <style>
+    /* 基础样式设定 */
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: gray;
+      width: 200px;
+      height: 200px;
+      font-size: 6em;
+      font-weight: 600;
+      font-family: monospace;
+      position: relative;
+      /* 设定3D元素是否有遮挡关系,子元素是位于3D空间还是平面中 */
+      transform-style: preserve-3d;
+      /* 辅助样式 */
+      transform: rotatex(-30deg) rotateY(20deg);
+      scale: 2;
+      transition: transform 5s ease-in-out;
+    }
+
+    /* 设置 hover 旋转动画 */
+    .container:hover {
+      transform: rotatex(-50deg) rotateY(250deg) rotateZ(290deg);
+    }
+
+    /* 基础属性 */
+    .container>div {
+      text-align: center;
+      line-height: 200px;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 10px dashed;
+    }
+
+    /* 设置六个面的各自属性 */
+    .left {
+      background-color: red;
+      transform: translateX(-50%) rotateY(-90deg);
+    }
+
+    .right {
+      background-color: green;
+      transform: translateX(50%) rotateY(90deg);
+    }
+
+    .top {
+      background-color: orange;
+      transform: translateY(-50%) rotateX(90deg);
+    }
+
+    .bottom {
+      background-color: yellow;
+      transform: translateY(50%) rotateX(90deg);
+    }
+
+    .font {
+      background-color: blue;
+      transform: translateZ(110px);
+      /* 由于边框宽度为10px,需要加上去 */
+    }
+
+    .back {
+      background-color: pink;
+      transform: translateZ(-110px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="top">上</div>
+    <div class="bottom">下</div>
+    <div class="left">左</div>
+    <div class="right">右</div>
+    <div class="font">前</div>
+    <div class="back">后</div>
+  </div>
+</body>
+
+</html>
