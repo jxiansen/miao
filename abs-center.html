@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>abs-center</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 定义容器和盒子 */
+    .container {
+      width: 200px;
+      height: 200px;
+      background-color: rgba(128, 128, 128, 0.503);
+      margin: 50px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    /* 定位再位移,兼容性最好 */
+    .position-parent {
+      position: relative;
+    }
+
+    .position-son {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 绝对定位 */
+    .abs-parent {
+      position: relative;
+    }
+
+    .abs-son {
+      position: absolute;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    /* flex 布局 */
+    .flex-parent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* grid 布局 */
+    .grid-parent {
+      display: grid;
+      place-items: center;
+    }
+
+    /* table-cell 布局 */
+    .table-parent {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .table-son {
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>子元素相对定位,再 translate</h1>
+  <div class="container position-parent">
+    <div class="box position-son"></div>
+  </div>
+
+  <h1>绝对布局</h1>
+  <div class="container abs-parent">
+    <div class="box abs-son"></div>
+  </div>
+
+  <h1>flex布局</h1>
+  <div class="container flex-parent">
+    <div class="box flex-son"></div>
+  </div>
+
+  <h1>grid布局</h1>
+  <div class="container grid-parent">
+    <div class="box"></div>
+  </div>
+
+  <h1>table-cell</h1>
+  <div class="container table-parent">
+    <div class="box table-son"></div>
+  </div>
+</body>
+
+</html>
