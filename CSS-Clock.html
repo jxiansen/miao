@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS-Clock</title>
+  <style>
+    /* 消除默认样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      /* box-shadow: inset 0 0 4px red; */
+      font-weight: 600;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 外层容器垂直水平居中 */
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .container {
+      width: 400px;
+      height: 400px;
+      border-radius: 4%;
+      background-color: #cdcdcd;
+      display: grid;
+      place-items: center;
+    }
+
+    .circle {
+      width: 85%;
+      height: 85%;
+      background-color: white;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    /* 设置指针旋转中点 */
+    .circle::after {
+      content: '';
+      width: 15px;
+      height: 15px;
+      background-color: rgb(0, 0, 0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    /* 定位钟面数字 */
+    span {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-size: 2.5rem;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    /* 对钟面数字分别设置 */
+    span:nth-child(1) {
+      transform: rotate(-60deg) translate(140px) rotate(60deg);
+    }
+
+    span:nth-child(2) {
+      transform: rotate(-30deg) translate(140px) rotate(30deg);
+    }
+
+    span:nth-child(3) {
+      transform: rotate(0deg) translate(140px) rotate(0deg);
+    }
+
+    span:nth-child(4) {
+      transform: rotate(30deg) translate(140px) rotate(-30deg);
+    }
+
+    span:nth-child(5) {
+      transform: rotate(60deg) translate(140px) rotate(-60deg);
+    }
+
+    span:nth-child(6) {
+      transform: rotate(90deg) translate(140px) rotate(-90deg);
+    }
+
+    span:nth-child(7) {
+      transform: rotate(120deg) translate(140px) rotate(-120deg);
+    }
+
+    span:nth-child(8) {
+      transform: rotate(150deg) translate(140px) rotate(-150deg);
+    }
+
+    span:nth-child(9) {
+      transform: rotate(180deg) translate(140px) rotate(-180deg);
+    }
+
+    span:nth-child(10) {
+      transform: rotate(210deg) translate(140px) rotate(-210deg);
+    }
+
+    span:nth-child(11) {
+      transform: rotate(240deg) translate(140px) rotate(-240deg);
+    }
+
+    span:nth-child(12) {
+      transform: rotate(270deg) translate(140px) rotate(-270deg);
+    }
+
+    /* 定义旋转动画 */
+    @keyframes rotate {
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    /* 统一设置指针容器垂直水平居中定位 */
+    .hours-container,
+    .minutes-container,
+    .seconds-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    /* 时针 */
+    .hours {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(0, -50%);
+      background-color: rgb(0, 0, 0);
+      height: 10px;
+      width: 25%;
+    }
+
+    .hours-container {
+      animation: rotate 43200s infinite linear;
+    }
+
+    /* 分针 */
+    .minutes {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background-color: rgb(0, 0, 0);
+      width: 35%;
+      height: 7px;
+      transform: translate(0, -50%);
+    }
+
+    .minutes-container {
+      animation: rotate 3600s infinite linear;
+    }
+
+    /* 秒针 */
+    .seconds {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 3px;
+      width: 50%;
+      background-color: rgb(0, 0, 0);
+      transform: translate(-20%, -50%);
+    }
+
+    .seconds-container {
+      animation: rotate 60s infinite linear;
+    }
+
+
+    /* 
+      Sass 代码转换网站: https://www.sassmeister.com/
+
+      @for $i from -2 to 10 {
+        span:nth-child(#{$i + 3}) {
+          transform: rotate(#{$i * 30deg}) translate(140px) rotate(#{$i * -30deg});
+    }
+}
+    */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="circle">
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
+      <span>4</span>
+      <span>5</span>
+      <span>6</span>
+      <span>7</span>
+      <span>8</span>
+      <span>9</span>
+      <span>10</span>
+      <span>11</span>
+      <span>12</span>
+      <div class="hours-container">
+        <div class="hours"></div>
+      </div>
+      <div class="minutes-container">
+        <div class="minutes"></div>
+      </div>
+      <div class="seconds-container">
+        <div class="seconds"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
