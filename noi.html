@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>noi</title>
-
+  
   <script id="ch0103/01">
     let num1 = parseInt(prompt('请输入参数A'));
     let num2 = parseInt(prompt('请输入参数B'));
@@ -62,12 +62,12 @@
   <script id="ch0103/08">
     let num1 = parseFloat(prompt("请输入参数1"));
     console.log(parseFloat((num1 - 32) / 9 * 5).toFixed(5));
-  </script>
+  </script>  
 
 
   <script id="ch0103/09">
     let r = parseFloat(prompt("请输入半径r"));
-    console.log((2 * r).toFixed(4),(2 * Math.PI * r).toFixed(4), ( r * r * Math.PI).toFixed(4));
+    console.log((2 * r).toFixed(4), (2 * Math.PI * r).toFixed(5).slice(0,-1), ( r * r * Math.PI).toFixed(4));
   </script>
 
 
@@ -93,10 +93,11 @@
 
   <script id="ch0103/13">
     let num = prompt("请输入参数1");
-    console.log(parseInt(num.split("").reverse().join('')));
-    // 获取输入字符串,分割字符串为数组,数组翻转,拼接字符串,字符串转数字
+    let a = Math.floor(num / 100);
+    let b = Math.floor(num % 100 / 10);
+    let c = num % 10;
+    console.log(c.toString() + b.toString() + a.toString());
   </script>
-
 
   <script id="ch0103/14">
     let h = parseInt(prompt("请输入高度"));
@@ -149,9 +150,8 @@
 
   <script id="ch0103/20">
     let n = parseInt(prompt("请输入参数n"));
-    console.log(2 ** n);
+    console.log(2 ** n); 
   </script>
-
 
 
 </head>
