@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>noi</title>
-  
   <script id="ch0103/01">
     let num1 = parseInt(prompt('请输入参数A'));
     let num2 = parseInt(prompt('请输入参数B'));
     console.log(num1 + num2); 
-  </script>  
+  </script>
 
   <script id="ch0103/02">
     let num1 = parseInt(prompt("请输入参数A"));
@@ -32,7 +31,7 @@
   <script id="ch0103/04">
     let num1 = parseInt(prompt("请输入参数A"));
     let num2 = parseInt(prompt("请输入参数B"));
-    console.log(parseInt(num1 / num2),(num1 % num2));
+    console.log(parseInt(num1 / num2), (num1 % num2));
   </script>
 
 
@@ -56,22 +55,22 @@
     let b = parseFloat(prompt("请输入参数C"));
     let c = parseFloat(prompt("请输入参数D"));
     let d = parseFloat(prompt("请输入参数E"));
-    console.log(( a * x ** 3 + b * x ** 2 + c * x + d).toFixed(7));
+    console.log((a * x ** 3 + b * x ** 2 + c * x + d).toFixed(7));
   </script>
 
   <script id="ch0103/08">
     let num1 = parseFloat(prompt("请输入参数1"));
     console.log(parseFloat((num1 - 32) / 9 * 5).toFixed(5));
-  </script>  
+  </script>
 
 
   <script id="ch0103/09">
     let r = parseFloat(prompt("请输入半径r"));
-    console.log((2 * r).toFixed(4), (2 * Math.PI * r).toFixed(5).slice(0,-1), ( r * r * Math.PI).toFixed(4));
+    console.log((2 * r).toFixed(4), (2 * Math.PI * r).toFixed(5).slice(0, -1), (r * r * Math.PI).toFixed(4));
   </script>
 
 
- <script id="ch0103/10">
+  <script id="ch0103/10">
     let num1 = parseInt(prompt("请输入参数1"));
     let num2 = parseInt(prompt("请输入参数2"));
     console.log(parseFloat(1 / (1 / num1 + 1 / num2)).toFixed(2));
@@ -87,11 +86,11 @@
 
   <script id="ch0103/12">
     let r = parseInt(prompt("请输入球半径"));
-    console.log(parseFloat( 4 / 3 * Math.PI.toFixed(2) * r ** 3).toFixed(2));
+    console.log(parseFloat(4 / 3 * Math.PI.toFixed(2) * r ** 3).toFixed(2));
   </script>
 
 
-  <script id="ch0103/13">
+  <script id="ch0103/13">  239
     let num = prompt("请输入参数1");
     let a = Math.floor(num / 100);
     let b = Math.floor(num % 100 / 10);
@@ -102,7 +101,7 @@
   <script id="ch0103/14">
     let h = parseInt(prompt("请输入高度"));
     let r = parseInt(prompt("请输入半径"));
-    console.log(Math.ceil(20 * 1000 / ( Math.PI.toFixed(5) * r ** 2 * h)));
+    console.log(Math.ceil(20 * 1000 / (Math.PI.toFixed(5) * r ** 2 * h)));
   </script>
 
 
@@ -110,7 +109,7 @@
     let n = parseInt(prompt("请输入参数n"));
     let x = parseInt(prompt("请输入参数x"));
     let y = parseInt(prompt("请输入参数y"));
-    console.log( n - Math.ceil(1 / x * y) );
+    console.log(n - Math.ceil(1 / x * y));
   </script>
 
 
@@ -153,6 +152,57 @@
     console.log(2 ** n); 
   </script>
 
+
+  <script id="ch0104/01">
+    let num = parseInt(prompt("请输入参数1"));
+    console.log(num > 0 ? "positive" : num == 0 ? "zero" : "negative");
+    // 三目运算符的多重条件判断
+  </script>
+
+
+  <script id="ch0104/02">
+    let num = parseFloat(prompt("请输入参数1"));
+    console.log(Math.abs(num));
+  </script>
+
+
+  <script id="ch0104/03">
+    let num = parseFloat(prompt("请输入参数1"));
+    console.log(num % 2 === 0 ? "odd" : "even");
+  </script>
+
+
+
+  <script id="ch0104/04">
+    let str = prompt("请输入参数1");
+    console.log(str.charCodeAt() % 2 === 1 ? "YES" : "NO");
+  </script>
+
+
+  <script id="ch0104/05">
+    let num1 = parseInt(prompt("请输入参数1"));
+    let num2 = parseInt(prompt("请输入参数2"));
+    console.log(num1 > num2 ? ">" : num1 === num2 ? "=" : "<");
+  </script>
+
+
+  <script id="ch0104/06">
+    let num1 = parseInt(prompt("请输入参数1"));
+    console.log((num1 / 10) >= 1 && (num1 / 10) <= 9.9 ? 1 : 0);
+  </script>
+
+
+  <script id="ch0104/06">
+    let num1 = parseInt(prompt("请输入参数1"));
+    let num2 = parseInt(prompt("请输入参数2"));
+    console.log(num1 >= 10 || num2 >= 20 ? 1 : 0);
+  </script>
+
+
+  <script id="ch0104/08">
+    let num = parseInt(prompt("请输入参数1"));
+    console.log(num % 3 === 0 && num % 5 === 0 ? "YES" : "NO");
+  </script>
 
 </head>
 
