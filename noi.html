@@ -2,9 +2,8 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="wtype=" xxx" idth=device-wtype="xxx" idth, initial-scale=1.0">
+
+
   <title>noi</title>
   <script type="xxx" id="ch0103/01">
     let num1 = parseInt(prompt('请输入参数A'));
@@ -378,9 +377,7 @@
   </script>
 
 
-
   <script id="ch0104/20">
-    // 输入一行，包含三个浮点数a, b, c（它们之间以一个空格分开），分别表示方程ax2 + bx + c =0的系数。
     let a = Number(prompt('输入a'));
     let b = Number(prompt('输入b'));
     let c = Number(prompt('输入c'));
@@ -403,19 +400,76 @@
   <script id="ch0104/21">
     let n = parseFloat(prompt("请输入参数1"));
     let x = parseFloat(prompt("请输入参数2"));
-    let y = parseFloat(prompt("请输入参数2"));
+    let y = parseFloat(prompt("请输入参数3"));
     console.log(n - Math.ceil(y / x));
   </script>
 
 
 
+  <script id="ch0105/01">
+    let n = parseInt(prompt("请输入学生数"));
+    let sum = 0;      // 总年龄累加器
+    for (let i = 0; i < n; i++) {
+      sum += parseInt(prompt("请输入年龄"))
+    }     // 每次循环中接受参数,并累加到总和
+    console.log(parseFloat(sum / n).toFixed(2));
+  </script>
 
 
+  <script id="ch0105/02">
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+      sum += parseFloat(prompt("请输入每月结余钱数"))
+    }
+    console.log('$' + (sum / 12).toFixed(2).toString());
+  </script>
 
 
+  <script id="ch0105/03">
+    let n = parseInt(prompt("请输入样本数!"));
+    let sum = 0;
+    for (let i = 0; i < n; i++) {
+      sum += parseFloat(prompt("请输入样本数据"))
+    }
+    console.log(parseFloat(sum / n).toFixed(4));
+  </script>
 
 
+  <script id="ch0105/04">
+    let n = parseInt(prompt("请输入个数!"));
+    let sum = 0;
+    for (let i = 0; i < n; i++) {
+      sum += parseInt(prompt("请输入数字"))
+    }
+    console.log(sum, parseFloat(sum / n).toFixed(5));
+  </script>
 
+
+  <script id="ch0105/05">
+    let n = parseInt(prompt("请输入个数!"));
+    let max = 0;
+    for (let i = 0; i < n; i++) {
+      let num = parseInt(prompt("请输入数字"));
+      if (num > max) {
+        max = num
+      }
+    }
+    console.log(max);
+  </script>
+
+
+  <!-- <script id="ch0105/06">
+    let n = parseInt(prompt("请输入个数!"));
+    let max = 0;
+    let min = 0;
+    for (let i = 0; i < n; i++) {
+      let num = parseInt(prompt("请输入数字"));
+      if (num > max) {
+        max = num
+      }
+    }
+    console.log(max);
+  </script> -->
 
 
 
