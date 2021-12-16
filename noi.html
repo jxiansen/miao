@@ -186,7 +186,7 @@
 
   <script type="xxx" id="ch0104/06">
     let num1 = parseInt(prompt("请输入参数1"));
-    console.log((num1 / 10) >= 1 && (num1 / 10) <= 9.9 ? 1 : 0);
+    console.log( num1 >= 10 && num1 <= 99 ? 1 : 0);
   </script>
 
 
@@ -203,28 +203,25 @@
   </script>
 
 
-
-  <script id="ch0104/09">
-    let num1 = parseInt(prompt("请输入参数1"));
-    if (num1 % 3 === 0 && num1 % 5 === 0 && num1 % 7 === 0) {
-      console.log(3, 5, 7)
-    } else if (num1 % 3 === 0 && num1 % 5 === 0 && num1 % 7 === 1) {
-      console.log(3, 5)
-    } else if (num1 % 3 === 0 && num1 % 5 === 1 && num1 % 7 === 0) {
-      console.log(3, 7)
-    } else if (num1 % 5 === 0 && num1 % 7 === 0 && num1 % 3 === 1) {
-      console.log(5, 7)
-    } else if (num1 % 3 === 0 && num1 % 5 !== 0 && num1 % 7 !== 0) {
-      console.log(3)
-    } else if (num1 % 5 === 0 && num1 % 3 !== 0 && num1 % 7 !== 0) {
-      console.log(5)
-    } else if (num1 % 7 === 0 && num1 % 5 !== 0 && num1 % 3 !== 0) {
-      console.log(7)
-    } else if (num1 % 3 !== 0 && num1 % 5 !== 0 && num1 % 7 !== 0) {
-      console.log('n')
+  <script type="xxx" id="ch0104/09">
+    let num = parseInt(prompt("请输入整数"));
+    if (num % 3 == 0 && num % 5 == 0 && num % 7 == 0) {
+      console.log(3, 5, 7);       // 同时满足则输出3,5,7
+    }
+    if (num % 3 == 0 || num % 5 == 0 || num % 7 == 0) {
+      if (num % 3 == 0) {     // 内部设置三个过滤器,哪一个满足对应的语句就会生效
+        console.log(3);
+      }
+      if (num % 5 == 0) {
+        console.log(5);
+      }
+      if (num % 7 == 0) {
+        console.log(7);
+      }
+    } else {
+      console.log('n');
     }
   </script>
-
 
 
   <script type="xxx" id="ch0104/10">
@@ -455,21 +452,185 @@
       }
     }
     console.log(max);
-  </script>
+  </script> 
 
 
-  <!-- <script id="ch0105/06">
+  <script id="ch0105/06">
     let n = parseInt(prompt("请输入个数!"));
     let max = 0;
     let min = 0;
     for (let i = 0; i < n; i++) {
       let num = parseInt(prompt("请输入数字"));
       if (num > max) {
-        max = num
+        max = num;
+      }
+      if(num < min) {
+        min = num;
       }
     }
-    console.log(max);
-  </script> -->
+    console.log(max - min);
+  </script>
+
+
+
+<script id="ch0105/07">
+  let n = parseInt(prompt("请输入天数!"));
+  let auSum = 0;      // 声明各自奖牌和
+  let agSum = 0;
+  let cuSum = 0;
+  for (let i = 0; i < n; i++) {
+    auSum += parseInt(prompt("请输入金牌数"));
+    agSum += parseInt(prompt("请输入银牌数"));
+    cuSum += parseInt(prompt("请输入铜牌数"));
+  }
+  console.log(auSum,agSum,cuSum, auSum + agSum + cuSum);
+</script>
+
+
+<script id="ch0105/08">
+  let n = parseInt(prompt("请输入几何图形边数!"));
+  let angleSum = 0;
+  for (let i = 0; i < n - 1; i++) {
+    angleSum += parseInt(prompt("请输入角度值"));
+  }
+  console.log((n - 2) * 180 - angleSum);
+</script>
+
+
+
+
+<script id="ch0105/09">
+  let m = parseInt(prompt("请输入m"));
+  let n = parseInt(prompt("请输入n"));
+  let sum = 0;
+  for (let i = m; i <= n; i++) {
+    if(i % 2 == 1) {
+      sum += i
+    }
+  }
+  console.log( sum );
+</script>
+
+
+
+
+<script id="ch0105/10">
+  let m = parseInt(prompt("请输入m"));
+  let n = parseInt(prompt("请输入n"));
+  let sum = 0;
+  for (let i = m; i <= n; i++) {
+    if (i % 17 == 0) {
+      sum += i
+    }
+  }
+  console.log(sum);
+</script>
+
+
+
+<script id="ch0105/11">
+  let n = parseInt(prompt("请输入整数数目"));
+  let oneCount = 0;
+  let fiveCount = 0;
+  let tenCount = 0;
+  for (let i = 0; i < n; i++) {
+    let num = parseInt(prompt("请输入数字"))
+    if(num == 1) {
+      oneCount++
+    }
+    if (num == 5) {
+      fiveCount++
+    }
+    if (num == 10) {
+      tenCount++
+    }
+  }
+  console.log(oneCount,fiveCount,tenCount);
+</script>
+
+
+
+<script id="ch0105/12">
+  let n = parseInt(prompt("请输入整数数目"));
+  let m = parseInt(prompt("请输入指定的数字"));
+  let count = 0;
+  for (let i = 0; i < n; i++) {
+    if (m == parseInt(prompt("请输入数字"))) {
+      count++;
+    }
+  }
+  console.log(count);
+</script>
+
+
+
+<script id="ch0105/13">
+  let a = parseInt(prompt("请输入整数a"));
+  let n = parseInt(prompt("请输入整数n"));
+  let res = 1;
+  for(let i = 0; i < n; i++) {
+    res *= a
+  }
+  console.log(res);
+</script>
+
+
+
+
+<script id="ch0105/14">
+  let x = parseInt(prompt("请输入人口数"));
+  let n = parseInt(prompt("请输入n年后"));
+  for (let i = 0; i < n; i++) {
+    x *= 1.001
+  }
+  console.log(x.toFixed(4));
+</script>
+
+
+
+<script id="ch0105/15">
+  let r = parseInt(prompt("请输入复合年利率"));
+  let m = parseInt(prompt("请输入本金"));
+  let n = parseInt(prompt("请输入年份"));
+  for (let i = 0; i < n; i++) {
+    m *= (1 + r / 100);
+  }
+  console.log( parseInt(m));
+</script>
+
+
+
+<script id="ch0105/16">
+  var n = parseInt(prompt("请输入每年年薪"));
+  var k = parseInt(prompt("请输入房子价格增长率"));
+  var price = 200;
+  for (var i = 1; i * n < price; i++) {
+    price *= (1 + k / 100)
+    console.log(price, i);
+  }
+  if (i <= 20) {
+    console.log(i);
+  } else {
+    console.log('Impossible');
+  }
+</script>
+
+
+
+<script id="ch0105/17">
+  let n = parseInt(prompt("请输入第几个数"));
+  let last;           // 最后一个指针
+  let left = 1;       // 左指针
+  let right = 1;      // 右指针
+  for(let i = 3; i <= n; i++) {
+    last = left + right;
+    left = right;
+    right = last;
+  }
+  console.log(last);
+</script>
+
+
 
 
 
