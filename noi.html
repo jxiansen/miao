@@ -413,6 +413,7 @@
     console.log(parseFloat(sum / n).toFixed(2));
   </script>
 
+  
 
   <script id="ch0105/02">
     let sum = 0;
@@ -422,7 +423,8 @@
     console.log('$' + (sum / 12).toFixed(2).toString());
   </script>
 
-
+  
+  
   <script id="ch0105/03">
     let n = parseInt(prompt("请输入样本数!"));
     let sum = 0;
@@ -632,6 +634,102 @@
     }
     console.log(last);
   </script>
+
+
+
+<script id="ch0105/18">
+  let n = parseInt(prompt("请输入总疗法数"));
+  let normal = parseInt(prompt("有效数目")) / parseInt(prompt("总病例数"));
+  for (let i = 1; i < n; i++) {
+    let all = parseInt(prompt("请输入总病例数目"));
+    let effect = parseInt(prompt("请输入有效数目"));
+    if((effect / all - normal)  > 0.05) {
+      console.log("better");
+    }
+    if ((normal - effect / all) > 0.05) {
+      console.log("worse");
+    } else {
+      console.log('same');
+    }
+  }
+</script>
+ 
+
+
+<script id="ch0105/19">
+  let n = parseInt(prompt("请输入屋顶数"));
+  let sumTime = 0;
+  for (let i = 0; i < n; i++) {
+    let x = parseInt(prompt("请输入x轴距离"));
+    let y = parseInt(prompt("请输入y轴距离"));
+    let num = parseInt(prompt("请输入人数"));
+    let roadTime = (x ** 2 + y ** 2) ** (1 / 2) / 50 * 2;
+    let saveTime = num * (1 + 0.5)
+    sumTime = roadTime + saveTime;
+  }
+  console.log(Math.ceil(sumTime));
+</script>
+
+
+
+
+<script id="ch0105/20">
+  let h = parseInt(prompt("请输入原始高度"));   // 每次弹跳后当前高度
+  let sum = 0;
+  for(let i = 0; i < 10; i++) {
+    h = h / 2;            // 每次弹起落下后,当前的高度
+    sum = sum + h * 3;     // 累计的里程
+  }
+  console.log((sum - h).toFixed(4),h.toFixed(7));   // 最后一次里程不需要弹起
+</script>
+
+
+
+
+
+<script id="ch0105/24">
+  let n = parseInt(prompt("请输入测量次数"))
+  let count = 0;
+  for(let i = 0; i < n; i++) {
+    let shrink = parseInt(prompt("请输入收缩压"))
+    let relax = parseInt(prompt("请输入舒张压"))
+    if(shrink >= 90 && shrink <= 140 && relax >= 60 && relax <= 90) {
+      count++;        // 如果满足正常条件就计数加一
+    } else {
+      count = 0;      // 不正常就清零
+    }
+  }
+  console.log(count);
+</script>
+
+
+
+<script id="ch0105/25">
+  let n = parseInt(prompt("请输入个数"));
+  for (let i = 0; i < n; i++) {
+    let num = parseInt(prompt("请输入整数"));
+    let qian = Math.ceil(num / 1000);
+  }
+  console.log(count);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
