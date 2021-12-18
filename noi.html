@@ -685,6 +685,16 @@
 
 
 
+<script id="ch0105/23">
+  let h = parseInt(prompt("请输入每天药品总量"));
+  let n = parseInt(prompt("请输入每天取药人数"));
+  let count = 0;      // 累计没取上药的人数
+  for(let i = 0; i < n; i++) {
+    let num = parseInt(prompt("请输入每个病人取药数量"))
+    h >= num ? h -= num : count++;    // 当前库存大于所需,则减去库存,否则不处理记录下没取上药的人数
+  }
+  console.log(count);
+</script>
 
 
 <script id="ch0105/24">
@@ -703,15 +713,172 @@
 </script>
 
 
-
 <script id="ch0105/25">
+  for(let i = 0; i <= 728; i++) {
+    let sysSeven = i.toString(7);       // 转换为七进制
+    let sysNine = i.toString(9);        // 转换为九进制
+    if(sysSeven.length == 3 && sysNine.length == 3 && sysSeven.split('').reverse().join('') == sysNine) {
+      console.log(i);
+    }
+  }
+</script> 
+
+
+
+<script id="ch0105/26">
   let n = parseInt(prompt("请输入个数"));
+  let count = 0;
   for (let i = 0; i < n; i++) {
     let num = parseInt(prompt("请输入整数"));
-    let qian = Math.ceil(num / 1000);
+    let qian = Math.floor(num / 1000);
+    let bai = Math.floor(num / 100) % 10;
+    let shi = Math.floor(num / 10) % 10;
+    let ge = num % 10;
+    if((ge - qian - bai - shi) > 0) {
+      count++
+    }
   }
   console.log(count);
 </script>
+
+
+<script id="ch0105/27">
+  var k = parseInt(prompt("请输入整数k"));
+  var Sn = 0;
+  for(var i = 1; Sn < k; i++) {     
+    Sn = Sn + 1 / i;        
+  }
+  console.log(i);
+</script>
+
+
+
+<script id="ch0105/28">
+  // 暴力解法
+  // console.log(prompt("请输入整数k").split('').reverse().join(' '));
+  // 循环解法
+  let num = parseInt(prompt("请输入整数b"));
+  let len = num.toString().length;
+  let res = '';
+  for (let i = 0; i < len; i++) {
+    let 余数 = num % 10;
+    num = (num - 余数) / 10;
+    res = res + 余数.toString() + " ";
+  }
+  console.log(res);
+</script>
+
+
+
+
+<script id="ch0105/29">
+  //  解法一,暴力解法
+  var n = prompt("请输入整数");     // 获取输入字符串
+  let res = parseInt(n.split('').reverse().join(''))    // 反转字符串
+  if (n < 0) {
+    res = res * -1          // 如果是负数,取相反数
+  }
+  console.log(res);
+</script>
+
+
+
+
+<script id="ch0105/30">
+  let m = prompt("请输入整数m");
+  let k = parseInt(prompt("请输入整数k"));
+  let count = 0;
+  m.split('').forEach(item => {
+    if(item == 3) {
+      count++
+    }
+  })
+  console.log(count == k ? "YES" : "NO");
+</script>
+
+
+
+<script id="ch0105/32">
+  var n = parseInt(prompt("请输入正整数n"));
+  var header = 2;       // 分子
+  var footer = 1;       // 分母
+  var tmp;              // 空数据用来临时存放分子
+  var sum = 2;          // 前n项的和
+  for (var i = 1; i < n; i++) {
+    tmp = header;       
+    header += footer;
+    footer = tmp;
+    sum += header / footer;
+  }
+  console.log(sum.toFixed(4));
+</script>
+
+
+
+<script id="ch0105/33">
+  let n = parseInt(prompt("请输入正整数n"));
+  let sum = 0;    // 累计和
+  let num;        // 声明每项数
+  for (let i = 1; i <= n; i++) {
+    num = 1 / i;
+    if (i % 2 == 0) {
+      num *= -1;
+    }
+    sum += num;       
+  }
+  console.log(sum.toFixed(4));
+</script>
+
+
+
+<script id="ch0105/34">
+  let n = parseInt(prompt("请输入正整数n"));
+  let sum = 0;
+  let num = 1;
+  for (let i = 1; i <= n; i++) {
+    num *= i;
+    sum += num;
+  }
+  console.log(sum);
+</script>
+
+
+
+
+
+<script id="ch0105/35">
+  let n = parseInt(prompt("请输入正整数n"));
+  let sum = 1;
+  let num = 1;
+  for (let i = 1; i <= n; i++) {
+    num *= i;
+    sum += 1 / num;
+  }
+  console.log(sum.toFixed(10));
+</script>
+
+
+<script id="ch0105/36">
+  let x = parseFloat(prompt("请输入浮点数n"));
+  let n = parseInt(prompt("请输入正整数n"));
+  let sum = 0;
+  for (let i = 0; i <= n; i++) {
+    sum += x ** i;
+  }
+  console.log(sum.toFixed(2));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
