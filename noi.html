@@ -869,6 +869,34 @@
   </script>
 
 
+  <script id="ch0105/38">
+    let x = Number(prompt('请输入样例数'));
+    let arr = [];                 // 声明一个数组用来存放求导后的系数
+    for (let j = 1; j <= x; j++) {    // 最外层用来控制输入的样例数目
+      let n = Number(prompt('请输入最高次幂'));
+      for (let i = n; i >= 0; i--) {     // 内层循环用来获得从最高次到最低次的数字
+        let num = Number(prompt('请输入系数'))
+        arr.push(i * num)             // 每次获得系数后数组中添加 "(次数 - 1) * 系数"
+      }
+      if (arr.length > 1) {
+        arr.pop()             // 如果数组的长度大于一,则需要切掉最后面的 0
+      }
+      console.log(...arr);    // 用数组的结构语法打散数组
+      arr = [];               // 数组清空在下一次循环中存放数据
+    }
+  </script>
+
+
+  <script id="ch0105/39">
+    let n = Number(prompt('请输入n'));
+    let sum = 0;
+    for (let i = 1; i <= n; i++) {
+      if (i % 7 !== 0 && i.toString().split('').includes('7') == false) {
+        sum += i * i;
+      }
+    }
+    console.log(sum);
+  </script>
 
 
   <script id="ch0105/40">
@@ -964,8 +992,6 @@
 
 
   <script id="ch0105/45">
-    let n = parseInt(prompt("请输入天数"));
-    console.log(14);
   </script>
 
 
