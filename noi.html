@@ -893,26 +893,26 @@
     }
     console.log(str.split('').filter(item => item === "2").length);
   </script>
- -->
 
-<script id="ch0105/42">
-  let h = parseInt(prompt("请输入高度H"));
-  let l = parseInt(prompt("请输入宽度L"));
-  let str = prompt("请输入字符串");
-  let k = parseInt(prompt("请输入是否空心"))
-  let res = '';         // 用来拼接字符串
-  for (let i = 1; i <= h; i++) {
-    for (let j = 1; j <= l; j++) {
-      if (k == 0 && i > 1 && i < h && j > 1 && j < l) {
-        res += " ";       // 特殊情况: 如果为空心,并且当前定位不在边框上,则拼接空字符串
-      } else {
-        res += str;       // 常规情况: 直接拼接字符串
+
+  <script id="ch0105/42">
+    let h = parseInt(prompt("请输入高度H"));
+    let l = parseInt(prompt("请输入宽度L"));
+    let str = prompt("请输入字符串");
+    let k = parseInt(prompt("请输入是否空心"))
+    let res = '';         // 用来拼接字符串
+    for (let i = 1; i <= h; i++) {
+      for (let j = 1; j <= l; j++) {
+        if (k == 0 && i > 1 && i < h && j > 1 && j < l) {
+          res += " ";       // 特殊情况: 如果为空心,并且当前定位不在边框上,则拼接空字符串
+        } else {
+          res += str;       // 常规情况: 直接拼接字符串
+        }
       }
+      res += "\n";   // 用来每一行结束后控制换行
     }
-    res += "\n";   // 用来每一行结束后控制换行
-  }
-  console.log(res); 
-</script>
+    console.log(res); 
+  </script>
 
 
 
@@ -963,12 +963,11 @@
   </script>
 
 
-<!-- <script id="ch0105/44">
+  <!-- <script id="ch0105/44">
     let n = parseInt(prompt("请输入天数"));
     let count = 1;
     for(let i = 1; i <                                                )
   </script> -->
-
 
 
 
