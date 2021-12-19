@@ -4,6 +4,7 @@
 <head>
 
   <title>noi</title>
+
   <script type="xxx" id="ch0103/01">
     let num1 = parseInt(prompt('请输入参数A'));
     let num2 = parseInt(prompt('请输入参数B'));
@@ -894,22 +895,80 @@
   </script>
 
 
-
   <script id="ch0105/42">
+    let h = parseInt(prompt("请输入高度H"));
+    let l = parseInt(prompt("请输入宽度L"));
+    let str = prompt("请输入字符串");
+    let k = parseInt(prompt("请输入是否空心"))
+    let res = '';         // 用来拼接字符串
+    for (let i = 1; i <= h; i++) {
+      for (let j = 1; j <= l; j++) {
+        if (k == 0 && i > 1 && i < h && j > 1 && j < l) {
+          res += " ";       // 特殊情况: 如果为空心,并且当前定位不在边框上,则拼接空字符串
+        }
+        res += str;       // 常规情况: 直接拼接字符串
+      }
+      res = res + "\n";   // 用来每一行结束后控制换行
+    }
+    console.log(res);
   </script>
 
 
 
 
+  <script id="ch0105/43">
+    let n = parseInt(prompt("请输入正整数"));
+    let arr = []        // 用数组存放所有的数
+    for (let i = 2; i < n; i++) {
+      if (n % i === 0) {
+        arr.push(i)
+      }
+    }                 // 存放所有的因数
+    let res = arr.filter(item => {
+      for (let j = 2; j < item; j++) {
+        if (item % j !== 0) {
+          return item
+        }           // 使用 filter 过滤出数组中的所有质数
+      }
+    })
+    console.log(Math.max(...res));      // 解构语法拍散数组求出最大质数
+  </script>
 
 
 
 
+  <script id="ch0105/44">
+    let n = parseInt(prompt("请输入正整数"));
+    let count = 1;        // 用来累计已经找到质数的次数
+    let res;
+    function isPrime(num) {
+      if (num == 2) {
+        return true
+      } else {
+        for (let i = 2; i < num; i++) {
+          if (num % i === 0) {
+            return false;
+          }
+        }
+        return true
+      }
+    }
+    for (let i = 2; count <= n; i++) {
+      if (isPrime(i)) {
+        res = i;
+        count++
+      }
+    }
+    console.log(res);
+  </script>
 
 
 
-
-
+  <!-- <script id="ch0105/44">
+    let n = parseInt(prompt("请输入天数"));
+    let count = 1;
+    for(let i = 1; i <                                                )
+  </script> -->
 
 
 
