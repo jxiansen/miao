@@ -684,6 +684,22 @@
 
 
 
+  <script id="ch0105/21">
+    let n = parseInt(prompt("请输入正整数"));
+    while (n > 1) {
+      if (n % 2 == 1) {
+        console.log(n.toString() + "*3+1=" + (n * 3 + 1).toString());
+        n = n * 3 + 1;
+      } else {
+        console.log(n.toString() + "/2=" + (n / 2).toString());
+        n = n / 2;
+      }
+    }
+    console.log("End");
+  </script>
+
+
+
   <script id="ch0105/23">
     let h = parseInt(prompt("请输入每天药品总量"));
     let n = parseInt(prompt("请输入每天取药人数"));
@@ -772,7 +788,6 @@
 
 
   <script id="ch0105/29">
-    //  解法一,暴力解法
     var n = prompt("请输入整数");     // 获取输入字符串
     let res = parseInt(n.split('').reverse().join(''))    // 反转字符串
     if (n < 0) {
@@ -937,7 +952,9 @@
           res += str;       // 常规情况: 直接拼接字符串
         }
       }
-      res += "\n";   // 用来每一行结束后控制换行
+      if (i !== h) {
+        res += "\n";   // 用来每一行结束后控制换行
+      }
     }
     console.log(res); 
   </script>
