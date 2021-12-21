@@ -1009,7 +1009,109 @@
 
 
   <script id="ch0105/45">
+
+
   </script>
+
+
+  <script id="narcissistic">
+    function narcissistic(n) {
+      return n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur);
+    }
+  </script>
+
+
+
+  <script id="narcissistics">
+    function narcissistic(n) {
+      return n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur);
+    }
+
+    function narcissistics() {
+      for (let i = 100; i <= 10000; i++) {
+        if (narcissistic(i)) {
+          console.log(i);
+        }
+      }
+    }
+    narcissistics()
+  </script>
+
+
+  <script id="palindrom">
+    // 解法一
+    function palindrom(n) {
+      let num = n;          // num 用来记录刚开始的数,后面比较会用到
+      let str = '';         // 用来拼接字符串
+      while (n > 10) {      // 只要数字还是两位数就一直取余
+        str += '' + n % 10;
+        n = Math.floor(n / 10);
+      }
+      str += "" + n;      // 最后剩下的数用来拼接
+      return parseInt(str) === num ? "YES" : "NO";
+    }
+
+  // 解法二: ES6语法,一行解法:    数字转字符串 ==> 字符串分割为数组 ==> 数组倒置 ==> 拼接为字符并与原字符比较
+  // function palindrom(n) {
+  //   return n.toString() === n.toString().split('').reverse().join('') ? "YES" : "NO";
+  // }
+  // console.log(palindrom(121));
+  </script>
+
+
+
+
+
+
+  <script id="prime">
+    function prime(n) {
+      if (n === 2) {
+        return true;
+      }
+      for (let i = 2; i < n; i++) {
+        if (n % i == 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    console.log(prime(307));
+  </script>
+
+
+
+  <script id="primes">
+    function prime(n) {
+      if (n === 2) {
+        return true;
+      }
+      for (let i = 2; i < n; i++) {
+        if (n % i == 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function primes() {
+      for (let i = 2; i <= 100; i++) {
+        if (prime(i)) {
+          console.log(i);
+        }
+      }
+    }
+    primes()
+  </script>
+
+
+
+
+
+
+
+
+
+
 
 
 
