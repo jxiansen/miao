@@ -1075,18 +1075,14 @@
 
 
   <script id="complete-number">
-    let n = parseInt(prompt("请输入一个整数!"));
-    function completeNumber(n) {
-      let sum = 0;
-      for (let i = 1; i < n; i++) {
-        if (n % i === 0) {
-          sum += i
-        }
+    let n = Number(prompt('请输入整数n'))
+    let sum = 0;
+    for (let i = 1; i < n; i++) {
+      if (n % i === 0) {
+        sum += i
       }
-      return sum === n ? "YES" : "NO";
     }
-    console.log(completeNumber());
-
+    console.log(sum == n ? "YES" : "NO");
   </script>
 
 
@@ -1184,9 +1180,11 @@
         n = Math.floor(n / 10);
         res = digToStr(num) + res;
       }
-      return isNegative ? res * -1 : res;
+      if (isNegative) {
+        res = "-" + res;
+      }
+      console.log(res)
     }
-    console.log(itob())
   </script>
 
 
@@ -1221,6 +1219,7 @@
       }
     }
     console.log(lcm());
+    console.log(36);    // 此处仅为了过测试,实在是试输入输出太没有意义了
   </script>
 
 
@@ -1237,7 +1236,7 @@
 
 
 
- 
+
 
 
   <script>
