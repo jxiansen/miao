@@ -1015,10 +1015,8 @@
 
 
   <script id="narcissistic">
-    function narcissistic(n) {
-      return n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur) ? "YES" : "NO";
-    }
-    console.log(narcissistic());
+    let n = parseInt(prompt("请输入一个整数!"))
+    console.log(n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur) ? "YES" : "NO");
   </script>
 
 
@@ -1041,43 +1039,38 @@
 
   <script id="palindrom">
     // 解法一
-    function palindrom(n) {
-      let num = n;          // num 用来记录刚开始的数,后面比较会用到
-      let str = '';         // 用来拼接字符串
-      while (n > 10) {      // 只要数字还是两位数就一直取余
-        str += '' + n % 10;
-        n = Math.floor(n / 10);
-      }
-      str += "" + n;      // 最后剩下的数用来拼接
-      return parseInt(str) === num ? "YES" : "NO";
-    }
-    console.log(palindrom());
+    // function palindrom(n) {
+    //   let num = n;          // num 用来记录刚开始的数,后面比较会用到
+    //   let str = '';         // 用来拼接字符串
+    //   while (n > 10) {      // 只要数字还是两位数就一直取余
+    //     str += '' + n % 10;
+    //     n = Math.floor(n / 10);
+    //   }
+    //   str += "" + n;      // 最后剩下的数用来拼接
+    //   return parseInt(str) === num ? "YES" : "NO";
+    // }
+    // console.log(palindrom());
 
 
-  // 解法二: ES6语法,一行解法:    数字转字符串 ==> 字符串分割为数组 ==> 数组倒置 ==> 拼接为字符并与原字符比较
-  // function palindrom(n) {
-  //   console.log(n.toString() === n.toString().split('').reverse().join('') ? "YES" : "NO");
-  // }
+    // 解法二: ES6语法,一行解法:    数字转字符串 ==> 字符串分割为数组 ==> 数组倒置 ==> 拼接为字符并与原字符比较
+    let n = parseInt(prompt("请输入该整数!"))
+    console.log(n.toString() === n.toString().split('').reverse().join('') ? "YES" : "NO");
   </script>
 
 
 
   <script id="prime">
-    function prime(n) {
-      if (n === 2) {
-        return "YES";
-      }
-      if (n === 1) {
-        return "NO";
-      }
-      for (let i = 2; i < n; i++) {
-        if (n % i == 0) {
-          return "NO";
-        }
-      }
-      return "YES";
+    let n = parseInt(prompt("请输入一个整数"))
+    let isPrime = true;         // 默认为真,只有不是素数的时候才会修改状态
+    if (n === 1) {
+      isPrime = false;
     }
-    console.log(prime(1));
+    for (let i = 2; i < n; i++) {
+      if (n % i == 0) {
+        isPrime = false;
+      }
+    }
+    console.log(isPrime ? "YES" : "NO");
   </script>
 
 
@@ -1105,7 +1098,65 @@
     primes()
   </script>
 
+  <script id="itoa">
+    function digToStr(n) {
+      switch (n) {
+        case 0:
+          return "0";
+          break;
+        case 1:
+          return "1";
+          break;
+        case 2:
+          return "2";
+          break;
+        case 3:
+          return "3";
+          break;
+        case 4:
+          return "4";
+          break;
+        case 5:
+          return "5";
+          break;
+        case 6:
+          return "6";
+          break;
+        case 7:
+          return "7";
+          break;
+        case 8:
+          return "8";
+          break;
+        case 9:
+          return "9";
+          break;
+      }
+    }
 
+    function itoa(n) {
+      let res = '';
+      while (n > 0) {
+        let num = n % 10;
+        n = Math.floor(n / 10);
+        res = digToStr(num) + res;
+      }
+      return res;
+    }
+    console.log(itoa(123)); 
+  </script>
+
+
+
+  <script id="sqrt">
+    function sqrt(n) {
+      let x = n
+      while (Math.abs(x * x - n) > 0.00000001) {
+        x = x / 2 + n / 2 / x
+      }
+      return x;
+    }
+  </script>
 
 
 

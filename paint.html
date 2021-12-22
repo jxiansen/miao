@@ -61,9 +61,16 @@
   }
 
   // 画一条30度的斜线（与x轴或y轴的夹角呈30度）
-  for(let i = 0; i < 200; i++ ) {
-    dot( i / Math.sqrt(3), i)
+  for (let i = 0; i < 200; i++) {
+    dot(i / Math.sqrt(3), i)
   }
+
+
+  // // 画一条跨越画布左上角和右下角的对角线
+  for (let x = 0; x <= 500; x++) {
+    dot(x, (4 / 5) * x, 'blue')
+  }
+
 
   // 画一个实心矩形
   for (let x = 300; x <= 350; x++) {    // 左右边距
@@ -82,13 +89,9 @@
     }
   }
 
-  // // 画一条跨越画布左上角和右下角的对角线
-  for (let x = 0; x <= 500; x++) {
-    dot(x, (4 / 5) * x, 'blue')
-  }
 
 
-  
+
   // 画两个个空心的圆，居中：
   // 一个半径为50像素
   // 一个半径为200像素
@@ -100,18 +103,25 @@
   */
   let r1 = 50, r2 = 100;
   let rx = 500 / 2, ry = 400 / 2;
-  for(let deg = 1; deg <= 360; deg++) {
-    dot(rx + r1 * Math.cos(deg) , ry + r1 * Math.sin(deg), 'green')
-    dot(rx + r2 * Math.cos(deg) , ry + r2 * Math.sin(deg), "green")
+  for (let deg = 1; deg <= 360; deg++) {
+    dot(rx + r1 * Math.cos(deg), ry + r1 * Math.sin(deg), 'green')
+    dot(rx + r2 * Math.cos(deg), ry + r2 * Math.sin(deg), "green")
   }
 
 
 // 画一个实心的圆，半径至少为100像素
 
 
+// 画出rgb色彩空间的某一面（尺寸要大于100x100）
+for (let y = 1; y <= 256; y++) {
+  for(let x = 1; x <= 256; x++) {
+    let color = 'rgb(' + x + ',' + y + ',256)'
+    dot(x,y + 100,color)
+  }
+}
 
 
-
+// 画一个【大小合适】的sin(x)的图像
 
 
 
@@ -127,9 +137,9 @@
     * 
     * 
     * 
-    * 画一个【大小合适】的sin(x)的图像
+    * 
 
-    * 画出rgb色彩空间的某一面（尺寸要大于100x100）
+    * 
       如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2,0,0,2)或(1,0.27得到新的位置，即绘制出被线性变幻后的色彩空间某一面
       可以考虑如下几种矩阵：
           2 0
