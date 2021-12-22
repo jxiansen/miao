@@ -1009,10 +1009,35 @@
 
 
   <script id="ch0105/45">
-
-
+    let n = parseInt(prompt("请输入天数n"))
+    let sum = 0;
+    let 面额 = 1;
+    let 天数 = 1;
+    let 当前面额已收天数 = 0;
+    for (let i = 1; i <= n; i++) {
+      sum += 面额
+      当前面额已收天数++
+      if (当前面额已收天数 === 天数) {
+        面额++
+        天数++
+        当前面额已收天数 = 0
+      }
+    }
+    console.log(sum);
   </script>
 
+
+  <script id="ch0106/01">
+    let n = parseInt(prompt("请输入整数的长度"))
+    let m = parseInt(prompt("请输入指定的整数"))
+    let count = 0;
+    for (let i = 1; i <= n; i++) {
+      if (m == parseInt(prompt("请输入指定的整数"))) {
+        count++
+      }
+    }
+    console.log(count);
+  </script>
 
   <script id="narcissistic">
     let n = parseInt(prompt("请输入一个整数!"))
