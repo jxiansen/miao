@@ -1074,6 +1074,41 @@
   </script>
 
 
+  <script id="complete-number">
+    function completeNumber(n) {
+      let sum = 0;
+      for (let i = 1; i < n; i++) {
+        if (n % i === 0) {
+          sum += i
+        }
+      }
+      console.log(sum === n ? "YES" : "NO");;
+    }
+    completeNumber()
+  </script>
+
+
+  <script id="complete-numbers">
+    function completeNumber(n) {        // 预先定义判断是否为完全数的函数
+      let sum = 0;
+      for (let i = 1; i < n; i++) {
+        if (n % i === 0) {
+          sum += i
+        }
+      }
+      return sum === n ? true : false;
+    }
+
+    function completeNumbers() {
+      for (let j = 1; j <= 1000; j++) {
+        if (completeNumber(j)) {        // 对其中的每一个数判断调用预定义的判断函数
+          console.log(j);
+        }
+      }
+    }
+    completeNumbers()
+  </script>
+
 
   <script id="primes">
     function prime(n) {
@@ -1098,7 +1133,7 @@
     primes()
   </script>
 
-  <script id="itoa">
+  <script id="itob">
     function digToStr(n) {
       switch (n) {
         case 0:
@@ -1134,7 +1169,7 @@
       }
     }
 
-    function itoa(n) {
+    function itob(n) {
       let res = '';
       while (n > 0) {
         let num = n % 10;
@@ -1143,23 +1178,51 @@
       }
       return res;
     }
-    console.log(itoa(123)); 
+    console.log(itob(123)); 
   </script>
 
 
 
   <script id="sqrt">
-    function sqrt(n) {
-      let x = n
-      while (Math.abs(x * x - n) > 0.00000001) {
-        x = x / 2 + n / 2 / x
-      }
-      return x;
+    let n = parseInt(prompt("请输入一个整数!"));
+    let x = n;
+    while (Math.abs(x * x - n) > 0.00000001) {
+      x = x / 2 + n / 2 / x
     }
+    console.log(x);
   </script>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    // 计算一个数的宽度  2568
+    function getNumLen(n) {
+      let count = 0;
+      while (n > 0) {
+        n = Math.floor(n / 10)
+        count++
+      }
+      return count
+    }
+    console.log(getNumLen(103456789));
+  </script>
 
 
 
