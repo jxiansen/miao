@@ -1016,9 +1016,9 @@
 
   <script id="narcissistic">
     function narcissistic(n) {
-      console.log(n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur) ? "YES" : "NO");
+      return n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur) ? "YES" : "NO";
     }
-    narcissistic()
+    console.log(narcissistic());
   </script>
 
 
@@ -1049,9 +1049,10 @@
         n = Math.floor(n / 10);
       }
       str += "" + n;      // 最后剩下的数用来拼接
-      console.log(parseInt(str) === num ? "YES" : "NO");
+      return parseInt(str) === num ? "YES" : "NO";
     }
-    palindrom()
+    console.log(palindrom());
+
 
   // 解法二: ES6语法,一行解法:    数字转字符串 ==> 字符串分割为数组 ==> 数组倒置 ==> 拼接为字符并与原字符比较
   // function palindrom(n) {
@@ -1064,7 +1065,10 @@
   <script id="prime">
     function prime(n) {
       if (n === 2) {
-        return YES;
+        return "YES";
+      }
+      if (n === 1) {
+        return "NO";
       }
       for (let i = 2; i < n; i++) {
         if (n % i == 0) {
@@ -1073,7 +1077,7 @@
       }
       return "YES";
     }
-    prime();
+    console.log(prime(1));
   </script>
 
 
