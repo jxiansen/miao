@@ -1075,6 +1075,7 @@
 
 
   <script id="complete-number">
+    let n = parseInt(prompt("请输入一个整数!"));
     function completeNumber(n) {
       let sum = 0;
       for (let i = 1; i < n; i++) {
@@ -1082,9 +1083,10 @@
           sum += i
         }
       }
-      console.log(sum === n ? "YES" : "NO");;
+      return sum === n ? "YES" : "NO";
     }
-    completeNumber()
+    console.log(completeNumber());
+
   </script>
 
 
@@ -1134,6 +1136,42 @@
   </script>
 
   <script id="itob">
+    let n = parseInt(prompt("请输入一个整数!"));
+    function digToStr(n) {
+      switch (n) {
+        case 0:
+          return "0";
+          break;
+        case 1:
+          return "1";
+          break;
+        case 2:
+          return "2";
+          break;
+        case 3:
+          return "3";
+          break;
+        case 4:
+          return "4";
+          break;
+        case 5:
+          return "5";
+          break;
+        case 6:
+          return "6";
+          break;
+        case 7:
+          return "7";
+          break;
+        case 8:
+          return "8";
+          break;
+        case 9:
+          return "9";
+          break;
+      }
+    }
+
     function itob(n) {
       let isNegative = false;     // 设定是否为负数默认为 false
       if (n < 0) {
@@ -1146,13 +1184,15 @@
         n = Math.floor(n / 10);
         res = digToStr(num) + res;
       }
-      isNegative ? console.log(res * -1) : console.log(res);
+      return isNegative ? res * -1 : res;
     }
-    itob()
+    console.log(itob())
   </script>
 
 
   <script id="lcf&lcm">
+    let x = parseInt(prompt("请输入一个整数!"));
+    let y = parseInt(prompt("请输入一个整数!"));
     function lcf(x, y) {
       let res;
       function getFactorArr(n) {          // 定义求因数数组函数
@@ -1169,7 +1209,18 @@
       res = Math.max(...arr1.filter(i => arr2.includes(i)));      // 求两个数组的交集
       console.log(res)
     }
-    lcf(9, 3)
+    lcf()
+
+    // 枚举法: 最小公倍数最小可能是两个数的最大数,在两个数的乘积范围内进行循环
+    function lcm(x, y) {
+      let max = Math.max(x, y)
+      for (let i = max; i <= x * y; i++) {
+        if (i % x === 0 && i % y === 0) {
+          return i
+        }
+      }
+    }
+    console.log(lcm());
   </script>
 
 
@@ -1186,21 +1237,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
   <script>
