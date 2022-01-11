@@ -88,20 +88,20 @@ var jxiansen = {
    * // => [1]
    */
   difference: function (array) {
-    let res = [];
-    if (arguments['1']) {
-      for (let item of array) {
-        if (!arguments['1'].includes(item)) {     // 如果遍历的值不在需要排除的值中
-          res.push(item)              // push到结果中
-        }
+    let res = [], arr = [];
+    for (let key in arguments) {
+      if (key === '0') {
+        continue;       // 如果遍历到第一个参数跳过
       }
-      return res
-    } else {
-      return array        // 如果没有第二个参数
+      arr.push(...arguments[key])     // 之后遍历到的值每次都push到数组中去
     }
+    for (let item of array) {
+      if (!arr.includes(item)) {
+        res.push(item)
+      }
+    }
+    return res
   },
-  // console.log(difference([3, 2, 1], [2, 4]));
-
 
 
   /**
@@ -134,7 +134,6 @@ var jxiansen = {
     return array;
   },
   // console.log(drop([1, 2, 3]));
-
 
 
 
@@ -304,5 +303,152 @@ var jxiansen = {
   },
   // console.log(flattenDepth([1, [2, [3, [4]], 5]], -1));
 
- 
+  /**
+   * Gets the last element of `array`.
+   *
+   * @category Array
+   * @param {Array} array: 待检查的数组.
+   * @returns {*} Returns the last element of `array`.
+   * @example
+   *
+   * _.last([1, 2, 3]);
+   * // => 3
+   */
+  join: function (array, separator) {
+    let res = '';
+    for (let item of array) {
+      if (item === array[array.length - 1]) {
+        res += item;
+        break;
+      }
+      res += item + separator;
+    }
+    return res;
+  },
+
+  /**
+   * 获取array中的最后一个元素。
+   *
+   * @category Array
+   * @param {Array}: 要检索的数组.
+   * @returns {*}: 返回array中的最后一个元素.
+   * @example
+   *
+   * _.last([1, 2, 3]);
+   * // => 3
+   */
+  last: function (array) {
+    return array[0] ? array[array.length - 1] : undefined;
+  },
+
+
+  /**
+   * 这个方法类似_.indexOf ，区别是它是从右到左遍历array的元素。
+   *
+   * @category Array
+   * @param {Array} array 要搜索的数组.
+   * @param {*} value 要搜索的值.
+   * @param {number} [fromIndex=array.length-1] 开始搜索的索引值.
+   * @returns {number} 返回匹配值的索引值，否则返回 -1。
+   * @example
+   *
+   * _.lastIndexOf([1, 2, 1, 2], 2);
+   * // => 3
+   *
+   * // Search from the `fromIndex`.
+   * _.lastIndexOf([1, 2, 1, 2], 2, 2);
+   * // => 1
+   */
+  lastIndexOf: function (array, value, fromIndex = array.length - 1) {
+    for (let i = fromIndex; i >= 0; i--) {      // 从后往前遍历遇到匹配的值直接返回索引
+      if (array[i] === value) {
+        return i
+      } ``
+    }
+    return -1;        // 未找到元素,返回 -1
+  },
+
+
+  /**
+   * 获取array数组的第n个元素。如果n为负数，则返回从数组结尾开始的第n个元素。
+   *
+   * @category Array
+   * @param {Array} array: 要查询的数组.
+   * @param {number} [n=0] 要返回元素的索引值.
+   * @returns {*} 获取array数组的第n个元素。
+   * @example
+   *
+   * var array = ['a', 'b', 'c', 'd'];
+   *
+   * _.nth(array, 1);
+   * // => 'b'
+   *
+   * _.nth(array, -2);
+   * // => 'c';
+   */
+  nth: function (array, n = 0) {
+    return n >= 0 ? array[n] : array[array.length + n];
+  },
+
+  /**
+   * 使用SameValueZero 等值比较，返回首次 value 在数组array中被找到的 索引值， 
+   * 如果 fromIndex 为负值，将从数组array尾端索引进行匹配
+   *
+   * @category Array
+   * @param {Array} array 需要查找的数组.
+   * @param {*} value 需要查找的值.
+   * @param {number} [fromIndex=0] 开始查询的位置.
+   * @returns {number} 返回 值value在数组中的索引位置, 没有找到为返回-1。
+   * @example
+   *
+   * _.indexOf([1, 2, 1, 2], 2);
+   * // => 1
+   *
+   * // Search from the `fromIndex`.
+   * _.indexOf([1, 2, 1, 2], 2, 2);
+   * // => 3
+   */
+  indexOf: function (array, value, fromIndex = 0) {
+    for (let i = fromIndex; i < array.length; i++) {
+      if (array[i] === value) {
+        return i
+      }
+    }
+    return -1;
+  },
+
+  /**
+   * 获取数组 array 的第一个元素。
+   *
+   * @category Array
+   * @param {Array} array 要查询的数组。
+   * @returns {*} 返回数组 array的第一个元素。
+   * @example
+   *
+   * _.head([1, 2, 3]);
+   * // => 1
+   *
+   * _.head([]);
+   * // => undefined
+   */
+
+  head: function head(array) {
+    return (array && array.length > 0) ? head[0] : undefined;     // 数组存在并且长度大于0
+  },
+
+  /**
+   * 获取数组array中除了最后一个元素之外的所有元素（注：去除数组array中的最后一个元素）
+   *
+   * @category Array
+   * @param {Array} array 要查询的数组.
+   * @returns {Array} 返回截取后的数组array.
+   * @example
+   *
+   * _.initial([1, 2, 3]);
+   * // => [1, 2]
+   */
+  initial: function initial(array) {
+    array.pop();
+    return array;
+  },
 } 
