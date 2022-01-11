@@ -245,6 +245,17 @@ var jxiansen = {
    */
   flattenDeep: function (array) {
     let res = [];
+    function flattenDeep(array) {
+      let res = [];
+      for (let item of array) {
+        if (Array.isArray(item)) {
+          res = [...res, ...flattenDeep(item)]     // 递归形式的遍历,如果遍历到的是数组,给他打散后与上一次的调用的结果拼接组成新的结果
+        } else {
+          res.push(item)
+        }
+      }
+      return res
+    }
     for (let item of array) {
       if (Array.isArray(item)) {
         res = [...res, ...flattenDeep(item)]     // 递归形式的遍历,如果遍历到的是数组,给他打散后与上一次的调用的结果拼接组成新的结果
@@ -321,7 +332,7 @@ var jxiansen = {
         res += item;
         break;
       }
-      res += item + separator;
+      res += item + separator + '';
     }
     return res;
   },
@@ -433,7 +444,7 @@ var jxiansen = {
    */
 
   head: function head(array) {
-    return (array && array.length > 0) ? head[0] : undefined;     // 数组存在并且长度大于0
+    return (array && array.length > 0) ? array[0] : undefined;     // 数组存在并且长度大于0
   },
 
   /**
