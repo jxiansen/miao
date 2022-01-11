@@ -12,7 +12,7 @@ var jxiansen = {
    * // => [['a', 'b', 'c'], ['d']]
    */
   chunk: function (array) {
-    let res = [], size = arguments['1'];
+/*     let res = [], size = arguments['1'];
     if (size === array.length) {
       return array;     // 如果 size 为数组的长度,直接返回数组
     }
@@ -22,7 +22,7 @@ var jxiansen = {
     while (array.length >= size) {
       res.push(array.splice(0, size));
     }
-    return res;
+    return res; */
   },
   // console.log(chunk(['a', 'b', 'c', 'd'], 1));
 
@@ -267,9 +267,9 @@ var jxiansen = {
      * @memberOf _
      * @since 4.4.0
      * @category Array
-     * @param {Array} array The array to flatten.
-     * @param {number} [depth=1] The maximum recursion depth.
-     * @returns {Array} Returns the new flattened array.
+     * @param {Array} array (Array): 需要减少嵌套层级的数组。
+     * @param {number} [depth=1] [depth=1] (number):最多减少的嵌套层级数
+     * @returns {Array} 返回减少嵌套层级后的新数组。.
      * @example
      *
      * var array = [1, [2, [3, [4]], 5]];
