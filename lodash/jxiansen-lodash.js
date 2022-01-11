@@ -633,14 +633,11 @@ var jxiansen = {
    * // => [2, 1]
    */
   uniq: function uniq(array) {
-    let res = [], obj = {};
+    let res = [];
     for (let item of array) {
-      if (item in obj === false) {
-        obj[item] = 0
+      if (!res.includes(item)) {
+        res.push(item)
       }
-    }
-    for (let key in obj) {
-      res.push(key)
     }
     return res
   },
