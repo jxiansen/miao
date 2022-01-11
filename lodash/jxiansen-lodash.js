@@ -11,18 +11,25 @@ var jxiansen = {
    * _.chunk(['a', 'b', 'c', 'd'], 3);
    * // => [['a', 'b', 'c'], ['d']]
    */
-  chunk: function (array) {
-    let res = [], size = arguments['1'];
-    if (size === array.length) {
-      return array;     // 如果 size 为数组的长度,直接返回数组
+  chunk: function (array, num = 1) {
+    var res = [], tmp = [];
+    if (num === 0) {      // 如果num为0直接返回空数组
+      return res
     }
-    if (size === 0) {
-      return res;     // 如果size 为 0 返回空数组
+    if (num === array.length) {     // 如果num 为数组长度返回原数组
+      return array
     }
-    while (array.length >= size) {
-      res.push(array.splice(0, size));
+    for (let i = 0; i < array.length; i++) {
+      tmp.push(array[i])
+      if (tmp.length === num) {
+        res.push(tmp)
+        tmp = [];
+      }
     }
-    return res;
+    if (tmp[0]) {
+      res.push(tmp)
+    }
+    return res
   },
   // console.log(chunk(['a', 'b', 'c', 'd'], 1));
 
@@ -332,7 +339,7 @@ var jxiansen = {
         res += item;
         break;
       }
-      res += item + separator + '';
+      res += item.toString() + separator.toString();
     }
     return res;
   },
