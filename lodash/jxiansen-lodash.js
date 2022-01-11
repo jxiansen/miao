@@ -544,7 +544,266 @@ var jxiansen = {
       }
     }
     return res;
-  }
+  },
 
 
+  /**
+   * 计算 array 中的最大值。
+   * 如果 array 是 空的或者假值将会返回 undefined
+   *
+   * @category Math
+   * @param {Array} array 要迭代的数组.
+   * @returns {*} 返回最大的值.
+   * @example
+   *
+   * _.max([4, 2, 8, 6]);
+   * // => 8
+   *
+   * _.max([]);
+   * // => undefined
+   */
+  max: function (array) {
+    let max = array[0];
+    for (let item of array) {
+      if (item > max) {
+        max = item;
+      }
+    }
+    return max;
+  },
+
+
+  /**
+   * 计算 array 中值的总和.
+   *
+   * @category Math
+   * @param {Array} array 要迭代的数组.
+   * @returns {number} 返回总和.
+   * @example
+   *
+   * _.sum([4, 2, 8, 6]);
+   * // => 20
+   */
+  sum: function sum(array) {
+    let sum = 0;
+    for (let item of array) {
+      sum += item;
+    }
+    return sum
+  },
+
+
+  /**
+   * 重复N次给定字符串
+   *
+   * @category String
+   * @param {string} [string=''] 要重复的字符串.
+   * @param {number} [n=1] 重复的次数.
+   * @returns {string} 返回重复的字符串.
+   * @example
+   *
+   * _.repeat('*', 3);
+   * // => '***'
+   *
+   * _.repeat('abc', 2);
+   * // => 'abcabc'
+   *
+   * _.repeat('abc', 0);
+   * // => ''
+   */
+  repeat: function repeat(string, n = 1) {
+    let res = ''
+    for (let i = 0; i < n; i++) {
+      res += string;
+    }
+    return res
+  },
+
+
+  /**
+   * 创建一个去重后的array数组副本。使用了SameValueZero 
+   * 做等值比较。只有第一次出现的元素才会被保留。
+   * 
+   * @category Array
+   * @param {Array} array  要检查的数组.
+   * @returns {Array} 返回新的去重后的数组。
+   * @example
+   *
+   * _.uniq([2, 1, 2]);
+   * // => [2, 1]
+   */
+  uniq: function uniq(array) {
+    let res = [], obj = {};
+    for (let item of array) {
+      if (item in obj === false) {
+        obj[item] = 0
+      }
+    }
+    for (let key in obj) {
+      res.push(key)
+    }
+    return res
+  },
+
+
+  /**
+   * 返回collection（集合）的长度，如果集合是类数组或字符串，
+   * 返回其 length ；如果集合是对象，返回其可枚举属性的个数。
+   *
+   * @category Collection
+   * @param {Array|Object|string} collection 要检查的集合.
+   * @returns {number} 返回集合的长度
+   * @example
+   *
+   * _.size([1, 2, 3]);
+   * // => 3
+   *
+   * _.size({ 'a': 1, 'b': 2 });
+   * // => 2
+   *
+   * _.size('pebbles');
+   * // => 7
+   */
+  size: function size(collection) {
+    let count = 0;
+    for (let key in collection) {
+      count++
+    }
+    return count;
+  },
+
+  /**
+   * 这个方法类似_.pull，区别是这个方法接收一个要移除值的数组.
+   *
+   * **Note:** 不同于_.difference, 这个方法会改变数组 array
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Array
+   * @param {Array} array 要修改的数组.
+   * @param {Array} values 要移除值的数组.
+   * @returns {Array} 返回数组.
+   * @example
+   *
+   * var array = ['a', 'b', 'c', 'a', 'b', 'c'];
+   *
+   * _.pullAll(array, ['a', 'c']);
+   * console.log(array);
+   * // => ['b', 'b']
+   */
+  pullAll: function pullAll(array, values) {
+    function include(arr, num) {    // 定义一个判断函数: 判断数组中是否存在该值
+      for (let item of arr) {
+        if (item === num) {
+          return true
+        }
+      }
+      return false;
+    };
+    for (let i = array.length - 1; i >= 0; i--) {   // 从后往前遍历,如果遍历到数组的目标元素,直接切掉
+      if (include(values, array[i])) {
+        array.splice(i, 1)
+      }
+    }
+    return array;
+  },
+
+  /**
+   * 获取除了array数组第一个元素以外的全部元素.
+   *
+   * @category Array
+   * @param {Array} array 要检索的数组.
+   * @returns {Array} 返回 array 数组的切片（除了array数组第一个元素以外的全部元素）.
+   * @example
+   *
+   * _.tail([1, 2, 3]);
+   * // => [2, 3]
+   */
+  tail: function tail(array) {
+    let res = [];
+    for (let i = 1; i < array.length; i++) {
+      res.push(array[i])
+    }
+    return res;
+  },
+
+
+  /**
+  * 创建一个数组切片，从array数组的起始元素开始提取n个元素
+  *
+  * @static
+  * @memberOf _
+  * @since 0.1.0
+  * @category Array
+  * @param {Array} array 要检索的数组.
+  * @param {number} [n=1] 要提取的元素个数.
+  * @returns {Array}  返回 array 数组的切片（从起始元素开始n个元素).
+  * @example
+  *
+  * _.take([1, 2, 3]);
+  * // => [1]
+  *
+  * _.take([1, 2, 3], 2);
+  * // => [1, 2]
+  *
+  * _.take([1, 2, 3], 5);
+  * // => [1, 2, 3]
+  *
+  * _.take([1, 2, 3], 0);
+  * // => []
+  */
+  take: function take(array, n = 1) {
+    let res = [];
+    if (n >= array.length) {
+      return array
+    }
+    while (n > 0) {
+      res.push(array.shift())
+      n--
+    }
+    return res;
+  },
+
+
+  /**
+ * 创建一个数组切片，从array数组的最后一个元素开始提取n个元素
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Array
+ * @param {Array} array 要检索的数组.
+ * @param {number} [n=1] 要提取的元素个数.
+ * @returns {Array} 返回 array 数组的切片（从结尾元素开始n个元素）.
+ * @example
+ *
+ * _.takeRight([1, 2, 3]);
+ * // => [3]
+ *
+ * _.takeRight([1, 2, 3], 2);
+ * // => [2, 3]
+ *
+ * _.takeRight([1, 2, 3], 5);
+ * // => [1, 2, 3]
+ *
+ * _.takeRight([1, 2, 3], 0);
+ * // => []
+ */
+  takeRight: function takeRight(array, n = 1) {
+    let res = [], count = 0;
+    if (n >= array.length) {
+      return array;
+    }
+    if (n === 0) {
+      return res
+    }
+    for (let i = array.length - 1; i >= 0; i--) {
+      res.unshift(array[i])
+      count++
+      if (count === n) {
+        return res
+      }
+    }
+  },
 } 
