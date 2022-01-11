@@ -469,4 +469,82 @@ var jxiansen = {
     array.pop();
     return array;
   },
+
+
+  /**
+ * 反转array，使得第一个元素变为最后一个元素，
+ * 第二个元素变为倒数第二个元素，依次类推.
+ *
+ * **Note:** 这个方法会改变原数组 array，基于Array#reverse
+ *
+ * @category Array
+ * @param {Array} array 要修改的数组.
+ * @returns {Array} 返回数组.
+ * @example
+ *
+ * var array = [1, 2, 3];
+ *
+ * _.reverse(array);
+ * // => [3, 2, 1]
+ *
+ * console.log(array);
+ * // => [3, 2, 1]
+ */
+  reverse: function (array) {
+    let l = 0, r = array.length - 1;    // 左右指针遍历
+    while (l < r) {
+      [array[l], array[r]] = [array[r], array[l]]   // 左右指针交换值
+      l++;
+      r--;
+    }
+    return array
+  },
+
+
+  /**
+  * 建一个剔除所有给定值的新数组，剔除值的时候，使用SameValueZero做相等比较。
+  * **Note:** Unlike `_.pull`, 不像_.pull, 这个方法会返回一个新数组
+  * 
+  * @category Array
+  * @param {Array} array 要检查的数组.
+  * @param {...*} [values] 要剔除的值.
+  * @returns {Array} 返回过滤值后的新数组.
+  * @example
+  *
+  * _.without([2, 1, 2, 3], 1, 2);
+  * // => [3]
+  */
+  without: function (array, values) {
+    let res = array.slice();
+    function includes(arr, num) {   // 传入数组和数字,返回去除值后的数组
+      let res = [];
+      for (let item of arr) {
+        if (item !== num) {
+          res.push(item);
+        }
+      }
+      return res
+    }
+    for (let key in arguments) {
+      if (key === '0') {
+        continue;
+      }
+      res = includes(res, arguments[key]);
+    }
+    return res;
+  },
+
+  pull: function (array, values) {
+    let arr = Array.from(arguments)
+    arr = arr.slice(1, arr.length)
+    let res = [];
+    for (let item of array) {
+      if (!arr.includes(item)) {
+        res.push(item)
+      }
+    }
+    return res;
+  }
+
+
 } 
