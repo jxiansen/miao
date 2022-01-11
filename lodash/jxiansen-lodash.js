@@ -1,16 +1,32 @@
 var jxiansen = {
-  chunk: function (array) {
-    let res = [], size = arguments['1'];
-    if (size === array.length) {
-      return array;     // 如果 size 为数组的长度,直接返回数组
+  // chunk: function (array) {
+  //   let res = [], size = arguments['1'];
+  //   if (size === array.length) {
+  //     return array;     // 如果 size 为数组的长度,直接返回数组
+  //   }
+  //   if (size === 0) {
+  //     return res;     // 如果size 为 0 返回空数组
+  //   }
+  //   while (array.length >= size) {
+  //     res.push(array.splice(0, size));
+  //   }
+  //   return res;
+  // },
+
+  chunk: function chunk(array, size = 1) {
+    var res = []
+    var count = 0
+    var temp = []
+    for (var i = 0; i < array.length; i++) {
+      temp.push(array[i])
+      count++
+      if (count == size || i == array.length - 1) {
+        res.push(temp)
+        temp = []
+        count = 0
+      }
     }
-    if (size === 0) {
-      return res;     // 如果size 为 0 返回空数组
-    }
-    while (array.length >= size) {
-      res.push(array.splice(0, size));
-    }
-    return res;
+    return res
   },
 
   compact: function (array) {
