@@ -764,29 +764,29 @@ var jxiansen = {
 
 
   /**
- * 创建一个数组切片，从array数组的最后一个元素开始提取n个元素
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Array
- * @param {Array} array 要检索的数组.
- * @param {number} [n=1] 要提取的元素个数.
- * @returns {Array} 返回 array 数组的切片（从结尾元素开始n个元素）.
- * @example
- *
- * _.takeRight([1, 2, 3]);
- * // => [3]
- *
- * _.takeRight([1, 2, 3], 2);
- * // => [2, 3]
- *
- * _.takeRight([1, 2, 3], 5);
- * // => [1, 2, 3]
- *
- * _.takeRight([1, 2, 3], 0);
- * // => []
- */
+   * 创建一个数组切片，从array数组的最后一个元素开始提取n个元素
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Array
+   * @param {Array} array 要检索的数组.
+   * @param {number} [n=1] 要提取的元素个数.
+   * @returns {Array} 返回 array 数组的切片（从结尾元素开始n个元素）.
+   * @example
+   *
+   * _.takeRight([1, 2, 3]);
+   * // => [3]
+   *
+   * _.takeRight([1, 2, 3], 2);
+   * // => [2, 3]
+   *
+   * _.takeRight([1, 2, 3], 5);
+   * // => [1, 2, 3]
+   *
+   * _.takeRight([1, 2, 3], 0);
+   * // => []
+   */
   takeRight: function takeRight(array, n = 1) {
     let res = [], count = 0;
     if (n >= array.length) {
@@ -803,4 +803,314 @@ var jxiansen = {
       }
     }
   },
+
+
+  /**
+   * 创建一个包含从 start 到 end，但不包含 end 本身范围数字的数组。 
+   * 如果 start 是负数，而 end 或 step 没有指定，那么 step 从 -1 为开始。 
+   * 如果 end 没有指定，start 设置为 0。 如果 end 小于 start ，会创建一个空数组，除非指定了 step
+   *
+   * **Note:** JavaScript 遵循 IEEE-754 标准处理无法预料的浮点数结果。
+   *
+   * @category Util
+   * @param {number} [start=0] 开始的范围.
+   * @param {number} end 结束的范围.
+   * @param {number} [step=1] 范围的增量 或者 减量。.
+   * @returns {Array} 返回范围内数字组成的新数组.
+   * @example
+   *
+   * _.range(4);
+   * // => [0, 1, 2, 3]
+   *
+   * _.range(-4);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 5);
+   * // => [1, 2, 3, 4]
+   *
+   * _.range(0, 20, 5);
+   * // => [0, 5, 10, 15]
+   *
+   * _.range(0, -4, -1);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 4, 0);
+   * // => [1, 1, 1]
+   *
+   * _.range(0);
+   * // => []
+   */
+  range: function range(start, end, step) {
+    let res = [];
+    let arr = Array.from(arguments)     // 获取各个参数
+    if (arr.length === 1) {
+      start = 0;
+      end = arr[0]
+      step = 1;
+    } else if (arr.length === 2) {
+      start = arr[0]
+      end = arr[1];
+      step = 1;
+    } else {
+      start = arr[0]
+      end = arr[1]
+      step = arr[2]
+    }
+    if (step === 0) {         // 如果步进为0 ,直接返回指定的数组
+      return new Array(end - start).fill(start)
+    }
+    while (start !== end) {
+      res.push(start);
+      start < end ? start += step : start += Math.abs(step) * -1
+    }
+    return res;
+  },
+
+
+
+  /**
+   * 创建一个分组元素的数组，数组的第一个元素包含所有给定数组的第一个元素，
+   * 数组的第二个元素包含所有给定数组的第二个元素，以此类推。
+   *
+   * @category Array
+   * @param {...Array} [arrays] 要处理的数组.
+   * @returns {Array} 返回分组元素的新数组。
+   * @example
+   *
+   * _.zip(['a', 'b'], [1, 2], [true, false]);
+   * // => [['a', 1, true], ['b', 2, false]]
+   */
+  zip: function zip(arrays) {
+    let res = [], len = 0;
+    let arr = Array.from(arguments)     // 将参数接收为二维数组
+    for (let item of arr) {
+      if (item.length > len) {        // 遍历二维数组,找出数组中最大的长度
+        len = item.length;
+      }
+    }
+    for (let i = 0; i < len; i++) {     // 取子数组中每项的指定索引值
+      let tmp = []                    // 每项指定值push到空数组中,每次遍历完清空数组
+      for (let item of arr) {
+        tmp.push(item[i])
+
+      }
+      res.push(tmp)
+    }
+    return res
+  },
+
+
+  /**
+   * 从collection（集合）中获得一个随机元素
+   *
+   * @category Collection
+   * @param {Array|Object} collection 要取样的集合.
+   * @returns {*} 返回随机元素.
+   * @example
+   *
+   * _.sample([1, 2, 3, 4]);
+   * // => 2
+   */
+  sample: function sample(collection) {
+    let arr = []
+    if (Array.isArray(collection)) {
+      arr = collection;
+    } else {
+      for (let key in collection) {
+        arr.push(collection[key])
+      }
+    }
+    return arr[~~(Math.random() * arr.length)]
+  },
+
+
+  /**
+   * 检查 value 是否是原始 boolean 类型或者对象。
+   *
+   * @category Lang
+   * @param {*} value 要检查的值.
+   * @returns {boolean} 如果 value 是一个布尔值，那么返回 true，否则返回 false。.
+   * @example
+   *
+   * _.isBoolean(false);
+   * // => true
+   *
+   * _.isBoolean(null);
+   * // => false
+   */
+  isBoolean: function isBoolean(value) {
+    let val = typeof (value);
+    if (value === null) {
+      return false
+    }
+    return val == 'object' || val == 'boolean';   // new Boolean():构造器返回的是一个对象
+  },
+
+
+
+  /**
+   * 创建一个按顺序排列的唯一值的数组。所有给定数组的元素值使用SameValueZero做等值比较。
+   * （注： arrays（数组）的并集，按顺序返回，返回数组的元素是唯一的
+   *
+   * @category Array
+   * @param {...Array} [arrays] 要检查的数组.
+   * @returns {Array} 返回一个新的联合数组.
+   * @example
+   *
+   * _.union([2], [1, 2]);
+   * // => [2, 1]
+   */
+  union: function union(arrays) {
+    let res = [];
+    for (let item of arguments) {     // arguments: 实质上是一个对象;但是也可以用数组方法遍历
+      for (let i of item) {       // 遍历子数组
+        if (!res.includes(i)) {
+          res.push(i)
+        }
+      }
+    }
+    return res;
+  },
+
+
+  /**
+   * 转换 value 为一个数组.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Lang
+   * @param {*} value 要转换的值.
+   * @returns {Array} 返回转换后的数组.
+   * @example
+   *
+   * _.toArray({ 'a': 1, 'b': 2 });
+   * // => [1, 2]
+   *
+   * _.toArray('abc');
+   * // => ['a', 'b', 'c']
+   *
+   * _.toArray(1);
+   * // => []
+   *
+   * _.toArray(null);
+   * // => []
+   */
+  toArray: function toArray(value) {
+    let res = [];
+    for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
+      res.push(value[key])     // 如果是其他的值,也无法进行遍历
+    }
+    return res;
+  },
+
+
+  /**
+   * 检查 value 是否是原始Number数值型 或者 对象
+   *
+   * @category Lang
+   * @param {*} value 要检查的值.
+   * @returns {boolean} 如果 value 为一个数值，那么返回 true，否则返回 false。
+   * @example
+   *
+   * _.isNumber(3);
+   * // => true
+   *
+   * _.isNumber(Number.MIN_VALUE);
+   * // => true
+   *
+   * _.isNumber(Infinity);
+   * // => true
+   *
+   * _.isNumber('3');
+   * // => false
+   */
+  isNumber: function isNumber(value) {
+    return typeof (value) === 'number';
+  },
+
+
+
+  /**
+  * 转换string字符串为指定基数的整数。 如果基数是 undefined 或者 0，
+  * 则radix基数默认是10，如果string字符串是16进制，则radix基数为 16。
+  *
+  * **Note:** 这个方法与ES5 implementation 的 parseInt是一样的.
+  *
+  * @category String
+  * @param {string} string 要转换的字符串
+  * @param {number} [radix=10] 转换基数
+  * @returns {number} 返回转换后的整数
+  * @example
+  *
+  * _.parseInt('08');
+  * // => 8
+  *
+  * _.map(['6', '08', '10'], _.parseInt);
+  * // => [6, 8, 10]
+  */
+  parseInt: function parseInt(string, radix = 10) {
+    // 如果转换基数过大过小直接返回 NaN
+    if (radix > 36 || radix <= 1) {
+      return NaN;
+    }
+
+    // 定义一个字符串转数字的函数
+    function strToNum(str) {
+      if (Number.isNaN(Number(str))) {
+        return str.toLowerCase().charCodeAt() - 87;
+      } else {
+        return Number(str);
+      }
+    }
+    // 对字符串进行处理
+    let arr = [], sum = 0;      // 结果数组
+    for (let item of string) {
+      if (item === '0' || item === ' ') {
+        continue;
+      }
+      let num = strToNum(item)
+      if (num >= radix) {     // 错误判断: 如果当前数值大于等于进制,报错
+        return NaN;
+      }
+      arr.unshift(num)        // 用数组去存取字符串映射出来的数值
+    }
+    for (let i = 0; i < arr.length; i++) {      // 遍历数组,累计求和
+      sum += arr[i] * radix ** i
+    }
+    return sum
+  },
+
+
+  /**
+   * 转换 value 为一个数组.
+   *
+   * @category Lang
+   * @param {*} value 要转换的值.
+   * @returns {Array} 返回转换后的数组.
+   * @example
+   *
+   * _.toArray({ 'a': 1, 'b': 2 });
+   * // => [1, 2]
+   *
+   * _.toArray('abc');
+   * // => ['a', 'b', 'c']
+   *
+   * _.toArray(1);
+   * // => []
+   *
+   * _.toArray(null);
+   * // => []
+   */
+  toArray: function toArray(value) {
+    let res = [];
+    for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
+      res.push(value[key])     // 如果是其他的值,也无法进行遍历
+    }
+    return res;
+  },
+
+
+
+
 } 
