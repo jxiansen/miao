@@ -1110,7 +1110,49 @@ var jxiansen = {
     return res;
   },
 
+  /**
+ * 与_.toPairs正好相反；这个方法返回一个由键值对pairs构成的对象.
+ *
+ * @category Array
+ * @param {Array} pairs 键值对pairs.
+ * @returns {Object} 返回一个新对象.
+ * @example
+ *
+ * _.fromPairs([['a', 1], ['b', 2]]);
+ * // => { 'a': 1, 'b': 2 }
+ */
+  fromPairs: function fromPairs(pairs) {
+    let obj = {}
+    for (let item of pairs) {
+      obj[item[0]] = item[1];
+    }
+    return obj
+  },
 
+  /**
+   * 根据 precision（精度） 向上舍入 number。（注： precision（精度）可以理解为保留几位小数。）
+   *
+   * @static
+   * @memberOf _
+   * @since 3.10.0
+   * @category Math
+   * @param {number} number 要向上舍入的值.
+   * @param {number} [precision=0] 向上舍入的的精度
+   * @returns {number} 返回向上舍入的值
+   * @example
+   *
+   * _.ceil(4.006);
+   * // => 5
+   *
+   * _.ceil(6.004, 2);
+   * // => 6.01
+   *
+   * _.ceil(6040, -2);
+   * // => 6100
+   */
 
-
+  // 如果ceil为0,直接取整+1,其他的情况下,对数字先乘倍数加一后再除回来,或者先除倍数+1后再乘回来,两种情况一种写法都能cover
+  ceil: function ceil(number, precision = 0) {
+    return precision === 0 ? ~~number + 1 : (~~(number * (10 ** precision)) + 1) / (10 ** precision);
+  },
 } 
