@@ -1155,4 +1155,194 @@ var jxiansen = {
   ceil: function ceil(number, precision = 0) {
     return precision === 0 ? ~~number + 1 : (~~(number * (10 ** precision)) + 1) / (10 ** precision);
   },
+
+  /**
+   * 计算 array 中的最小值。 如果 array 是 空的或者假值将会返回 undefined
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Math
+   * @param {Array} array 要迭代的数组.
+   * @returns {*} 返回最小的值
+   * @example
+   *
+   * _.min([4, 2, 8, 6]);
+   * // => 2
+   *
+   * _.min([]);
+   * // => undefined
+   */
+  min: function min(array) {
+    let min = array[0];
+    for (let item of array) {
+      if (item < min) {
+        min = item;
+      }
+    }
+    return min;
+  },
+
+
+  /**
+   * 根据 precision（精度） 四舍五入 number。.
+   *
+   * @category Math
+   * @param {number} number 要四舍五入的数字.
+   * @param {number} [precision=0] 四舍五入的精度.
+   * @returns {number} 返回四舍五入的数字.
+   * @example
+   *
+   * _.round(4.006);
+   * // => 4
+   *
+   * _.round(4.006, 2);
+   * // => 4.01
+   *
+   * _.round(4060, -2);
+   * // => 4100
+   */
+  round: function round(number, precision = 0) {
+    let num = ~~(number * (10 ** (precision + 1)))      // 对数字多乘一位到指定位置后取整
+    let rem = num % 10;       // rem: 去出整数的尾巴数
+    if (rem >= 5) {           // 如果>=5,则给前位加一
+      num = num - rem + 10
+    }
+    return num / (10 ** (precision + 1))      // 操作回原来的值
+  },
+
+  /**
+   * 两数相减.
+   *
+   * @category Math
+   * @param {number} minuend 相减的第一个数.
+   * @param {number} subtrahend 相减的第二个数.
+   * @returns {number} 返回差.
+   * @example
+   *
+   * _.subtract(6, 4);
+   * // => 2
+   */
+  subtract: function subtract(minuend, subtrahend) {
+    return minuend - subtract;
+  },
+
+
+  /**
+ * 与_.toPairs正好相反；这个方法返回一个由键值对pairs构成的对象.
+ *
+ * @category Array
+ * @param {Array} pairs 键值对pairs.
+ * @returns {Object} 返回一个新对象.
+ * @example
+ *
+ * _.fromPairs([['a', 1], ['b', 2]]);
+ * // => { 'a': 1, 'b': 2 }
+ */
+  fromPairs: function fromPairs(pairs) {
+    let obj = {}
+    for (let item of pairs) {
+      obj[item[0]] = item[1];
+    }
+    return obj
+  },
+
+
+  /**
+ * 创建唯一值的数组，这个数组包含所有给定数组都包含的元素，
+ * 使用SameValueZero进行相等性比较。（注：可以理解为给定数组的交集）
+ *
+ * @category Array
+ * @param {...Array} [arrays] 待检查的数组.
+ * @returns {Array} 返回一个包含所有传入数组交集元素的新数组.
+ * @example
+ *
+ * _.intersection([2, 1], [2, 3]);
+ * // => [2]
+ */
+  intersection: function intersection(arrays) {
+    let arr = [], obj = {}, tmp = [...arguments], res = [];
+    for (let item of tmp) {     // 数组打散成一维数组
+      arr.push(...item);
+    }
+    for (let val of arr) {      // 遍历数组存入到对象中
+      val in obj ? obj[val]++ : obj[val] = 1;
+    }
+    for (let key in obj) {      // 遍历对象找出出现过数组次数的元素
+      if (obj[key] === tmp.length) {
+        res.push(Number(key))
+      }
+    }
+    return res
+  },
+
+
+  /**
+  * 创建一个数组， value（值） 是 iteratee（迭代函数）遍历 collection（集合）中的每个元素后返回的结果。 
+  * iteratee（迭代函数）调用3个参数.
+  *
+  * Many lodash methods are guarded to work as iteratees for methods like
+  * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
+  *
+  * The guarded methods are:
+  * `ary`, `chunk`, `curry`, `curryRight`, `drop`, `dropRight`, `every`,
+  * `fill`, `invert`, `parseInt`, `random`, `range`, `rangeRight`, `repeat`,
+  * `sampleSize`, `slice`, `some`, `sortBy`, `split`, `take`, `takeRight`,
+  * `template`, `trim`, `trimEnd`, `trimStart`, and `words`
+  *
+  * @param {Array|Object} collection 用来迭代的集合.
+  * @param {Function} [iteratee=_.identity] 每次迭代调用的函数.
+  * @returns {Array} 返回新的映射后数组.
+  * @example
+  *
+  * function square(n) {
+  *   return n * n;
+  * }
+  *
+  * _.map([4, 8], square);
+  * // => [16, 64]
+  *
+  * _.map({ 'a': 4, 'b': 8 }, square);
+  * // => [16, 64] (iteration order is not guaranteed)
+  *
+  * var users = [
+  *   { 'user': 'barney' },
+  *   { 'user': 'fred' }
+  * ];
+  *
+  * // The `_.property` iteratee shorthand.
+  * _.map(users, 'user');
+  * // => ['barney', 'fred']
+  */
+  map: function map(collection, iteratee) {
+    let res = [];
+    // 如果第二个参数是字符串
+    if (typeof (iteratee) === 'string') {
+      for (let i = 0; i < collection.length; i++) {
+        if (!iteratee.includes('.')) {        // 字符串中包含'.'
+          res.push(collection[i][iteratee])
+        } else {                    // 不包含 "."
+          let obj = collection[i], tmp;
+          for (let str of iteratee) {
+            if (str === '.') {
+              continue;
+            }
+            tmp = obj[str];
+            obj = tmp;
+          }
+          res.push(tmp)
+        }
+      }
+    }
+
+    // 如果第二个参数为函数
+    if (typeof (iteratee) === 'function') {
+      for (let key in collection) {
+        res.push(iteratee(collection[key], Number(key), collection))
+      }
+    }
+    return res
+  },
+
+
 } 
