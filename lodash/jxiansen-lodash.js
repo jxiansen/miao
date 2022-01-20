@@ -1224,7 +1224,7 @@ var jxiansen = {
    * // => 2
    */
   subtract: function subtract(minuend, subtrahend) {
-    return minuend - subtract;
+    return minuend - subtrahend;
   },
 
 
@@ -1344,5 +1344,231 @@ var jxiansen = {
     return res
   },
 
+  /**
+   * 这个方法类似_.summin 除了它接受 iteratee 来调用 array中的每一个元素，来生成其值排序的标准。 
+   * iteratee 会调用1个参数: (value) 。
+   *
+   * @category Math
+   * @param {Array} array 要迭代的数组
+   * @param {Function} [iteratee=_.identity] 调用每个元素的迭代函数
+   * @returns {number} 返回总和.
+   * @example
+   *
+   * var objects = [{ 'n': 4 }, { 'n': 2 }, { 'n': 8 }, { 'n': 6 }];
+   *
+   * _.sumBy(objects, function(o) { return o.n; });
+   * // => 20
+   *
+   * // The `_.property` iteratee shorthand.
+   * _.sumBy(objects, 'n');
+   * // => 20
+   */
+  sumBy: function sumBy(array, iteratee) {
+    let sum = 0;
+    for (let item of array) {
+      sum += typeof iteratee === 'function' ? iteratee(item) : item[iteratee];
+    }
+    return sum;
+  },
+
+
+  /**
+   * 两个数相除.
+   *
+   * @category Math
+   * @param {number} dividend 相除的第一个数.
+   * @param {number} divisor 相除的第二个数
+   * @returns {number} 返回商数
+   * @example
+   *
+   * _.divide(6, 4);
+   * // => 1.5
+   */
+  divide: function divide(dividend, divisor) {
+    return dividend / divisor;
+  },
+
+
+
+  /**
+   * 根据 precision（精度） 向下舍入 number。
+   * 注： precision（精度）可以理解为保留几位小数。）
+   *
+   * @category Math
+   * @param {number} number 要向下舍入的值.
+   * @param {number} [precision=0] 向下舍入的精度
+   * @returns {number} 返回向下舍入的值.
+   * @example
+   *
+   * _.floor(4.006);
+   * // => 4
+   *
+   * _.floor(0.046, 2);
+   * // => 0.04
+   *
+   * _.floor(4060, -2);
+   * // => 4000
+   */
+  floor: function floor(number, precision = 0) {
+    let count, num, rem;        // 计数,小数移位后的整数,需要减去的余数
+    for (let i = 0; i < Infinity; i++) {
+      if (!(number * (10 ** i) % 1)) {
+        count = i;
+        break;
+      }
+    }
+    num = number * (10 ** count);
+    rem = num % (10 ** Math.abs(precision - 1));
+    num -= rem;
+    return num / (10 ** count)
+  },
+
+
+
+  /**
+   * 两个数相乘.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.7.0
+   * @category Math
+   * @param {number} multiplier 相乘的第一个数
+   * @param {number} multiplicand 相乘的第二个数
+   * @returns {number} 返回乘积
+   * @example
+   *
+   * _.multiply(6, 4);
+   * // => 24
+   */
+
+
+  multiply: function multiply(multiplier, multiplicand) {
+    return multiplier * multiplicand;
+  },
+
+
+  /**
+     压缩 collection（集合）为一个值，通过 iteratee（迭代函数）遍历 collection（集合）中的每个元素，
+     每次返回的值会作为下一次迭代使用(注：作为iteratee（迭代函数）的第一个参数使用)。 
+     如果没有提供 accumulator，则 collection（集合）中的第一个元素作为初始值。
+     (注：accumulator参数在第一次迭代的时候作为iteratee（迭代函数）第一个参数使用。) iteratee 调用4个参数：
+    (accumulator, value, index|key, collection).
+      *
+      * @category Collection
+      * @param {Array|Object} collection 用来迭代的集合.
+      * @param {Function} [iteratee=_.identity] 每次迭代调用的函数.
+      * @param {*} [accumulator] 初始值.
+      * @returns {*} 返回累加后的值
+      * @see _.reduceRight
+      * @example
+      *
+      * _.reduce([1, 2], function(sum, n) {
+      *   return sum + n;
+      * }, 0);
+      * // => 3
+      *
+      * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+      *   (result[value] || (result[value] = [])).push(key);
+      *   return result;
+      * }, {});
+      * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
+      */
+  reduce: function reduce(collection, iteratee, accumulator) {
+    for (let key in collection) {
+      if (!accumulator) {
+        var accumulator = collection[key];
+        continue;
+      }
+      accumulator = iteratee(accumulator, collection[key], key, collection)
+    }
+    return accumulator;
+  },
+
+
+  /**
+   * C检查 value 是否为一个空对象，集合，映射或者set。 
+   * 判断的依据是除非是有枚举属性的对象，length 大于 0 的
+   *  arguments object, array, string 或类jquery选择器。
+   *
+   * @category Lang
+   * @param {*} value 要检查的值.
+   * @returns {boolean} 如果 value 为空，那么返回 true，否则返回 false
+   * @example
+   *
+   * _.isEmpty(null);
+   * // => true
+   *
+   * _.isEmpty(true);
+   * // => true
+   *
+   * _.isEmpty(1);
+   * // => true
+   *
+   * _.isEmpty([1, 2, 3]);
+   * // => false
+   *
+   * _.isEmpty({ 'a': 1 });
+   * // => false
+   */
+  isEmpty: function isEmpty(value) {
+    // 如果for...in循环能进去的话说明是可枚举对象
+    for (let key in value) {
+      return false
+    }
+    return true;
+  },
+
+
+  /**
+   * 两个数相加
+   *
+   * @category Math
+   * @param {number} augend 相加的第一个数
+   * @param {number} addend 相加的第二个数
+   * @returns {number} 返回总和.
+   * @example
+   *
+   * _.add(6, 4);
+   */
+  add: function add(augend, addend) {
+    return augend + addend;
+  },
+
+
+  /**
+     * 产生一个包括 lower 与 upper 之间的数。 
+     * 如果只提供一个参数返回一个0到提供数之间的数。 
+     * 如果 floating 设为 true，或者 lower 或 upper 是浮点数，结果返回浮点数。
+     *
+     * @category Number
+     * @param {number} [lower=0] 下限.
+     * @param {number} [upper=1] 上限.
+     * @param {boolean} [floating] 指定是否返回浮点数
+     * @returns {number} 返回随机数.
+     * @example
+     *
+     * _.random(0, 5);
+     * // => an integer between 0 and 5
+     *
+     * _.random(5);
+     * // => also an integer between 0 and 5
+     *
+     * _.random(5, true);
+     * // => a floating-point number between 0 and 5
+     *
+     * _.random(1.2, 5.2);
+     * // => a floating-point number between 1.2 and 5.2
+     */
+  random: function random(lower, upper, floating) {
+    let arr = Array.from(arguments), numCount;
+    // 判断是否为小数
+    floating = arr.some(i => i % 1 !== 0 && typeof i === 'number' || i === true)
+    // 去出参数中数字的个数进行后续判断
+    numCount = arr.filter(i => typeof i === 'number').length;
+    // 两个数字参数和一个数字参数两种情况分别赋值
+    var [min, max] = numCount === 2 ? [arr[0], arr[1]] : [0, arr[0]];
+    let fn = (Math.random() * (max - min) + min);   //含最大值，含最小值 
+    return floating ? fn : ~~fn;
+  },
 
 } 
