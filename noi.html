@@ -462,16 +462,16 @@
     let n = parseInt(prompt("请输入个数!"));
     let max = 0;
     let min = 0;
-    for (let i = 0; i < n; i++) {
-      let num = parseInt(prompt("请输入数字"));
-      if (num > max) {
+    for (let i = 0; i < n; i++) {     // 执行n次的输入
+      let num = parseInt(prompt("请输入数字"));   // 接收每次输入的值
+      if (num > max) {        // 如果输入的值大于当前的值,就替换掉
         max = num;
       }
-      if (num < min) {
+      if (num < min) {        // 如果输入值小于当前值也替换掉
         min = num;
       }
     }
-    console.log(max - min);
+    console.log(max - min);     // 直接返回最大值 - 最小值
   </script>
 
 

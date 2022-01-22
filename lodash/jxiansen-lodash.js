@@ -1571,4 +1571,480 @@ var jxiansen = {
     return floating ? fn : ~~fn;
   },
 
+
+
+
+
+
+  /**
+   * 如果string字符串长度小于 length 则在左侧填充字符。 
+   * 如果超出length长度则截断超出的部分。
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category String
+   * @param {string} [string=''] 要填充的字符串
+   * @param {number} [length=0] 填充的长度
+   * @param {string} [chars=' '] 填充字符
+   * @returns {string} 返回填充后的字符串
+   * @example
+   *
+   * _.padStart('abc', 6);
+   * // => '   abc'
+   *
+   * _.padStart('abc', 6, '_-');
+   * // => '_-_abc'
+   *
+   * _.padStart('abc', 3);
+   * // => 'abc'
+   */
+  padStart: function padStart(string, length, chars) {
+    let arr = Array.from(arguments)
+    if (arr.length === 1 || length <= string.length) return string
+    if (!arr[2]) chars = ' ';
+    let res = '';
+    while (res.length < (length - string.length)) {
+      res += chars
+    }
+    return res.slice(0, length - string.length) + string
+  },
+
+
+  /**
+    * 如果string字符串长度小于 length 则在右侧填充字符。 
+   * 如果超出length长度则截断超出的部分。
+   *
+   * @category String
+   * @param {string} [string=''] 要填充的字符串.
+   * @param {number} [length=0] 填充的长度
+   * @param {string} [chars=' '] 填充字符
+   * @returns {string} 返回填充后的字符串
+   *
+   * _.padEnd('abc', 6);
+   * // => 'abc   '
+   *
+   * _.padEnd('abc', 6, '_-');
+   * // => 'abc_-_'
+   *
+   * _.padEnd('abc', 3);
+   * // => 'abc'
+   */
+  padEnd: function padEnd(string, length, chars) {
+    let arr = Array.from(arguments)
+    if (arr.length === 1 || length <= string.length) return string
+    if (!arr[2]) chars = ' ';
+    while (string.length < length) {
+      string += chars
+    }
+    return string.slice(0, length)
+  },
+
+
+  /**
+   * 如果string字符串长度小于 length 则从左侧和右侧填充字符。 
+   * 如果没法平均分配，则截断超出的长度。
+   *
+   * @category String
+   * @param {string} [string=''] 要填充的字符串
+   * @param {number} [length=0] 填充的长度
+   * @param {string} [chars=' '] 填充字符
+   * @returns {string} 返回填充后的字符串
+   * @example
+   *
+   * _.pad('abc', 8);
+   * // => '  abc   '
+   *
+   * _.pad('abc', 8, '_-');
+   * // => '_-abc_-_'
+   *
+   * _.pad('abc', 3);
+   * // => 'abc'
+   */
+  pad: function pad(string = '', length = 0, chars = ' ') {
+    let index = ~~((length - string.length) / 2)
+    let str = new Array(Math.ceil(length / chars.length)).fill(chars).join('')
+    let res = (str.substring(0, index) + string + str.substring(index)).substring(0, length)
+    return res
+  },
+
+
+  /**
+   * 转换字符串string首字母为大写，剩下为小写。
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category String
+   * @param {string} [string=''] 要大写开头的字符串
+   * @returns {string} 返回大写开头的字符串
+   * @example
+   *
+   * _.capitalize('FRED');
+   * // => 'Fred'
+   */
+  capitalize: function capitalize(string = '') {
+    return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase()
+  },
+
+
+  /**
+   * 转换字符串string为驼峰写法。
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category String
+   * @param {string} [string=''] 要转换的字符串.
+   * @returns {string} 返回驼峰写法的字符串
+   * @example
+   *
+   * _.camelCase('Foo Bar');
+   * // => 'fooBar'
+   *
+   * _.camelCase('--foo-bar--');
+   * // => 'fooBar'
+   *
+   * _.camelCase('__FOO_BAR__');
+   * // => 'fooBar'
+   */
+  camelCase: function camelCase(string) {
+    let res = '';
+    string = string.toLowerCase()
+    for (let i = 0; i < string.length; i++) {
+      if (string[i].toLowerCase() !== string[i].toUpperCase()) {
+        res += string.charAt(i - 1).toLowerCase() === string.charAt(i - 1).toUpperCase() ? string[i].toUpperCase() : string[i];
+      }
+    }
+    return `${res[0].toLowerCase()}${res.substring(1)}`
+  },
+
+
+  /**
+   * 检查字符串string是否以给定的target字符串结尾。
+   *
+   * @category String
+   * @param {string} [string=''] 要检索的字符串
+   * @param {string} [target] 要检索字符
+   * @param {number} [position=string.length] 检索的位置
+   * @returns {boolean} (boolean): 如果字符串string以target字符串结尾，那么返回 true，否则返回 false。
+   * @example
+   *
+   * _.endsWith('abc', 'c');
+   * // => true
+   *
+   * _.endsWith('abc', 'b');
+   * // => false
+   *
+   * _.endsWith('abc', 'b', 2);
+   * // => true
+   */
+  endsWith: function endsWith(string = '', target, position = string.length) {
+    return string[position - 1] === target
+  },
+
+
+  /**
+   * 转换字符串string为kebab case.
+   *
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回转换后的字符串
+   * @example
+   *
+   * _.kebabCase('Foo Bar');
+   * // => 'foo-bar'
+   *
+   * _.kebabCase('fooBar');
+   * // => 'foo-bar'
+   *
+   * _.kebabCase('__FOO_BAR__');
+   * // => 'foo-bar'
+   */
+  kebabCase: function kebabCase(string) {
+    let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
+    flag = [...string].every(i => isWord(i))
+    if (flag) {
+      for (let val of string) {
+        if (val.toUpperCase() === val) res += '-'
+        res += val
+      }
+      return res.toLowerCase()
+    }
+    for (let l = 0, r = l; l < string.length; l++, r++) {
+      if (isWord(string[l])) {
+        while (isWord(string[r])) {
+          r++;
+        }
+        arr.push(string.substring(l, r))
+        l = r;
+      }
+    }
+    return arr.join('-').toLowerCase()
+  },
+
+
+  /**
+    * 转换字符串string的首字母为小写。
+    *
+    * @static
+    * @memberOf _
+    * @since 4.0.0
+    * @category String
+    * @param {string} [string=''] 要转换的字符串
+    * @returns {string} 返回转换后的字符串
+    * @example
+    *
+    * _.lowerFirst('Fred');
+    * // => 'fred'
+    *
+    * _.lowerFirst('FRED');
+    * // => 'fRED'
+    */
+  lowerFirst: function lowerFirst(string = '') {
+    return string.substring(0, 1).toLowerCase() + string.substring(1)
+  },
+
+
+  /**
+   * 转换整个string字符串的字符为小写，类似String#toLowerCase。
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回小写的字符串
+   * @example
+   *
+   * _.toLower('--Foo-Bar--');
+   * // => '--foo-bar--'
+   *
+   * _.toLower('fooBar');
+   * // => 'foobar'
+   *
+   * _.toLower('__FOO_BAR__');
+   * // => '__foo_bar__'
+   */
+  toLower: function toLower(string) {
+    return string.toLowerCase(string)
+  },
+
+
+
+  /**
+   * 转换整个string字符串的字符为大写，类似String#toUpperCase.
+   *
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回大写的字符串
+   * @example
+   *
+   * _.toUpper('--foo-bar--');
+   * // => '--FOO-BAR--'
+   *
+   * _.toUpper('fooBar');
+   * // => 'FOOBAR'
+   *
+   * _.toUpper('__foo_bar__');
+   * // => '__FOO_BAR__'
+   */
+  toUpper: function toUpper(string) {
+    return string.toUpperCase(string)
+  },
+
+
+  /**
+   * 从string字符串中移除前面和后面的 空格 或 指定的字符。
+   *
+   * @category String
+   * @param {string} [string=''] 要处理的字符串
+   * @param {string} [chars=whitespace] 要移除的字符
+   * @returns {string} 返回处理后的字符串
+   * @example
+   *
+   * _.trim('  abc  ');
+   * // => 'abc'
+   *
+   * _.trim('-_-abc-_-', '_-');
+   * // => 'abc'
+   *
+   * _.map(['  foo  ', '  bar  '], _.trim);
+   * // => ['foo', 'bar']
+   */
+
+  trim: function trim(string, chars = ' ') {
+    let arr = [...string]
+    while (chars.includes(arr[0])) {
+      arr.shift()
+    }
+    while (chars.includes(arr[arr.length - 1])) {
+      arr.pop()
+    }
+    return arr.join('')
+  },
+
+
+
+  /**
+   * 从string字符串中移除后面的 空格 或 指定的字符。
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category String
+   * @param {string} [string=''] 要处理的字符串
+   * @param {string} [chars=whitespace] 要移除的字符
+   * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+   * @returns {string} 返回处理后的字符串
+   * @example
+   *
+   * _.trimEnd('  abc  ');
+   * // => '  abc'
+   *
+   * _.trimEnd('-_-abc-_-', '_-');
+   * // => '-_-abc'
+   */
+  trimEnd: function trimEnd(string, chars) {
+    let arr = [...string]
+    while (chars.includes(arr[arr.length - 1])) {
+      arr.pop()
+    }
+    return arr.join('')
+  },
+
+
+  /**
+   * 从string字符串中移除前面的 空格 或 指定的字符。
+   *
+   * @category String
+   * @param {string} [string=''] 要处理的字符串
+   * @param {string} [chars=whitespace] 要移除的字符
+   * @returns {string} 返回处理后的字符串
+   * @example
+   *
+   * _.trimStart('  abc  ');
+   * // => 'abc  '
+   *
+   * _.trimStart('-_-abc-_-', '_-');
+   * // => 'abc-_-'
+   */
+  trimStart: function trimStart(string, chars = ' ') {
+    let arr = [...string]
+    while (chars.includes(arr[0])) {
+      arr.shift()
+    }
+    return arr.join('')
+  },
+
+
+  /**
+   * 转换字符串string的首字母为大写。
+   *
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回转换后的字符串
+   * @example
+   *
+   * _.upperFirst('fred');
+   * // => 'Fred'
+   *
+   * _.upperFirst('FRED');
+   * // => 'FRED'
+   */
+  upperFirst: function upperFirst(string) {
+    return string[0].toUpperCase() + string.substring(1)
+  },
+
+
+  /**
+   * 转换字符串string以空格分开单词，并转换为小写。
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回转换后的字符串
+   * @example
+   *
+   * _.lowerCase('--Foo-Bar--');
+   * // => 'foo bar'
+   *
+   * _.lowerCase('fooBar');
+   * // => 'foo bar'
+   *
+   * _.lowerCase('__FOO_BAR__');
+   * // => 'foo bar'
+   */
+  lowerCase: function lowerCase(string) {
+    let isWord = str => str.toLowerCase() !== str.toUpperCase();
+    let flag = [...string].every(i => isWord(i))
+    let res = '', arr = [];
+    if (flag) {
+      for (let item of string) {
+        if (item.toUpperCase() === item) {
+          res += ' '
+        }
+        res += item
+      }
+      return res.toLowerCase()
+    }
+    for (let l = 0, r = l; l < string.length; l++, r++) {
+      if (isWord(string[l])) {
+        while (isWord(string[r])) {
+          r++;
+        }
+        arr.push(string.substring(l, r))
+        l = r;
+      }
+    }
+    return arr.join(' ').toLowerCase()
+  },
+
+
+  /**
+   * 转换字符串string为 空格 分隔的大写单词。
+   * 
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回大写单词
+   * @example
+   *
+   * _.upperCase('--foo-bar');
+   * // => 'FOO BAR'
+   *
+   * _.upperCase('fooBar');
+   * // => 'FOO BAR'
+   *
+   * _.upperCase('__foo_bar__');
+   * // => 'FOO BAR'
+   */
+  upperCase: function upperCase(string) {
+    let isWord = str => str.toLowerCase() !== str.toUpperCase();
+    let flag = [...string].every(i => isWord(i))
+    let res = '', arr = [];
+    if (flag) {
+      for (let item of string) {
+        if (item.toUpperCase() === item) {
+          res += ' '
+        }
+        res += item
+      }
+      return res.toUpperCase()
+    }
+    for (let l = 0, r = l; l < string.length; l++, r++) {
+      if (isWord(string[l])) {
+        while (isWord(string[r])) {
+          r++;
+        }
+        arr.push(string.substring(l, r))
+        l = r;
+      }
+    }
+    return arr.join(' ').toUpperCase()
+  },
+
+
+
 } 
