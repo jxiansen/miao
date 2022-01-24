@@ -1772,8 +1772,8 @@ var jxiansen = {
       return res.toLowerCase()
     }
     for (let l = 0, r = l; l < string.length; l++, r++) {
-      if (isWord(string[l])) {
-        while (isWord(string[r])) {
+      if (isWord(string.charAt(l))) {
+        while (isWord(string.charAt(r))) {
           r++;
         }
         arr.push(string.substring(l, r))
@@ -2034,8 +2034,8 @@ var jxiansen = {
       return res.toUpperCase()
     }
     for (let l = 0, r = l; l < string.length; l++, r++) {
-      if (isWord(string[l])) {
-        while (isWord(string[r])) {
+      if (isWord(string.charAt(l))) {
+        while (isWord(string.charAt(r))) {
           r++;
         }
         arr.push(string.substring(l, r))
