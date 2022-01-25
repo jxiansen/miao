@@ -2388,7 +2388,7 @@ var jxiansen = {
    */
   property: function property(path) {
     return function (obj) {
-      for (let item of toPath(path)) {
+      for (let item of jxiansen.toPath(path)) {
         var res = obj[item]
         obj = res
       }
@@ -2414,9 +2414,9 @@ var jxiansen = {
    * _.map([['a', '2'], ['c', '0']], _.propertyOf(object));
    * // => [2, 0]
    */
-  propertyof: function propertyof(object) {
+  propertyOf: function propertyof(object) {
     return function (path) {
-      let arr = toPath(path), res;
+      let arr = jxiansen.toPath(path), res;
       for (let item of arr) {
         res = object[item]
         object = res;
