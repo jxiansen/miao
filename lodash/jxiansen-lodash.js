@@ -2045,6 +2045,383 @@ var jxiansen = {
     return arr.join(' ').toUpperCase()
   },
 
+  /**
+ * 检查 value 是否是 Array 类对象。
+ *
+ * @category Lang
+ * @param {*} value 要检查的值
+ * @returns {boolean} 如果value是一个数组返回 true，否则返回 false。
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+  isArray: function isArray(value) {
+    return Array.isArray(value)
+  },
 
 
-} 
+
+  /**
+   * 创建一个返回 value 的函数。
+   *
+   * @category Util
+   * @param {*} value 要新函数返回的值。
+   * @returns {Function} 返回新的常量函数。
+   * @example
+   *
+   * var objects = _.times(2, _.constant({ 'a': 1 }));
+   *
+   * console.log(objects);
+   * // => [{ 'a': 1 }, { 'a': 1 }]
+   *
+   * console.log(objects[0] === objects[1]);
+   * // => true
+   */
+  constant: function constant(value) {
+    return () => value
+  },
+
+
+  /**
+   * 这个方法返回首个提供的参数
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Util
+   * @param {*} value 任何值
+   * @returns {*} 返回值.
+   * @example
+   *
+   * var object = { 'a': 1 };
+   *
+   * console.log(_.identity(object) === object);
+   * // => true
+   */
+  identity: function identity(value) {
+    return value;
+  },
+
+
+  /**
+   * 这个方法返回一个新的空数组
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {Array} 返回新的空数组
+   * @example
+   *
+   * var arrays = _.times(2, _.stubArray);
+   *
+   * console.log(arrays);
+   * // => [[], []]
+   *
+   * console.log(arrays[0] === arrays[1]);
+   * // => false
+   */
+  stubArray: function stubArray() {
+    return []
+  },
+
+
+  /**
+   * 这个方法返回 false.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {boolean} 返回 `false`.
+   * @example
+   *
+   * _.times(2, _.stubFalse);
+   * // => [false, false]
+   */
+  stubFalse: function stubFalse() {
+    return false;
+  },
+
+  /**
+   * 这个方法返回一个空对象
+   *
+   * @category Util
+   * @returns {Object} 返回新的空对象
+   * @example
+   *
+   * var objects = _.times(2, _.stubObject);
+   *
+   * console.log(objects);
+   * // => [{}, {}]
+   *
+   * console.log(objects[0] === objects[1]);
+   * // => false
+   */
+  stubObject: function stubObject() {
+    return {};
+  },
+
+
+  /**
+   * 这个方法返回一个空字符串
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {string} 返回新的空字符串
+   * @example
+   *
+   * _.times(2, _.stubString);
+   * // => ['', '']
+   */
+  stubString: function stubString() {
+    return ' '
+  },
+
+
+  /**
+   * 这个方法返回 true
+   *
+   * @since 4.13.0
+   * @category Util
+   * @returns {boolean} 返回 true。
+   * @example
+   *
+   * _.times(2, _.stubTrue);
+   * // => [true, true]
+   */
+  stubTrue: function stubTrue() {
+    return true;
+  },
+
+
+
+  /**
+   * 调用 iteratee n 次，每次调用返回的结果存入到数组中。
+   *  iteratee 调用入1个参数： (index)。
+   *
+   * @category Util
+   * @param {number} n (number): 调用 iteratee 的次数。
+   * @param {Function} [iteratee=_.identity] 每次迭代调用的函数
+   * @returns {Array} 返回调用结果的数组
+   * @example
+   *
+   * _.times(3, String);
+   * // => ['0', '1', '2']
+   *
+   *  _.times(4, _.constant(0));
+   * // => [0, 0, 0, 0]
+   */
+
+  times: function times(n, identity) {
+    let res = []
+    while (n) {
+      res.push(identity())
+      n--
+    }
+    return res;
+  },
+
+
+  /**
+   * 转化 value 为属性路径的数组 。
+   *
+   * @category Util
+   * @param {*} value 要转换的值
+   * @returns {Array} 返回包含属性路径的数组。
+   * @example
+   *
+   * _.toPath('a.b.c');
+   * // => ['a', 'b', 'c']
+   *
+   * _.toPath('a[0].b.c');
+   * // => ['a', '0', 'b', 'c']
+   */
+  toPath: function toPath(value) {
+    let str = ''
+    for (let item of value) {
+      if (item === '[') {
+        str += '.'
+      } else {
+        if (item === ']') continue
+        str += item
+      }
+    }
+    return str.split('.')
+  },
+
+
+  /**
+   * 这个方法返回 undefined。
+   *
+   * @static
+   * @memberOf _
+   * @since 2.3.0
+   * @category Util
+   * @example
+   *
+   * _.times(2, _.noop);
+   * // => [undefined, undefined]
+   */
+  noop: function noop() {
+    return undefined;
+  },
+
+
+  /**
+   * 创建一个函数，这个函数返回第 n 个参数。
+   * 如果 n为负数，则返回从结尾开始的第n个参数。
+   * 
+   * @since 4.0.0
+   * @category Util
+   * @param {number} [n=0] The index of the argument to return.
+   * @returns {Function} Returns the new pass-thru function.
+   * @example
+   *
+   * var func = _.nthArg(1);
+   * func('a', 'b', 'c', 'd');
+   * // => 'b'
+   *
+   * var func = _.nthArg(-2);
+   * func('a', 'b', 'c', 'd');
+   * // => 'c'
+   */
+  nthArg: function nthArg(n) {
+    return (...args) => args.slice(n)[0]    // 用slice()切割出前n项,返回第n项
+  },
+
+
+  /**
+  * 生成唯一ID。 如果提供了 prefix ，会被添加到ID前缀上。
+  *
+  * @static
+  * @since 0.1.0
+  * @memberOf _
+  * @category Util
+  * @param {string} [prefix=''] 要添加到ID前缀的值。
+  * @returns {string} 返回唯一ID。
+  * @example
+  *
+  * _.uniqueId('contact_');
+  * // => 'contact_104'
+  *
+  * _.uniqueId();
+  * // => '105'
+  */
+  countId: 0,
+
+  uniqueId: function uniqueId(prefix = '') {
+    return `${prefix}${++this.countId}`
+  },
+
+
+
+  /**
+   * 这个方法类似_.range ， 除了它是降序生成值的。
+   *
+   * @since 4.0.0
+   * @category Util
+   * @param {number} [start=0] 开始的范围
+   * @param {number} end 结束的范围
+   * @param {number} [step=1] 范围的增量 或者 减量。
+   * @returns {Array} 返回范围内数字组成的新数组。
+   * @see _.inRange, _.range
+   * @example
+   *
+   * _.rangeRight(4);
+   * // => [3, 2, 1, 0]
+   *
+   * _.rangeRight(-4);
+   * // => [-3, -2, -1, 0]
+   *
+   * _.rangeRight(1, 5);
+   * // => [4, 3, 2, 1]
+   *
+   * _.rangeRight(0, 20, 5);
+   * // => [15, 10, 5, 0]
+   *
+   * _.rangeRight(0, -4, -1);
+   * // => [-3, -2, -1, 0]
+   *
+   * _.rangeRight(1, 4, 0);
+   * // => [1, 1, 1]
+   *
+   * _.rangeRight(0);
+   * // => []
+   */
+  rangeRight: function rangeRight(start = 0, end, step = 1) {
+    return range(start, end, step).reverse();
+  },
+
+
+
+  /**
+   * 创建一个返回给定对象的 path 的值的函数。
+   *
+   * @category Util
+   * @param {Array|string} path 要得到值的属性路径
+   * @returns {Function} 返回新的函数
+   * @example
+   *
+   * var objects = [
+   *   { 'a': { 'b': 2 } },
+   *   { 'a': { 'b': 1 } }
+   * ];
+   *
+   * _.map(objects, _.property('a.b'));
+   * // => [2, 1]
+   *
+   * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
+   * // => [1, 2]
+   */
+  property: function property(path) {
+    return function (obj) {
+      for (let item of toPath(path)) {
+        var res = obj[item]
+        obj = res
+      }
+      return res;
+    }
+  },
+
+
+  /**
+   * _.property的反相版本。 这个方法创建的函数返回给定 path 在object上的值。
+   *
+   * @category Util
+   * @param {Object} object 要检索的对象
+   * @returns {Function} 返回新的函数
+   * @example
+   *
+   * var array = [0, 1, 2],
+   *     object = { 'a': array, 'b': array, 'c': array };
+   *
+   * _.map(['a[2]', 'c[0]'], _.propertyOf(object));
+   * // => [2, 0]
+   *
+   * _.map([['a', '2'], ['c', '0']], _.propertyOf(object));
+   * // => [2, 0]
+   */
+  propertyof: function propertyof(object) {
+    return function (path) {
+      let arr = toPath(path), res;
+      for (let item of arr) {
+        res = object[item]
+        object = res;
+      }
+      return res;
+    }
+  },
+}
