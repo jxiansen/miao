@@ -2228,7 +2228,7 @@ var jxiansen = {
   times: function times(n, identity) {
     let res = []
     while (n) {
-      res.push(identity())
+      res.push(identity)
       n--
     }
     return res;
@@ -2362,7 +2362,7 @@ var jxiansen = {
    * // => []
    */
   rangeRight: function rangeRight(start = 0, end, step = 1) {
-    return range(start, end, step).reverse();
+    return jxiansen.range(start, end, step).reverse();
   },
 
 
@@ -2424,4 +2424,192 @@ var jxiansen = {
       return res;
     }
   },
+
+
+
+  /**
+ * 转换字符串string为snake case.
+ *
+ * @category String
+ * @param {string} [string=''] 要转换的字符串
+ * @returns {string} 返回转换后的字符串。
+ * @example
+ *
+ * _.snakeCase('Foo Bar');
+ * // => 'foo_bar'
+ *
+ * _.snakeCase('fooBar');
+ * // => 'foo_bar'
+ *
+ * _.snakeCase('--FOO-BAR--');
+ * // => 'foo_bar'
+ */
+  snakeCase: function snakeCase(string) {
+    let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
+    flag = [...string].every(i => isWord(i))
+    if (flag) {
+      for (let val of string) {
+        if (val.toUpperCase() === val) res += '_'
+        res += val
+      }
+      return res.toLowerCase()
+    }
+    for (let l = 0, r = l; l < string.length; l++, r++) {
+      if (isWord(string.charAt(l))) {
+        while (isWord(string.charAt(r))) {
+          r++;
+        }
+        arr.push(string.substring(l, r))
+        l = r;
+      }
+    }
+    return arr.join('_').toLowerCase()
+  },
+
+
+  /**
+   * 转换 string 字符串为start case.
+   *
+   * @category String
+   * @param {string} [string=''] 要转换的字符串
+   * @returns {string} 返回转换后的字符串。
+   * @example
+   *
+   * _.startCase('--foo-bar--');
+   * // => 'Foo Bar'
+   *
+   * _.startCase('fooBar');
+   * // => 'Foo Bar'
+   *
+   * _.startCase('__FOO_BAR__');
+   * // => 'FOO BAR'
+   */
+  startCase: function startCase(string) {
+    let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
+    flag = [...string].every(i => isWord(i))
+    if (flag) {
+      for (let val of string) {
+        if (val.toUpperCase() === val) res += ' '
+        res += val
+      }
+      return res.toLowerCase()
+    }
+    for (let l = 0, r = l; l < string.length; l++, r++) {
+      if (isWord(string.charAt(l))) {
+        while (isWord(string.charAt(r))) {
+          r++;
+        }
+        arr.push(string.substring(l, r))
+        l = r;
+      }
+    }
+    return arr.join(' ').toLowerCase()
+  },
+
+
+
+
+  /**
+   * 返回限制在 lower 和 upper 之间的值。
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Number
+   * @param {number} number 被限制的值
+   * @param {number} [lower] 下限
+   * @param {number} upper 上限
+   * @returns {number} 返回被限制的值.
+   * @example
+   *
+   * _.clamp(-10, -5, 5);
+   * // => -5
+   *
+   * _.clamp(10, -5, 5);
+   * // => 5
+   */
+  clamp: function clamp(number, lower, upper) {
+    if (number >= lower && number <= upper) return number;
+    return number > upper ? upper : lower;
+  },
+
+
+
+
+  /**
+     * 检查 n 是否在 start 与 end 之间，但不包括 end。 
+     * 如果 end 没有指定，那么 start 设置为0。 
+     * 如果 start 大于 end，那么参数会交换以便支持负范围。
+     *
+     * @category Number
+     * @param {number} number 要检查的值
+     * @param {number} [start=0] 开始范围。
+     * @param {number} end 结束范围。
+     * @returns {boolean} 如果number在范围内 ，那么返回true，否则返回 false。
+     * @see _.range, _.rangeRight
+     * @example
+     *
+     * _.inRange(3, 2, 4);
+     * // => true
+     *
+     * _.inRange(4, 8);
+     * // => true
+     *
+     * _.inRange(4, 2);
+     * // => false
+     *
+     * _.inRange(2, 2);
+     * // => false
+     *
+     * _.inRange(1.2, 2);
+     * // => true
+     *
+     * _.inRange(5.2, 4);
+     * // => false
+     *
+     * _.inRange(-3, -2, -6);
+     * // => true
+     */
+  inRange: function inRange(number, start = 0, end) {
+    let arr = [...arguments]
+    if (arr.length === 2) [number, start, end] = [arr[0], 0, arr[1]];
+    return number >= start && number < end
+  },
+
+
+
+  /**
+   * 如果 value 不是数组, 那么强制转为数组。
+   *
+   * @category Lang
+   * @param {*} value 要处理的值。
+   * @returns {Array} 返回转换后的数组。
+   * @example
+   *
+   * _.castArray(1);
+   * // => [1]
+   *
+   * _.castArray({ 'a': 1 });
+   * // => [{ 'a': 1 }]
+   *
+   * _.castArray('abc');
+   * // => ['abc']
+   *
+   * _.castArray(null);
+   * // => [null]
+   *
+   * _.castArray(undefined);
+   * // => [undefined]
+   *
+   * _.castArray();
+   * // => []
+   *
+   * var array = [1, 2, 3];
+   * console.log(_.castArray(array) === array);
+   * // => true
+   */
+  castArray: function castArray(value) {
+    return Array.isArray(value) ? value : [...arguments];
+  },
+
 }
