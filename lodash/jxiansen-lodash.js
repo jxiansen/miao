@@ -924,6 +924,7 @@ var jxiansen = {
   },
 
 
+ 
   /**
    * 检查 value 是否是原始 boolean 类型或者对象。
    *
@@ -2226,12 +2227,7 @@ var jxiansen = {
    */
 
   times: function times(n, identity) {
-    let res = []
-    while (n) {
-      res.push(identity)
-      n--
-    }
-    return res;
+    return new Array(n).fill('').map(i => identity())
   },
 
 
@@ -2492,7 +2488,7 @@ var jxiansen = {
         if (val.toUpperCase() === val) res += ' '
         res += val
       }
-      return res.toLowerCase()
+      return res.toUpperCase()
     }
     for (let l = 0, r = l; l < string.length; l++, r++) {
       if (isWord(string.charAt(l))) {
@@ -2503,7 +2499,7 @@ var jxiansen = {
         l = r;
       }
     }
-    return arr.join(' ').toLowerCase()
+    return arr.join(' ').toUpperCase()
   },
 
 
@@ -2610,6 +2606,61 @@ var jxiansen = {
    */
   castArray: function castArray(value) {
     return Array.isArray(value) ? value : [...arguments];
+  },
+
+
+
+  /**
+   * 创建一个数组，值来自 object 的paths路径相应的值。
+   *
+   * @since 1.0.0
+   * @category Object
+   * @param {Object} object 要迭代的对象
+   * @param {...(string|string[])} [paths] T要获取的对象的元素路径，单独指定或者指定在数组中。
+   * @returns {Array} 返回选中值的数组。
+   * @example
+   *
+   * var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
+   *
+   *  (object, ['a[0].b.c', 'a[1]']);
+   * // => [3, 4]
+   */
+
+
+  at: function at(object, paths) {
+    let res = []
+    function fn(object, paths) {
+      let arr = jxiansen.toPath(paths)
+      for (let item of arr) {
+        var tmp = object[item]
+        object = tmp;
+      }
+      res.push(tmp)
+    }
+    Array.isArray(paths) ? paths.map(i => fn(object, i)) : fn(object, paths);
+    return res
+  },
+
+
+  /**
+ * 从collection（集合）中获得 n 个随机元素。
+ *
+ * @category Collection
+ * @param {Array|Object} collection 要取样的集合
+ * @param {number} [n=1] 取样的元素个数
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+ * @returns {Array} 返回随机元素
+ * @example
+ *
+ * _.sampleSize([1, 2, 3], 2);
+ * // => [3, 1]
+ *
+ * _.sampleSize([1, 2, 3], 4);
+ * // => [2, 3, 1]
+ */
+  sampleSize: function sampleSize(collection, n = 1) {
+    if (n > collection.length) n = collection.length
+    return new Array(n).fill('').map(i => jxiansen.sample(collection))
   },
 
 }

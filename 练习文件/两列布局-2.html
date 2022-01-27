@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>两列布局-2</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .left {
+      float: left;
+      width: 200px;
+      height: 100vh;
+      background-color: rgba(255, 0, 0, 0.178);
+    }
+
+    .right {
+      /* 触发BFC */
+      overflow: hidden;
+      height: 100vh;
+      background-color: aqua;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="left">左边</div>
+    <div class="right">右边</div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于行内块元素出现间隙现象</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-size: 0;
+      /* 父元素需要设置字体大小为0 */
+    }
+
+    .content {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      font-size: 16px;
+      /* 在子元素内部再恢复原本字体大小 */
+      background-color: aquamarine;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">行内块元素</div>
+  <div class="content">行内块元素</div>
+  <div class="content">行内块元素</div>
+</body>
+
+</html>
