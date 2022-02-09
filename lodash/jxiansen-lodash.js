@@ -924,7 +924,7 @@ var jxiansen = {
   },
 
 
- 
+
   /**
    * 检查 value 是否是原始 boolean 类型或者对象。
    *
@@ -2227,7 +2227,7 @@ var jxiansen = {
    */
 
   times: function times(n, identity) {
-    return new Array(n).fill('').map(i => identity())
+    return new Array(n).fill('').map((val,idx) => identity(idx))
   },
 
 
@@ -2482,13 +2482,14 @@ var jxiansen = {
    */
   startCase: function startCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
+    let upperFirst = str => str[0].toUpperCase() + str.slice(1);
     flag = [...string].every(i => isWord(i))
     if (flag) {
       for (let val of string) {
         if (val.toUpperCase() === val) res += ' '
         res += val
       }
-      return res.toUpperCase()
+      return res.split(' ').map(i => upperFirst(i)).join('')
     }
     for (let l = 0, r = l; l < string.length; l++, r++) {
       if (isWord(string.charAt(l))) {
@@ -2499,9 +2500,8 @@ var jxiansen = {
         l = r;
       }
     }
-    return arr.join(' ').toUpperCase()
+    return arr.map(i => upperFirst(i))
   },
-
 
 
 
@@ -2656,7 +2656,7 @@ var jxiansen = {
  * // => [3, 1]
  *
  * _.sampleSize([1, 2, 3], 4);
- * // => [2, 3, 1]
+ * // => [2, 3, 1] 
  */
   sampleSize: function sampleSize(collection, n = 1) {
     if (n > collection.length) n = collection.length
