@@ -1039,6 +1039,58 @@
     console.log(count);
   </script>
 
+
+  <script id="ch0106/02">
+    let n = parseInt(prompt("请输入伸直后的最大高度"))
+    let count = 0, i = 10;
+    while (i) {
+      let m = parseInt(prompt('请输入苹果树高度'))
+      if (n + 30 >= m) {
+        count++
+      }
+      i--
+    }
+    console.log(count);
+  </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <script id="narcissistic">
     let n = parseInt(prompt("请输入一个整数!"))
     console.log(n === n.toString().split('').map(i => parseInt(i) ** 3).reduce((pre, cur) => pre + cur) ? "YES" : "NO");
@@ -1276,6 +1328,7 @@
     }
     console.log(getNumLen(103456789));
   </script>
+
 
 
 
