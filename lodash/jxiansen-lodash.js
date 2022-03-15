@@ -2710,7 +2710,7 @@ var jxiansen = {
 
   startsWith: function startsWith(string = '', target, position = 0) {
     return string[position] === target
-  }
+  },
 
 
   words: function words(string = '', pattern) {
@@ -2726,9 +2726,6 @@ var jxiansen = {
       return res
     }
   }
-
-
-
 
 
 }
