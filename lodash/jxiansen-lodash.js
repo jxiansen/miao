@@ -2227,7 +2227,7 @@ var jxiansen = {
    */
 
   times: function times(n, identity) {
-    return new Array(n).fill('').map((val,idx) => identity(idx))
+    return new Array(n).fill('').map((val, idx) => identity(idx))
   },
 
 
@@ -2358,7 +2358,29 @@ var jxiansen = {
    * // => []
    */
   rangeRight: function rangeRight(start = 0, end, step = 1) {
-    return jxiansen.range(start, end, step).reverse();
+    let res = [];
+    let arr = Array.from(arguments)     // 获取各个参数
+    if (arr.length === 1) {
+      start = 0;
+      end = arr[0]
+      step = 1;
+    } else if (arr.length === 2) {
+      start = arr[0]
+      end = arr[1];
+      step = 1;
+    } else {
+      start = arr[0]
+      end = arr[1]
+      step = arr[2]
+    }
+    if (step === 0) {         // 如果步进为0 ,直接返回指定的数组
+      return new Array(end - start).fill(start)
+    }
+    while (start !== end) {
+      res.push(start);
+      start < end ? start += step : start += Math.abs(step) * -1
+    }
+    return res.reverse();
   },
 
 
@@ -2483,13 +2505,13 @@ var jxiansen = {
   startCase: function startCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
     let upperFirst = str => str[0].toUpperCase() + str.slice(1);
-    flag = [...string].every(i => isWord(i))
+    flag = [...string].every(i => isWord(i));
     if (flag) {
       for (let val of string) {
         if (val.toUpperCase() === val) res += ' '
         res += val
       }
-      return res.split(' ').map(i => upperFirst(i)).join('')
+      return res.split(' ').map(i => upperFirst(i)).join(' ')
     }
     for (let l = 0, r = l; l < string.length; l++, r++) {
       if (isWord(string.charAt(l))) {
@@ -2500,7 +2522,7 @@ var jxiansen = {
         l = r;
       }
     }
-    return arr.map(i => upperFirst(i))
+    return arr.map(i => upperFirst(i)).join(' ')
   },
 
 
@@ -2662,5 +2684,51 @@ var jxiansen = {
     if (n > collection.length) n = collection.length
     return new Array(n).fill('').map(i => jxiansen.sample(collection))
   },
+
+  replace: function replace(string, pattern, replacement) {
+    let reg = new RegExp(pattern, 'g');
+    return string.replace(reg, replacement)
+  },
+
+
+  split: function split(string = '', separator, limit) {
+    let arr = []
+    let tmp = ''
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === separator) {
+        arr.push(tmp)
+        tmp = ''
+        continue
+      } else {
+        tmp += string[i]
+      }
+    }
+    arr.length = limit
+    return arr
+  },
+
+
+  startsWith: function startsWith(string = '', target, position = 0) {
+    return string[position] === target
+  }
+
+
+  words: function words(string = '', pattern) {
+    if (!pattern || typeof (pattern) === 'string') {
+      return string.split(/\W+/);
+    } else {
+      let res = []
+      let arr = pattern.exec(string)
+      while (arr !== null) {
+        res.push(arr[0])
+        arr = pattern.exec(string)
+      }
+      return res
+    }
+  }
+
+
+
+
 
 }
