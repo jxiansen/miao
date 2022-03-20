@@ -2246,16 +2246,13 @@ var jxiansen = {
    * // => ['a', '0', 'b', 'c']
    */
   toPath: function toPath(value) {
-    let str = ''
-    for (let item of value) {
-      if (item === '[') {
-        str += '.'
-      } else {
-        if (item === ']') continue
-        str += item
-      }
+    // 直接使用正则表达式对字符串进行分词
+    if (typeof value === 'string') {
+      return value.match(/\w+/g)
+    } else {
+      // 针对value本身就是数组的情况
+      return value
     }
-    return str.split('.')
   },
 
 
@@ -2407,10 +2404,10 @@ var jxiansen = {
   property: function property(path) {
     return function (obj) {
       for (let item of jxiansen.toPath(path)) {
-        var res = obj[item]
-        obj = res
+        obj = obj[item]
+        if (!obj) return obj    // 错误处理: 当访问的对象不存在时直接返回
       }
-      return res;
+      return obj;
     }
   },
 
@@ -2725,7 +2722,207 @@ var jxiansen = {
       }
       return res
     }
-  }
+  },
 
+
+  parseJson: function parseJson(str) {
+    // 定义一个全局的指针
+    var i = 0;
+
+    // 返回解析值函数
+    return parseValue()
+
+    // 解析Value: 从某个位置开始解析出一个值,类型取决于当前符号
+    function parseValue() {
+      skipWhiteSpace();         // 先对字符串进行去空白
+
+      if (str[i] === '"') return parseString()
+      if (str[i] === 't') return parseTrue()
+      if (str[i] === 'f') return parseFalse()
+      if (str[i] === 'n') return parseNull()
+      if (str[i] === '[') return parseArray()
+      if (str[i] === '{') return parseObject()
+      if (/\d/.test(str[i])) return parseNumber()
+    }
+
+    // 去除空格
+    function skipWhiteSpace() {
+      str = str.replace(/\s/g, '');
+    }
+
+    // 解析字符串
+    function parseString() {
+      let res = ''
+      if (str[i] === '"') {
+        i++;      // 跳过开始的 "
+        while (str[i] !== '"') {
+          res += str[i]
+          i++
+        }
+        i++     // 跳过结束的 ",移动指针
+      }
+      return res;
+    }
+
+    // 解析数字
+    function parseNumber() {
+      let res = ''
+      while (/\d/.test(str[i])) {
+        res += str[i]
+        i++
+      }
+      return +res
+    }
+
+    // 解析Array
+    function parseArray() {
+      let res = [];
+      i++     // skip [
+      if (str[i] === ']') {
+        i++
+        return res    // 如果即刻遇到对应的 ] 直接返回结果
+      }
+      while (true) {
+        const value = parseValue()    // 对数组中的值进行解析
+        res.push(value)
+        if (str[i] === ',') {
+          i++
+          continue
+        }
+        if (str[i] === ']') {
+          i++
+          return res
+        }
+      }
+    }
+
+    // 解析对象
+    function parseObject() {
+      let obj = {}
+      i++
+      if (str[i] === '}') {
+        i++
+        return obj
+      }
+      while (true) {
+        const key = parseString()     // 解析到 "对象键"
+        i++       // 遇到冒号,指针后移并继续解析后面的值
+        const value = parseValue()    // 解析 "对象值"
+        obj[key] = value;
+        if (str[i] === ',') {     // 遇到 , 指针后移再继续解析
+          i++
+          continue
+        }
+        if (str[i] === '}') {
+          i++     // 跳过 }
+          return obj
+        }
+      }
+    }
+
+    // 解析true
+    function parseTrue() {
+      i += 4;
+      return true
+    }
+
+    // 解析false
+    function parseFalse() {
+      i += 5;
+      return false;
+    }
+
+
+    // 解析Null
+    function parseNull() {
+      i += 4;
+      return null;
+    }
+  },
+
+  pullAt: function pullAt(array, indexes) {
+    let removed = [];
+    // 判断参数是数字还是数组
+    if (typeof (indexes) !== 'object') {
+      indexes = Object.entries(arguments).slice(1).map(i => i[1])
+    }
+    // 遍历索引修改数组,并标记要移除的元素
+    for (let idx of indexes) {
+      removed.push(array[idx])
+      array[idx] = '*'
+    }
+    // 过滤掉要移除的元素
+    let tmp = array.filter(i => i !== '*')
+    array.length = 0
+    // 修改原来的数组
+    array.push(...tmp)
+    return removed
+  },
+
+  // 返回首个提供的参数
+  identify: function identify(value) {
+    return [...arguments][0]
+  },
+
+
+  // 给bind函数使用的
+  _: {},
+
+
+  // 可以跳着参数绑定的bind函数
+  bind: function bind(func, thisArg, ...fixedArgs) {
+    return function (...args) {
+      var bindedArgs = fixedArgs.slice()
+      var i = 0
+      for (var j = 0; j < bindedArgs.length; j++) {
+        if (bindedArgs[j] === jxiansen._) {
+          bindedArgs[j] = args[i++]
+        }
+      }
+      bindedArgs.push(...args.slice(1))
+      return func.apply(thisArg, bindedArgs)
+    }
+  },
+
+
+  // src: 要遍历的目标,他的所有值要完全被包含在obj中
+  isMatch: function isMatch(obj, src) {
+    for (let key in src) {
+      if (src[key] && typeof src[key] === 'object') {
+        // 如果遍历到的键的值是对象,将此时对象的值再去做对比匹配
+        if (!isMatch(obj[key], src[key])) {
+          return false
+        }
+      } else {
+        if (obj[key] !== src[key]) {
+          return false
+        }
+      }
+    }
+    return true
+  },
+
+
+  matches: function matches(source) {
+    return jxiansen.bind(jxiansen.isMatch, null, jxiansen._, source)
+  },
+
+
+  /* 
+  根据 object对象的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代。
+  */
+  get: function get(object, path, defaultValue) {
+    // 解析出路径数组
+    let arr = jxiansen.toPath(path)
+    let res = object
+    // 遍历路径来迭代结果,遇到值为underfined返回默认值
+    for (let item of arr) {
+      res = res[item]
+      if (res === undefined) {
+        return defaultValue
+      }
+    }
+    return res
+  }
 
 }
