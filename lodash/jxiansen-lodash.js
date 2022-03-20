@@ -2923,6 +2923,60 @@ var jxiansen = {
       }
     }
     return res
-  }
+  },
+
+
+  ary: function ary(func, n = func.length) {
+    return function (...args) {
+      return func(...args.slice(0, n))
+    }
+  },
+
+
+  unary: function unary(func) {
+    return function (...args) {
+      return func(...args.slice(0, 1))
+    }
+  },
+
+
+  // 返回一个新的取反函数。
+  negate: function negate(func) {
+    return function (...args) {
+      return !func(...args)
+    }
+  },
+
+
+  spread: function spread(fn) {
+    return function (arr) {
+      return fn.apply(null, arr)
+    }
+  },
+
+  // 创建一个函数，调用func时候接收翻转的参数。
+  flip: function flip(fn) {
+    return function (...args) {
+      return fn(...args.reverse())
+    }
+  },
+
+
+  before: function before(n, func) {
+    // 计数器和结果要声明在返回的函数外面,防止每次执行函数被刷新
+    var count = 0;
+    var res;
+    return function (...args) {
+      if (count < n) {
+        // 每次调用函数后计数器+1
+        res = func(...args)
+        count++
+      }
+      return res
+    }
+  },
+
+
+
 
 }
