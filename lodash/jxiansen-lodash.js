@@ -2977,6 +2977,56 @@ var jxiansen = {
   },
 
 
+  escape: function escape(string) {
+    let map = {
+      "&": '&amp;',
+      "<": '&lt;',
+      ">": '&gt;',
+      '"': '&quot;',
+      "'": '&apos;',
+      "`": '&acute;'
+    }
+    let arr = [...string]
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] in map) {
+        arr[i] = map[arr[i]]
+      }
+    }
+    return arr.join('')
+  },
+
+
+
+  unescape: function unescape(str = '') {
+    let map = {
+      '&amp;': "&",
+      '&lt;': "<",
+      '&gt;': ">",
+      '&quot;': '"',
+      '&apos;': "'",
+      '&acute;': "`"
+    }
+    for (let key in map) {
+      if (str.includes(key)) {
+        str = str.replace(new RegExp(key, 'g'), map[key])
+      }
+    }
+    return str
+  },
+
+
+
+  escapeRegExp: function escapeRegExp(string) {
+    let res = ''
+    let arr = ["^", "$", "", ".", "*", "+", "?", "(", ")", "[", "]", ",", "|"];
+    for (let char of string) {
+      if (arr.includes(char)) {
+        res += "\\"
+      }
+      res += char
+    }
+    return res
+  },
 
 
 }
