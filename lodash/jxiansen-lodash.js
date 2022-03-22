@@ -3206,4 +3206,89 @@ var jxiansen = {
     return value === value ? value : 0
   },
 
+
+  toFinite: function toFinite(value) {
+    // 处理非数字情况
+    if (!value) {
+      return 0
+    }
+    // 先把传进来的值都转换成数字类型
+    value = Number(value)
+    // 处理无限值
+    if (value === Infinity || value === -Infinity) {
+      return (value < 0 ? -1 : 1) * Number.MAX_VALUE;
+    }
+    // 处理NaN情况
+    return value === value ? value : 0
+  },
+
+
+  toInteger: function toInteger(value) {
+    // 小数或字符串小数情况
+    if (value.toString().includes('.')) {
+      return Math.trunc(+value)
+      // 最小值情况
+    } else if (value === Number.MIN_VALUE) {
+      return 0
+      // 正负无限值
+    } else if (value === Infinity || value === -Infinity) {
+      return (value < 0 ? -1 : 1) * Number.MAX_VALUE;
+    } else {
+      // 普通情况
+      return Number(value)
+    }
+  },
+
+
+  // 转换 value 为一个数字。
+  toNumber: function toNumber(value) {
+    return Number(value)
+  },
+
+  // 转换 value 为字符串。 null 和 undefined 将返回空字符串。-0 将被转换为字符串"-0"。
+  toString: function toString(value) {
+    // 处理空值
+    if (value === null || value === undefined) {
+      return ''
+    }
+    let res = `${value}`
+    // 特殊的 -0 情况, +0 和 -0 转换成字符串都是 0 无法直接比较,通过用 1 除一下,判断是正无穷还是负无穷来判断
+    if (1 / value === -Infinity) {
+      res = '-' + res
+    }
+    // 其他情况: 使用模板字符串能cover: string,array
+    return res
+  },
+
+  // 创建一个 object 的自身可枚举属性名为数组。
+  keys: function keys(obj) {
+    return Object.entries(obj).map(i => i[0])
+  },
+
+  // 创建一个 object 自身 和 继承的可枚举属性名为数组。
+  keysIn: function keysIn(obj) {
+    let arr = []
+    for (let key in obj) {
+      arr.push(key)
+    }
+    return arr
+  },
+
+  // 检查 path 是否是object对象的直接属性。
+  has: function has(object, path) {
+    let arr;
+    if (typeof path === 'string') {
+      arr = path.match(/\w+/g)
+    } else {
+      arr = path
+    }
+    for (let item of arr) {
+      object = object[item]
+      if (!object) return false
+    }
+    return true
+  },
+
+
+
 }
