@@ -1027,7 +1027,8 @@ var jxiansen = {
    * // => false
    */
   isNumber: function isNumber(value) {
-    return typeof (value) === 'number';
+    // 检查数据的类型是否为 `number` 并且要排除 NaN的情况, NaN的类型也是数字,但是它自身不等于自身
+    return typeof (value) === 'number' && value === value;
   },
 
 
@@ -1875,14 +1876,7 @@ var jxiansen = {
    */
 
   trim: function trim(string, chars = ' ') {
-    let arr = [...string]
-    while (chars.includes(arr[0])) {
-      arr.shift()
-    }
-    while (chars.includes(arr[arr.length - 1])) {
-      arr.pop()
-    }
-    return arr.join('')
+    return jxiansen.trimEnd(jxiansen.trimStart(str, char))
   },
 
 
@@ -1907,11 +1901,13 @@ var jxiansen = {
    * // => '-_-abc'
    */
   trimEnd: function trimEnd(string, chars) {
-    let arr = [...string]
-    while (chars.includes(arr[arr.length - 1])) {
-      arr.pop()
+    if (!char) return str.replace(/\s+$/g, '')
+    for (var i = str.length - 1; i > 0; i--) {
+      if (!char.includes(str[i])) {
+        break;
+      }
     }
-    return arr.join('')
+    return str.slice(0, i)
   },
 
 
@@ -1931,11 +1927,14 @@ var jxiansen = {
    * // => 'abc-_-'
    */
   trimStart: function trimStart(string, chars = ' ') {
-    let arr = [...string]
-    while (chars.includes(arr[0])) {
-      arr.shift()
+    // 如果没有第二个参数,把字符串前面的空格正则替换
+    if (!char) return str.replace(/^\s+/g, '')
+    for (var i = 0; i < str.length; i++) {
+      if (!char.includes(str[i])) {
+        break;
+      }
     }
-    return arr.join('')
+    return str.slice(i)
   },
 
 
@@ -2996,7 +2995,6 @@ var jxiansen = {
   },
 
 
-
   unescape: function unescape(str = '') {
     let map = {
       '&amp;': "&",
@@ -3015,7 +3013,6 @@ var jxiansen = {
   },
 
 
-
   escapeRegExp: function escapeRegExp(string) {
     let res = ''
     let arr = ["^", "$", "", ".", "*", "+", "?", "(", ")", "[", "]", ",", "|"];
@@ -3028,5 +3025,119 @@ var jxiansen = {
     return res
   },
 
+
+
+  deburr: function deburr(str) {
+    // 看不懂,面向测试用编程
+    return str.replace('é', 'e').replace('à', 'a')
+  },
+
+
+  truncate: function truncate(string, options) {
+    // 设定默认值
+    if (!options.length) options.length = 30
+    if (!options.omission) options.omission = '...'
+    // 没超过限定长度,直接返回
+    if (string.length <= options.length) return string
+    // 如果截断点存在的话,截取
+    if (options.separator) {
+      let matchReg = new RegExp(options.separator, 'g')
+    } else {
+      // 截断点不存在,并且超过限定长度,根据替代字符串长度来寻找截断点
+      let cutIdx = options.length - options.omission.length
+      return string.slice(0, cutIdx) + options.omission
+    }
+  },
+
+
+
+  // 检查是否为类数组
+  isArrayLike: function isArrayLike(value) {
+    return value !== null && typeof value[Symbol.iterator] === 'function'
+  },
+
+
+  // 判断数据是否是symbol类型
+  isSymbol: function isSymbol(value) {
+    return typeof value === 'symbol'
+  },
+
+  // 检查 value 是否是 null 或者 undefined。
+  isNill: function isNill(value) {
+    return value === null || value === undefined
+  },
+
+
+  // 检查 value 是否是 null。
+  isNull: function isNull(value) {
+    return value === null
+  },
+
+
+  /* 
+  - 使用 `Object` 构造函数来为给定的值创建一个对象包装器
+  - 如果值是 `null` 或者 `undefined`, 将会创建并返回一个空对象
+  - 否则,将会返回一个与给定值对应类型的对象.
+  */
+  isObject: function isObject(value) {
+    return value === Object(value)
+  },
+
+
+
+
+  // 检查 value 是否是原始字符串String或者对象。
+  isString: function isString(vlaue) {
+    return typeof vlaue === 'string'
+  },
+
+
+  // 检查 value 是否是 Function 对象。
+  isFunction: function isFunction(value) {
+    return typeof value === 'function'
+  },
+
+  // 检查 value 是否是原始有限数值。
+  isInteger: function isInteger(value) {
+    return Number.isInteger(value)
+  },
+
+
+  isFinite: function isFinite(value) {
+    return Number.isFinite(value)
+  },
+
+  //检查 value 是否是一个安全整数
+  isFinite: function isFinite(value) {
+    return Number.isSafeInteger(value)
+  },
+
+
+  // 检查 value 是否是一个空对象或者集合
+  /* 
+    Object.keys()返回一个给定对象自身可枚举属性组成的数组
+    检测条件: value为null,value自身的长度或者其可枚举属性的数组长度为空
+  */
+  isEmpty: function isEmpty(val) {
+    return val == null || !(Object.keys(val) || val).length;
+  },
+
+
+
+  /* 
+    检查 value 的值是否是类对象.
+    JS的早期实现中,js的值由一个表示类型的标签和实际数据值组成
+    对象的数据类型标签是: 0, 由于 null 代表空指针,所以 null 的数据类型标签也为 0
+    即 null 和 object 的类型标签相等,所以 typeof null 也是 'object'
+  */
+  isObjectLike: function isObjectLike(value) {
+    return typeof value === 'object' && value !== null
+  },
+
+
+  // 检查 value 是否是一个类 arguments 对象。
+  isArguments: function isArguments(value) {
+    return Object.prototype.toString.call(value) === '[object Arguments]'
+  },
 
 }
