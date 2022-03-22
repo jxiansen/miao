@@ -3050,7 +3050,6 @@ var jxiansen = {
   },
 
 
-
   // 检查是否为类数组
   isArrayLike: function isArrayLike(value) {
     return value !== null && typeof value[Symbol.iterator] === 'function'
@@ -3084,8 +3083,6 @@ var jxiansen = {
   },
 
 
-
-
   // 检查 value 是否是原始字符串String或者对象。
   isString: function isString(vlaue) {
     return typeof vlaue === 'string'
@@ -3103,9 +3100,10 @@ var jxiansen = {
   },
 
 
-  isFinite: function isFinite(value) {
-    return Number.isFinite(value)
+  isSafeInteger: function isSafeInteger(value) {
+    return Number.isSafeInteger(value)
   },
+
 
   //检查 value 是否是一个安全整数
   isFinite: function isFinite(value) {
@@ -3122,8 +3120,6 @@ var jxiansen = {
     return val == null || !(Object.keys(val) || val).length;
   },
 
-
-
   /* 
     检查 value 的值是否是类对象.
     JS的早期实现中,js的值由一个表示类型的标签和实际数据值组成
@@ -3138,6 +3134,76 @@ var jxiansen = {
   // 检查 value 是否是一个类 arguments 对象。
   isArguments: function isArguments(value) {
     return Object.prototype.toString.call(value) === '[object Arguments]'
+  },
+
+
+  isUndefined: function isUndefined(value) {
+    return typeof value === 'undefined'
+  },
+
+
+  // 检查 value 是否是 Date 对象。
+  isDate: function isDate(value) {
+    return Object.prototype.toString.call(value) === '[object Date]'
+  },
+
+
+  // 检查 value 是否是可能是 DOM 元素。
+  isElement: function isElement(value) {
+    return Object.prototype.toString.call(value) === '[object Element]'
+  },
+
+
+  // 检查 value 是否为RegExp对象。
+  isRegExp: function isRegExp(value) {
+    return Object.prototype.toString.call(value) === '[object RegExp]'
+  },
+
+  // 检查 value 是否小于 other。
+  lt: function lt(value, other) {
+    return value < other
+  },
+
+  // 检查 value 是否小于等于 other。
+  lte: function lte(value, other) {
+    return value <= other
+  },
+
+
+  toArray: function toArray(value) {
+    // 数据类型为 set
+    if (jxiansen.isSet(value)) {
+      return [...value]
+    } else if (jxiansen.isMap(value)) {
+      // 数据类型为 map
+      let res = []
+      for (let val of value.values()) {
+        res.push(val)
+      }
+      return res
+    } else if (value === null) {
+      // 数据类型为 null
+      return []
+    } else {
+      // string,array,object,类数组对象都可以cover
+      return Object.entries(value).map(i => i[1]);
+    }
+  },
+
+  // 转换 value 为一个有限数字。
+  toFinite: function toFinite(value) {
+    // 处理非数字情况
+    if (!value) {
+      return 0
+    }
+    // 先把传进来的值都转换成数字类型
+    value = Number(value)
+    // 处理无限值
+    if (value === Infinity || value === -Infinity) {
+      return (value < 0 ? -1 : 1) * Number.MAX_VALUE;
+    }
+    // 处理NaN情况
+    return value === value ? value : 0
   },
 
 }
