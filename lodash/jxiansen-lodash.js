@@ -1,4 +1,4 @@
-var jxiansen = {
+var jxiansen = function () {
   /**
    * 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 
    * 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
@@ -11,7 +11,7 @@ var jxiansen = {
    * _.chunk(['a', 'b', 'c', 'd'], 3);
    * // => [['a', 'b', 'c'], ['d']]
    */
-  chunk: function (array, num = 1) {
+  function chunk(array, num = 1) {
     var res = [], tmp = [];
     if (num === 0) {      // 如果num为0直接返回空数组
       return res
@@ -30,7 +30,7 @@ var jxiansen = {
       res.push(tmp)
     }
     return res
-  },
+  }
   // console.log(chunk(['a', 'b', 'c', 'd'], 1));
 
 
@@ -48,7 +48,7 @@ var jxiansen = {
    * console.log(array);
    * // => [1]
    */
-  compact: function (array) {
+  function concat(array) {
     let res = [];
     for (let i = 0; i < array.length; i++) {
       if (!!array[i] === true) {      // 遍历数组,对遍历到的元素转换成布尔值,将布尔值为true的push到结果中
@@ -57,7 +57,7 @@ var jxiansen = {
     }
     return res
     return array.filter(i => !!i === true);
-  },
+  }
   // console.log(compact([0, 1, false, 2, '', 3, NaN, undefined, null]));
 
 
@@ -73,7 +73,7 @@ var jxiansen = {
    * console.log(array);
    * // => [1]
   */
-  concat: function (array) {
+  function compact(array) {
     let res = [];
     for (let key in arguments) {    // 隐藏的参数都存储在arguments类数组对象中
       if (Array.isArray(arguments[key])) {
@@ -83,7 +83,7 @@ var jxiansen = {
       }
     }
     return res;
-  },
+  }
 
 
   /**
@@ -94,7 +94,7 @@ var jxiansen = {
    * _.difference([2, 1], [2, 3]);
    * // => [1]
    */
-  difference: function (array) {
+  function difference(array) {
     let res = [], arr = [];
     for (let key in arguments) {
       if (key === '0') {
@@ -108,8 +108,7 @@ var jxiansen = {
       }
     }
     return res
-  },
-
+  }
 
   /**
    * 创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
@@ -128,7 +127,7 @@ var jxiansen = {
    * // => [1, 2, 3]
    */
 
-  drop: function (array) {
+  function drop(array) {
     let num;
     '1' in arguments ? num = arguments['1'] : num = 1;    // 如果第二个参数存在,遍历从其位置到数组末尾的所有元素,不存在则从索引为1的位置开始遍历
     if (num >= array.length) {
@@ -139,7 +138,7 @@ var jxiansen = {
       array.shift();
     }
     return array;
-  },
+  }
   // console.log(drop([1, 2, 3]));
 
 
@@ -160,7 +159,7 @@ var jxiansen = {
   * _.dropRight([1, 2, 3], 0);
   * // => [1, 2, 3]
   */
-  dropRight: function (array) {
+  function dropRight(array) {
     let num;
     '1' in arguments ? num = arguments['1'] : num = 1;    // 如果第二个参数存在,遍历从其位置到数组末尾的所有元素,不存在则从索引为1的位置开始遍历
     if (num >= array.length) {
@@ -171,8 +170,7 @@ var jxiansen = {
       array.pop();
     }
     return array;
-  },
-  // console.log(dropRight([1, 2, 3], 5));
+  }
 
 
 
@@ -200,7 +198,7 @@ var jxiansen = {
   * _.fill([4, 6, 8, 10], '*', 1, 3);
   * // => [4, '*', '*', 10]
   */
-  fill: function (array, value) {
+  function fill(array, value) {
     let start, end;
     '2' in arguments ? start = arguments['2'] : start = 0;    // 判断起始点
     '3' in arguments ? end = arguments['3'] : end = array.length;   // 判断终点
@@ -208,7 +206,7 @@ var jxiansen = {
       array[i] = value;
     }
     return array;
-  },
+  }
   // console.log(fill([4, 6, 8, 10], '*', 1, 3));
 
 
@@ -224,7 +222,7 @@ var jxiansen = {
     * _.flatten([1, [2, [3, [4]], 5]]);
     * // => [1, 2, [3, [4]], 5]
   */
-  flatten: function (array) {
+  function flatten(array) {
     let res = [];
     for (let item of array) {
       if (Array.isArray(item)) {
@@ -234,7 +232,7 @@ var jxiansen = {
       }
     }
     return res;
-  },
+  }
   // console.log(flatten([1, [2, [3, [4]], 5]]));
 
 
@@ -250,7 +248,7 @@ var jxiansen = {
    * _.flattenDeep([1, [2, [3, [4]], 5]]);
    * // => [1, 2, 3, 4, 5]
    */
-  flattenDeep: function (array) {
+  function flattenDeep(array) {
     let res = [];
     function flattenDeep(array) {
       let res = [];
@@ -271,7 +269,7 @@ var jxiansen = {
       }
     }
     return res
-  },
+  }
   // console.log(flattenDeep([1, [2, [3, [4]], 5]]));
 
 
@@ -297,7 +295,7 @@ var jxiansen = {
      * _.flattenDepth(array, 2);
      * // => [1, 2, 3, [4], 5]
      */
-  flattenDepth: function (array, depth) {
+  function flattenDepth(array, depth) {
     function spread(arr) {      // 定义一个打散数组的函数,专门对数组"去皮"
       let tmp = []
       for (let item of arr) {
@@ -318,7 +316,7 @@ var jxiansen = {
       array = res;
     }
     return res;
-  },
+  }
   // console.log(flattenDepth([1, [2, [3, [4]], 5]], -1));
 
   /**
@@ -332,7 +330,7 @@ var jxiansen = {
    * _.last([1, 2, 3]);
    * // => 3
    */
-  join: function (array, separator) {
+  function last(array, separator) {
     let res = '';
     for (let item of array) {
       if (item === array[array.length - 1]) {
@@ -342,7 +340,7 @@ var jxiansen = {
       res += item.toString() + separator.toString();
     }
     return res;
-  },
+  }
 
   /**
    * 获取array中的最后一个元素。
@@ -355,9 +353,9 @@ var jxiansen = {
    * _.last([1, 2, 3]);
    * // => 3
    */
-  last: function (array) {
+  function last(array) {
     return array[0] ? array[array.length - 1] : undefined;
-  },
+  }
 
 
   /**
@@ -377,14 +375,14 @@ var jxiansen = {
    * _.lastIndexOf([1, 2, 1, 2], 2, 2);
    * // => 1
    */
-  lastIndexOf: function (array, value, fromIndex = array.length - 1) {
+  function lastIndexOf(array, value, fromIndex = array.length - 1) {
     for (let i = fromIndex; i >= 0; i--) {      // 从后往前遍历遇到匹配的值直接返回索引
       if (array[i] === value) {
         return i
       } ``
     }
     return -1;        // 未找到元素,返回 -1
-  },
+  }
 
 
   /**
@@ -404,10 +402,9 @@ var jxiansen = {
    * _.nth(array, -2);
    * // => 'c';
    */
-  nth: function (array, n = 0) {
+  function nth(array, n = 0) {
     return n >= 0 ? array[n] : array[array.length + n];
-  },
-
+  }
   /**
    * 使用SameValueZero 等值比较，返回首次 value 在数组array中被找到的 索引值， 
    * 如果 fromIndex 为负值，将从数组array尾端索引进行匹配
@@ -426,14 +423,14 @@ var jxiansen = {
    * _.indexOf([1, 2, 1, 2], 2, 2);
    * // => 3
    */
-  indexOf: function (array, value, fromIndex = 0) {
+  function indexOf(array, value, fromIndex = 0) {
     for (let i = fromIndex; i < array.length; i++) {
       if (array[i] === value) {
         return i
       }
     }
     return -1;
-  },
+  }
 
   /**
    * 获取数组 array 的第一个元素。
@@ -450,9 +447,9 @@ var jxiansen = {
    * // => undefined
    */
 
-  head: function head(array) {
+  function head(array) {
     return (array && array.length > 0) ? array[0] : undefined;     // 数组存在并且长度大于0
-  },
+  }
 
   /**
    * 获取数组array中除了最后一个元素之外的所有元素（注：去除数组array中的最后一个元素）
@@ -465,10 +462,10 @@ var jxiansen = {
    * _.initial([1, 2, 3]);
    * // => [1, 2]
    */
-  initial: function initial(array) {
+  function initial(array) {
     array.pop();
     return array;
-  },
+  }
 
 
   /**
@@ -490,7 +487,7 @@ var jxiansen = {
  * console.log(array);
  * // => [3, 2, 1]
  */
-  reverse: function (array) {
+  function reverse(array) {
     let l = 0, r = array.length - 1;    // 左右指针遍历
     while (l < r) {
       [array[l], array[r]] = [array[r], array[l]]   // 左右指针交换值
@@ -498,7 +495,7 @@ var jxiansen = {
       r--;
     }
     return array
-  },
+  }
 
 
   /**
@@ -514,7 +511,7 @@ var jxiansen = {
   * _.without([2, 1, 2, 3], 1, 2);
   * // => [3]
   */
-  without: function (array, values) {
+  function without(array, values) {
     let res = array.slice();
     function includes(arr, num) {   // 传入数组和数字,返回去除值后的数组
       let res = [];
@@ -532,9 +529,10 @@ var jxiansen = {
       res = includes(res, arguments[key]);
     }
     return res;
-  },
+  }
 
-  pull: function (array, values) {
+
+  function pull(array, values) {
     let arr = Array.from(arguments)
     arr = arr.slice(1, arr.length)
     let res = [];
@@ -544,7 +542,7 @@ var jxiansen = {
       }
     }
     return res;
-  },
+  }
 
 
   /**
@@ -562,7 +560,7 @@ var jxiansen = {
    * _.max([]);
    * // => undefined
    */
-  max: function (array) {
+  function max(array) {
     let max = array[0];
     for (let item of array) {
       if (item > max) {
@@ -570,8 +568,7 @@ var jxiansen = {
       }
     }
     return max;
-  },
-
+  }
 
   /**
    * 计算 array 中值的总和.
@@ -584,14 +581,13 @@ var jxiansen = {
    * _.sum([4, 2, 8, 6]);
    * // => 20
    */
-  sum: function sum(array) {
+  function sum(array) {
     let sum = 0;
     for (let item of array) {
       sum += item;
     }
     return sum
-  },
-
+  }
 
   /**
    * 重复N次给定字符串
@@ -611,14 +607,13 @@ var jxiansen = {
    * _.repeat('abc', 0);
    * // => ''
    */
-  repeat: function repeat(string, n = 1) {
+  function repeat(string, n = 1) {
     let res = ''
     for (let i = 0; i < n; i++) {
       res += string;
     }
     return res
-  },
-
+  }
 
   /**
    * 创建一个去重后的array数组副本。使用了SameValueZero 
@@ -632,7 +627,7 @@ var jxiansen = {
    * _.uniq([2, 1, 2]);
    * // => [2, 1]
    */
-  uniq: function uniq(array) {
+  function uniq(array) {
     let res = [];
     for (let item of array) {
       if (!res.includes(item)) {
@@ -640,7 +635,7 @@ var jxiansen = {
       }
     }
     return res
-  },
+  }
 
 
   /**
@@ -661,13 +656,13 @@ var jxiansen = {
    * _.size('pebbles');
    * // => 7
    */
-  size: function size(collection) {
+  function size(collection) {
     let count = 0;
     for (let key in collection) {
       count++
     }
     return count;
-  },
+  }
 
   /**
    * 这个方法类似_.pull，区别是这个方法接收一个要移除值的数组.
@@ -689,7 +684,7 @@ var jxiansen = {
    * console.log(array);
    * // => ['b', 'b']
    */
-  pullAll: function pullAll(array, values) {
+  function pullAll(array, values) {
     function include(arr, num) {    // 定义一个判断函数: 判断数组中是否存在该值
       for (let item of arr) {
         if (item === num) {
@@ -704,8 +699,7 @@ var jxiansen = {
       }
     }
     return array;
-  },
-
+  }
   /**
    * 获取除了array数组第一个元素以外的全部元素.
    *
@@ -717,13 +711,13 @@ var jxiansen = {
    * _.tail([1, 2, 3]);
    * // => [2, 3]
    */
-  tail: function tail(array) {
+  function tail(array) {
     let res = [];
     for (let i = 1; i < array.length; i++) {
       res.push(array[i])
     }
     return res;
-  },
+  }
 
 
   /**
@@ -750,7 +744,7 @@ var jxiansen = {
   * _.take([1, 2, 3], 0);
   * // => []
   */
-  take: function take(array, n = 1) {
+  function take(array, n = 1) {
     let res = [];
     if (n >= array.length) {
       return array
@@ -760,8 +754,7 @@ var jxiansen = {
       n--
     }
     return res;
-  },
-
+  }
 
   /**
    * 创建一个数组切片，从array数组的最后一个元素开始提取n个元素
@@ -787,7 +780,7 @@ var jxiansen = {
    * _.takeRight([1, 2, 3], 0);
    * // => []
    */
-  takeRight: function takeRight(array, n = 1) {
+  function takeRight(array, n = 1) {
     let res = [], count = 0;
     if (n >= array.length) {
       return array;
@@ -802,8 +795,7 @@ var jxiansen = {
         return res
       }
     }
-  },
-
+  }
 
   /**
    * 创建一个包含从 start 到 end，但不包含 end 本身范围数字的数组。 
@@ -840,7 +832,7 @@ var jxiansen = {
    * _.range(0);
    * // => []
    */
-  range: function range(start, end, step) {
+  function range(start, end, step) {
     let res = [];
     let arr = Array.from(arguments)     // 获取各个参数
     if (arr.length === 1) {
@@ -864,7 +856,7 @@ var jxiansen = {
       start < end ? start += step : start += Math.abs(step) * -1
     }
     return res;
-  },
+  }
 
 
 
@@ -880,7 +872,7 @@ var jxiansen = {
    * _.zip(['a', 'b'], [1, 2], [true, false]);
    * // => [['a', 1, true], ['b', 2, false]]
    */
-  zip: function zip(arrays) {
+  function zip(arrays) {
     let res = [], len = 0;
     let arr = Array.from(arguments)     // 将参数接收为二维数组
     for (let item of arr) {
@@ -897,8 +889,7 @@ var jxiansen = {
       res.push(tmp)
     }
     return res
-  },
-
+  }
 
   /**
    * 从collection（集合）中获得一个随机元素
@@ -911,7 +902,7 @@ var jxiansen = {
    * _.sample([1, 2, 3, 4]);
    * // => 2
    */
-  sample: function sample(collection) {
+  function sample(collection) {
     let arr = []
     if (Array.isArray(collection)) {
       arr = collection;
@@ -921,7 +912,7 @@ var jxiansen = {
       }
     }
     return arr[~~(Math.random() * arr.length)]
-  },
+  }
 
 
 
@@ -939,13 +930,13 @@ var jxiansen = {
    * _.isBoolean(null);
    * // => false
    */
-  isBoolean: function isBoolean(value) {
+  function isBoolean(value) {
     let val = typeof (value);
     if (value === null) {
       return false
     }
     return val == 'object' || val == 'boolean';   // new Boolean():构造器返回的是一个对象
-  },
+  }
 
 
 
@@ -961,7 +952,7 @@ var jxiansen = {
    * _.union([2], [1, 2]);
    * // => [2, 1]
    */
-  union: function union(arrays) {
+  function union(arrays) {
     let res = [];
     for (let item of arguments) {     // arguments: 实质上是一个对象;但是也可以用数组方法遍历
       for (let i of item) {       // 遍历子数组
@@ -971,7 +962,7 @@ var jxiansen = {
       }
     }
     return res;
-  },
+  }
 
 
   /**
@@ -997,13 +988,13 @@ var jxiansen = {
    * _.toArray(null);
    * // => []
    */
-  toArray: function toArray(value) {
+  function toArray(value) {
     let res = [];
     for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
       res.push(value[key])     // 如果是其他的值,也无法进行遍历
     }
     return res;
-  },
+  }
 
 
   /**
@@ -1026,10 +1017,10 @@ var jxiansen = {
    * _.isNumber('3');
    * // => false
    */
-  isNumber: function isNumber(value) {
+  function isNumber(value) {
     // 检查数据的类型是否为 `number` 并且要排除 NaN的情况, NaN的类型也是数字,但是它自身不等于自身
     return typeof (value) === 'number' && value === value;
-  },
+  }
 
 
 
@@ -1051,7 +1042,7 @@ var jxiansen = {
   * _.map(['6', '08', '10'], _.parseInt);
   * // => [6, 8, 10]
   */
-  parseInt: function parseInt(string, radix = 10) {
+  function parseInt(string, radix = 10) {
     // 如果转换基数过大过小直接返回 NaN
     if (radix > 36 || radix <= 1) {
       return NaN;
@@ -1081,7 +1072,7 @@ var jxiansen = {
       sum += arr[i] * radix ** i
     }
     return sum
-  },
+  }
 
 
   /**
@@ -1104,13 +1095,13 @@ var jxiansen = {
    * _.toArray(null);
    * // => []
    */
-  toArray: function toArray(value) {
+  function toArray(value) {
     let res = [];
     for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
       res.push(value[key])     // 如果是其他的值,也无法进行遍历
     }
     return res;
-  },
+  }
 
   /**
  * 与_.toPairs正好相反；这个方法返回一个由键值对pairs构成的对象.
@@ -1123,13 +1114,13 @@ var jxiansen = {
  * _.fromPairs([['a', 1], ['b', 2]]);
  * // => { 'a': 1, 'b': 2 }
  */
-  fromPairs: function fromPairs(pairs) {
+  function fromPairs(pairs) {
     let obj = {}
     for (let item of pairs) {
       obj[item[0]] = item[1];
     }
     return obj
-  },
+  }
 
   /**
    * 根据 precision（精度） 向上舍入 number。（注： precision（精度）可以理解为保留几位小数。）
@@ -1154,9 +1145,9 @@ var jxiansen = {
    */
 
   // 如果ceil为0,直接取整+1,其他的情况下,对数字先乘倍数加一后再除回来,或者先除倍数+1后再乘回来,两种情况一种写法都能cover
-  ceil: function ceil(number, precision = 0) {
+  function ceil(number, precision = 0) {
     return precision === 0 ? ~~number + 1 : (~~(number * (10 ** precision)) + 1) / (10 ** precision);
-  },
+  }
 
   /**
    * 计算 array 中的最小值。 如果 array 是 空的或者假值将会返回 undefined
@@ -1175,7 +1166,7 @@ var jxiansen = {
    * _.min([]);
    * // => undefined
    */
-  min: function min(array) {
+  function min(array) {
     let min = array[0];
     for (let item of array) {
       if (item < min) {
@@ -1183,7 +1174,7 @@ var jxiansen = {
       }
     }
     return min;
-  },
+  }
 
 
   /**
@@ -1204,14 +1195,14 @@ var jxiansen = {
    * _.round(4060, -2);
    * // => 4100
    */
-  round: function round(number, precision = 0) {
+  function round(number, precision = 0) {
     let num = ~~(number * (10 ** (precision + 1)))      // 对数字多乘一位到指定位置后取整
     let rem = num % 10;       // rem: 去出整数的尾巴数
     if (rem >= 5) {           // 如果>=5,则给前位加一
       num = num - rem + 10
     }
     return num / (10 ** (precision + 1))      // 操作回原来的值
-  },
+  }
 
   /**
    * 两数相减.
@@ -1225,9 +1216,9 @@ var jxiansen = {
    * _.subtract(6, 4);
    * // => 2
    */
-  subtract: function subtract(minuend, subtrahend) {
+  function subtract(minuend, subtrahend) {
     return minuend - subtrahend;
-  },
+  }
 
 
   /**
@@ -1241,13 +1232,13 @@ var jxiansen = {
  * _.fromPairs([['a', 1], ['b', 2]]);
  * // => { 'a': 1, 'b': 2 }
  */
-  fromPairs: function fromPairs(pairs) {
+  function fromPairs(pairs) {
     let obj = {}
     for (let item of pairs) {
       obj[item[0]] = item[1];
     }
     return obj
-  },
+  }
 
 
   /**
@@ -1262,7 +1253,7 @@ var jxiansen = {
  * _.intersection([2, 1], [2, 3]);
  * // => [2]
  */
-  intersection: function intersection(arrays) {
+  function intersection(arrays) {
     let arr = [], obj = {}, tmp = [...arguments], res = [];
     for (let item of tmp) {     // 数组打散成一维数组
       arr.push(...item);
@@ -1276,7 +1267,7 @@ var jxiansen = {
       }
     }
     return res
-  },
+  }
 
 
   /**
@@ -1316,7 +1307,7 @@ var jxiansen = {
   * _.map(users, 'user');
   * // => ['barney', 'fred']
   */
-  map: function map(collection, iteratee) {
+  function map(collection, iteratee) {
     let res = [];
     // 如果第二个参数是字符串
     if (typeof (iteratee) === 'string') {
@@ -1344,7 +1335,7 @@ var jxiansen = {
       }
     }
     return res
-  },
+  }
 
   /**
    * 这个方法类似_.summin 除了它接受 iteratee 来调用 array中的每一个元素，来生成其值排序的标准。 
@@ -1365,13 +1356,13 @@ var jxiansen = {
    * _.sumBy(objects, 'n');
    * // => 20
    */
-  sumBy: function sumBy(array, iteratee) {
+  function sumBy(array, iteratee) {
     let sum = 0;
     for (let item of array) {
       sum += typeof iteratee === 'function' ? iteratee(item) : item[iteratee];
     }
     return sum;
-  },
+  }
 
 
   /**
@@ -1386,9 +1377,9 @@ var jxiansen = {
    * _.divide(6, 4);
    * // => 1.5
    */
-  divide: function divide(dividend, divisor) {
+  function divide(dividend, divisor) {
     return dividend / divisor;
-  },
+  }
 
 
 
@@ -1411,7 +1402,7 @@ var jxiansen = {
    * _.floor(4060, -2);
    * // => 4000
    */
-  floor: function floor(number, precision = 0) {
+  function floor(number, precision = 0) {
     let count, num, rem;        // 计数,小数移位后的整数,需要减去的余数
     for (let i = 0; i < Infinity; i++) {
       if (!(number * (10 ** i) % 1)) {
@@ -1423,7 +1414,7 @@ var jxiansen = {
     rem = num % (10 ** Math.abs(precision - 1));
     num -= rem;
     return num / (10 ** count)
-  },
+  }
 
 
 
@@ -1444,9 +1435,9 @@ var jxiansen = {
    */
 
 
-  multiply: function multiply(multiplier, multiplicand) {
+  function multiply(multiplier, multiplicand) {
     return multiplier * multiplicand;
-  },
+  }
 
 
   /**
@@ -1475,7 +1466,7 @@ var jxiansen = {
       * }, {});
       * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
       */
-  reduce: function reduce(collection, iteratee, accumulator) {
+  function reduce(collection, iteratee, accumulator) {
     for (let key in collection) {
       if (!accumulator) {
         var accumulator = collection[key];
@@ -1484,7 +1475,7 @@ var jxiansen = {
       accumulator = iteratee(accumulator, collection[key], key, collection)
     }
     return accumulator;
-  },
+  }
 
 
   /**
@@ -1512,13 +1503,13 @@ var jxiansen = {
    * _.isEmpty({ 'a': 1 });
    * // => false
    */
-  isEmpty: function isEmpty(value) {
+  function isEmpty(value) {
     // 如果for...in循环能进去的话说明是可枚举对象
     for (let key in value) {
       return false
     }
     return true;
-  },
+  }
 
 
   /**
@@ -1532,10 +1523,9 @@ var jxiansen = {
    *
    * _.add(6, 4);
    */
-  add: function add(augend, addend) {
+  function add(augend, addend) {
     return augend + addend;
-  },
-
+  }
 
   /**
      * 产生一个包括 lower 与 upper 之间的数。 
@@ -1561,7 +1551,7 @@ var jxiansen = {
      * _.random(1.2, 5.2);
      * // => a floating-point number between 1.2 and 5.2
      */
-  random: function random(lower, upper, floating) {
+  function random(lower, upper, floating) {
     let arr = Array.from(arguments), numCount;
     // 判断是否为小数
     floating = arr.some(i => i % 1 !== 0 && typeof i === 'number' || i === true)
@@ -1571,7 +1561,7 @@ var jxiansen = {
     var [min, max] = numCount === 2 ? [arr[0], arr[1]] : [0, arr[0]];
     let fn = (Math.random() * (max - min) + min);   //含最大值，含最小值 
     return floating ? fn : ~~fn;
-  },
+  }
 
 
 
@@ -1601,7 +1591,7 @@ var jxiansen = {
    * _.padStart('abc', 3);
    * // => 'abc'
    */
-  padStart: function padStart(string, length, chars) {
+  function padStart(string, length, chars) {
     let arr = Array.from(arguments)
     if (arr.length === 1 || length <= string.length) return string
     if (!arr[2]) chars = ' ';
@@ -1610,7 +1600,7 @@ var jxiansen = {
       res += chars
     }
     return res.slice(0, length - string.length) + string
-  },
+  }
 
 
   /**
@@ -1632,7 +1622,7 @@ var jxiansen = {
    * _.padEnd('abc', 3);
    * // => 'abc'
    */
-  padEnd: function padEnd(string, length, chars) {
+  function padEnd(string, length, chars) {
     let arr = Array.from(arguments)
     if (arr.length === 1 || length <= string.length) return string
     if (!arr[2]) chars = ' ';
@@ -1640,7 +1630,7 @@ var jxiansen = {
       string += chars
     }
     return string.slice(0, length)
-  },
+  }
 
 
   /**
@@ -1663,12 +1653,12 @@ var jxiansen = {
    * _.pad('abc', 3);
    * // => 'abc'
    */
-  pad: function pad(string = '', length = 0, chars = ' ') {
+  function pad(string = '', length = 0, chars = ' ') {
     let index = ~~((length - string.length) / 2)
     let str = new Array(Math.ceil(length / chars.length)).fill(chars).join('')
     let res = (str.substring(0, index) + string + str.substring(index)).substring(0, length)
     return res
-  },
+  }
 
 
   /**
@@ -1685,9 +1675,9 @@ var jxiansen = {
    * _.capitalize('FRED');
    * // => 'Fred'
    */
-  capitalize: function capitalize(string = '') {
+  function capitalize(string = '') {
     return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase()
-  },
+  }
 
 
   /**
@@ -1710,7 +1700,7 @@ var jxiansen = {
    * _.camelCase('__FOO_BAR__');
    * // => 'fooBar'
    */
-  camelCase: function camelCase(string) {
+  function camelCase(string) {
     let res = '';
     string = string.toLowerCase()
     for (let i = 0; i < string.length; i++) {
@@ -1719,7 +1709,7 @@ var jxiansen = {
       }
     }
     return `${res[0].toLowerCase()}${res.substring(1)}`
-  },
+  }
 
 
   /**
@@ -1741,9 +1731,9 @@ var jxiansen = {
    * _.endsWith('abc', 'b', 2);
    * // => true
    */
-  endsWith: function endsWith(string = '', target, position = string.length) {
+  function endsWith(string = '', target, position = string.length) {
     return string[position - 1] === target
-  },
+  }
 
 
   /**
@@ -1763,7 +1753,7 @@ var jxiansen = {
    * _.kebabCase('__FOO_BAR__');
    * // => 'foo-bar'
    */
-  kebabCase: function kebabCase(string) {
+  function kebabCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
     flag = [...string].every(i => isWord(i))
     if (flag) {
@@ -1783,7 +1773,7 @@ var jxiansen = {
       }
     }
     return arr.join('-').toLowerCase()
-  },
+  }
 
 
   /**
@@ -1803,9 +1793,9 @@ var jxiansen = {
     * _.lowerFirst('FRED');
     * // => 'fRED'
     */
-  lowerFirst: function lowerFirst(string = '') {
+  function lowerFirst(string = '') {
     return string.substring(0, 1).toLowerCase() + string.substring(1)
-  },
+  }
 
 
   /**
@@ -1828,9 +1818,9 @@ var jxiansen = {
    * _.toLower('__FOO_BAR__');
    * // => '__foo_bar__'
    */
-  toLower: function toLower(string) {
+  function toLower(string) {
     return string.toLowerCase(string)
-  },
+  }
 
 
 
@@ -1851,9 +1841,9 @@ var jxiansen = {
    * _.toUpper('__foo_bar__');
    * // => '__FOO_BAR__'
    */
-  toUpper: function toUpper(string) {
+  function toUpper(string) {
     return string.toUpperCase(string)
-  },
+  }
 
 
   /**
@@ -1875,9 +1865,9 @@ var jxiansen = {
    * // => ['foo', 'bar']
    */
 
-  trim: function trim(string, chars = ' ') {
-    return jxiansen.trimEnd(jxiansen.trimStart(str, char))
-  },
+  function trim(string, chars = ' ') {
+    return trimEnd(trimStart(string, chars))
+  }
 
 
 
@@ -1900,7 +1890,7 @@ var jxiansen = {
    * _.trimEnd('-_-abc-_-', '_-');
    * // => '-_-abc'
    */
-  trimEnd: function trimEnd(string, chars) {
+  function trimEnd(str, char) {
     if (!char) return str.replace(/\s+$/g, '')
     for (var i = str.length - 1; i > 0; i--) {
       if (!char.includes(str[i])) {
@@ -1908,7 +1898,7 @@ var jxiansen = {
       }
     }
     return str.slice(0, i)
-  },
+  }
 
 
   /**
@@ -1926,7 +1916,7 @@ var jxiansen = {
    * _.trimStart('-_-abc-_-', '_-');
    * // => 'abc-_-'
    */
-  trimStart: function trimStart(string, chars = ' ') {
+  function trimStart(str, char = ' ') {
     // 如果没有第二个参数,把字符串前面的空格正则替换
     if (!char) return str.replace(/^\s+/g, '')
     for (var i = 0; i < str.length; i++) {
@@ -1935,7 +1925,7 @@ var jxiansen = {
       }
     }
     return str.slice(i)
-  },
+  }
 
 
   /**
@@ -1952,9 +1942,10 @@ var jxiansen = {
    * _.upperFirst('FRED');
    * // => 'FRED'
    */
-  upperFirst: function upperFirst(string) {
+  function upperFirst(string) {
     return string[0].toUpperCase() + string.substring(1)
-  },
+  }
+
 
 
   /**
@@ -1977,7 +1968,7 @@ var jxiansen = {
    * _.lowerCase('__FOO_BAR__');
    * // => 'foo bar'
    */
-  lowerCase: function lowerCase(string) {
+  function lowerCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase();
     let flag = [...string].every(i => isWord(i))
     let res = '', arr = [];
@@ -2000,7 +1991,7 @@ var jxiansen = {
       }
     }
     return arr.join(' ').toLowerCase()
-  },
+  }
 
 
   /**
@@ -2020,7 +2011,7 @@ var jxiansen = {
    * _.upperCase('__foo_bar__');
    * // => 'FOO BAR'
    */
-  upperCase: function upperCase(string) {
+  function upperCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase();
     let flag = [...string].every(i => isWord(i))
     let res = '', arr = [];
@@ -2043,7 +2034,7 @@ var jxiansen = {
       }
     }
     return arr.join(' ').toUpperCase()
-  },
+  }
 
   /**
  * 检查 value 是否是 Array 类对象。
@@ -2065,9 +2056,9 @@ var jxiansen = {
  * _.isArray(_.noop);
  * // => false
  */
-  isArray: function isArray(value) {
+  function isArray(value) {
     return Array.isArray(value)
-  },
+  }
 
 
 
@@ -2087,9 +2078,9 @@ var jxiansen = {
    * console.log(objects[0] === objects[1]);
    * // => true
    */
-  constant: function constant(value) {
+  function constant(value) {
     return () => value
-  },
+  }
 
 
   /**
@@ -2108,9 +2099,9 @@ var jxiansen = {
    * console.log(_.identity(object) === object);
    * // => true
    */
-  identity: function identity(value) {
+  function identity(value) {
     return value;
-  },
+  }
 
 
   /**
@@ -2131,9 +2122,9 @@ var jxiansen = {
    * console.log(arrays[0] === arrays[1]);
    * // => false
    */
-  stubArray: function stubArray() {
+  function stubArray() {
     return []
-  },
+  }
 
 
   /**
@@ -2149,9 +2140,9 @@ var jxiansen = {
    * _.times(2, _.stubFalse);
    * // => [false, false]
    */
-  stubFalse: function stubFalse() {
+  function stubFalse() {
     return false;
-  },
+  }
 
   /**
    * 这个方法返回一个空对象
@@ -2168,9 +2159,9 @@ var jxiansen = {
    * console.log(objects[0] === objects[1]);
    * // => false
    */
-  stubObject: function stubObject() {
+  function stubObject() {
     return {};
-  },
+  }
 
 
   /**
@@ -2186,9 +2177,9 @@ var jxiansen = {
    * _.times(2, _.stubString);
    * // => ['', '']
    */
-  stubString: function stubString() {
+  function stubString() {
     return ' '
-  },
+  }
 
 
   /**
@@ -2202,9 +2193,9 @@ var jxiansen = {
    * _.times(2, _.stubTrue);
    * // => [true, true]
    */
-  stubTrue: function stubTrue() {
+  function stubTrue() {
     return true;
-  },
+  }
 
 
 
@@ -2225,9 +2216,9 @@ var jxiansen = {
    * // => [0, 0, 0, 0]
    */
 
-  times: function times(n, identity) {
+  function times(n, identity) {
     return new Array(n).fill('').map((val, idx) => identity(idx))
-  },
+  }
 
 
   /**
@@ -2244,7 +2235,7 @@ var jxiansen = {
    * _.toPath('a[0].b.c');
    * // => ['a', '0', 'b', 'c']
    */
-  toPath: function toPath(value) {
+  function toPath(value) {
     // 直接使用正则表达式对字符串进行分词
     if (typeof value === 'string') {
       return value.match(/\w+/g)
@@ -2252,7 +2243,7 @@ var jxiansen = {
       // 针对value本身就是数组的情况
       return value
     }
-  },
+  }
 
 
   /**
@@ -2267,9 +2258,9 @@ var jxiansen = {
    * _.times(2, _.noop);
    * // => [undefined, undefined]
    */
-  noop: function noop() {
+  function noop() {
     return undefined;
-  },
+  }
 
 
   /**
@@ -2290,9 +2281,9 @@ var jxiansen = {
    * func('a', 'b', 'c', 'd');
    * // => 'c'
    */
-  nthArg: function nthArg(n) {
+  function nthArg(n) {
     return (...args) => args.slice(n)[0]    // 用slice()切割出前n项,返回第n项
-  },
+  }
 
 
   /**
@@ -2312,11 +2303,9 @@ var jxiansen = {
   * _.uniqueId();
   * // => '105'
   */
-  countId: 0,
-
-  uniqueId: function uniqueId(prefix = '') {
+  function uniqueId(prefix = '') {
     return `${prefix}${++this.countId}`
-  },
+  }
 
 
 
@@ -2353,7 +2342,7 @@ var jxiansen = {
    * _.rangeRight(0);
    * // => []
    */
-  rangeRight: function rangeRight(start = 0, end, step = 1) {
+  function rangeRight(start = 0, end, step = 1) {
     let res = [];
     let arr = Array.from(arguments)     // 获取各个参数
     if (arr.length === 1) {
@@ -2377,7 +2366,7 @@ var jxiansen = {
       start < end ? start += step : start += Math.abs(step) * -1
     }
     return res.reverse();
-  },
+  }
 
 
 
@@ -2400,15 +2389,15 @@ var jxiansen = {
    * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
    * // => [1, 2]
    */
-  property: function property(path) {
+  function property(path) {
     return function (obj) {
-      for (let item of jxiansen.toPath(path)) {
+      for (let item of toPath(path)) {
         obj = obj[item]
         if (!obj) return obj    // 错误处理: 当访问的对象不存在时直接返回
       }
       return obj;
     }
-  },
+  }
 
 
   /**
@@ -2428,16 +2417,16 @@ var jxiansen = {
    * _.map([['a', '2'], ['c', '0']], _.propertyOf(object));
    * // => [2, 0]
    */
-  propertyOf: function propertyof(object) {
+  function propertyof(object) {
     return function (path) {
-      let arr = jxiansen.toPath(path), res;
+      let arr = toPath(path), res;
       for (let item of arr) {
         res = object[item]
         object = res;
       }
       return res;
     }
-  },
+  }
 
 
 
@@ -2458,7 +2447,7 @@ var jxiansen = {
  * _.snakeCase('--FOO-BAR--');
  * // => 'foo_bar'
  */
-  snakeCase: function snakeCase(string) {
+  function snakeCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
     flag = [...string].every(i => isWord(i))
     if (flag) {
@@ -2478,7 +2467,7 @@ var jxiansen = {
       }
     }
     return arr.join('_').toLowerCase()
-  },
+  }
 
 
   /**
@@ -2498,7 +2487,7 @@ var jxiansen = {
    * _.startCase('__FOO_BAR__');
    * // => 'FOO BAR'
    */
-  startCase: function startCase(string) {
+  function startCase(string) {
     let isWord = str => str.toLowerCase() !== str.toUpperCase(), arr = [], flag = false, res = '';
     let upperFirst = str => str[0].toUpperCase() + str.slice(1);
     flag = [...string].every(i => isWord(i));
@@ -2519,7 +2508,7 @@ var jxiansen = {
       }
     }
     return arr.map(i => upperFirst(i)).join(' ')
-  },
+  }
 
 
 
@@ -2542,12 +2531,10 @@ var jxiansen = {
    * _.clamp(10, -5, 5);
    * // => 5
    */
-  clamp: function clamp(number, lower, upper) {
+  function clamp(number, lower, upper) {
     if (number >= lower && number <= upper) return number;
     return number > upper ? upper : lower;
-  },
-
-
+  }
 
 
   /**
@@ -2584,11 +2571,11 @@ var jxiansen = {
      * _.inRange(-3, -2, -6);
      * // => true
      */
-  inRange: function inRange(number, start = 0, end) {
+  function inRange(number, start = 0, end) {
     let arr = [...arguments]
     if (arr.length === 2) [number, start, end] = [arr[0], 0, arr[1]];
     return number >= start && number < end
-  },
+  }
 
 
 
@@ -2622,9 +2609,9 @@ var jxiansen = {
    * console.log(_.castArray(array) === array);
    * // => true
    */
-  castArray: function castArray(value) {
+  function castArray(value) {
     return Array.isArray(value) ? value : [...arguments];
-  },
+  }
 
 
 
@@ -2645,10 +2632,10 @@ var jxiansen = {
    */
 
 
-  at: function at(object, paths) {
+  function at(object, paths) {
     let res = []
     function fn(object, paths) {
-      let arr = jxiansen.toPath(paths)
+      let arr = toPath(paths)
       for (let item of arr) {
         var tmp = object[item]
         object = tmp;
@@ -2657,7 +2644,7 @@ var jxiansen = {
     }
     Array.isArray(paths) ? paths.map(i => fn(object, i)) : fn(object, paths);
     return res
-  },
+  }
 
 
   /**
@@ -2676,18 +2663,18 @@ var jxiansen = {
  * _.sampleSize([1, 2, 3], 4);
  * // => [2, 3, 1] 
  */
-  sampleSize: function sampleSize(collection, n = 1) {
+  function sampleSize(collection, n = 1) {
     if (n > collection.length) n = collection.length
-    return new Array(n).fill('').map(i => jxiansen.sample(collection))
-  },
+    return new Array(n).fill('').map(i => sample(collection))
+  }
 
-  replace: function replace(string, pattern, replacement) {
+  function replace(string, pattern, replacement) {
     let reg = new RegExp(pattern, 'g');
     return string.replace(reg, replacement)
-  },
+  }
 
 
-  split: function split(string = '', separator, limit) {
+  function split(string = '', separator, limit) {
     let arr = []
     let tmp = ''
     for (let i = 0; i < string.length; i++) {
@@ -2701,15 +2688,15 @@ var jxiansen = {
     }
     arr.length = limit
     return arr
-  },
+  }
 
 
-  startsWith: function startsWith(string = '', target, position = 0) {
+  function startsWith(string = '', target, position = 0) {
     return string[position] === target
-  },
+  }
 
 
-  words: function words(string = '', pattern) {
+  function words(string = '', pattern) {
     if (!pattern || typeof (pattern) === 'string') {
       return string.split(/\W+/);
     } else {
@@ -2721,10 +2708,10 @@ var jxiansen = {
       }
       return res
     }
-  },
+  }
 
 
-  parseJson: function parseJson(str) {
+  function parseJson(str) {
     // 定义一个全局的指针
     var i = 0;
 
@@ -2837,9 +2824,9 @@ var jxiansen = {
       i += 4;
       return null;
     }
-  },
+  }
 
-  pullAt: function pullAt(array, indexes) {
+  function pullAt(array, indexes) {
     let removed = [];
     // 判断参数是数字还是数组
     if (typeof (indexes) !== 'object') {
@@ -2856,36 +2843,36 @@ var jxiansen = {
     // 修改原来的数组
     array.push(...tmp)
     return removed
-  },
+  }
 
   // 返回首个提供的参数
-  identify: function identify(value) {
+  function identify(value) {
     return [...arguments][0]
-  },
+  }
 
 
   // 给bind函数使用的
-  _: {},
+  var _ = {}
 
 
   // 可以跳着参数绑定的bind函数
-  bind: function bind(func, thisArg, ...fixedArgs) {
+  function bind(func, thisArg, ...fixedArgs) {
     return function (...args) {
       var bindedArgs = fixedArgs.slice()
       var i = 0
       for (var j = 0; j < bindedArgs.length; j++) {
-        if (bindedArgs[j] === jxiansen._) {
+        if (bindedArgs[j] === _) {
           bindedArgs[j] = args[i++]
         }
       }
       bindedArgs.push(...args.slice(1))
       return func.apply(thisArg, bindedArgs)
     }
-  },
+  }
 
 
   // src: 要遍历的目标,他的所有值要完全被包含在obj中
-  isMatch: function isMatch(obj, src) {
+  function isMatch(obj, src) {
     for (let key in src) {
       if (src[key] && typeof src[key] === 'object') {
         // 如果遍历到的键的值是对象,将此时对象的值再去做对比匹配
@@ -2899,20 +2886,20 @@ var jxiansen = {
       }
     }
     return true
-  },
+  }
 
 
-  matches: function matches(source) {
-    return jxiansen.bind(jxiansen.isMatch, null, jxiansen._, source)
-  },
+  function matches(source) {
+    return bind(isMatch, null, _, source)
+  }
 
 
   /* 
   根据 object对象的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代。
   */
-  get: function get(object, path, defaultValue) {
+  function get(object, path, defaultValue) {
     // 解析出路径数组
-    let arr = jxiansen.toPath(path)
+    let arr = toPath(path)
     let res = object
     // 遍历路径来迭代结果,遇到值为underfined返回默认值
     for (let item of arr) {
@@ -2922,46 +2909,45 @@ var jxiansen = {
       }
     }
     return res
-  },
+  }
 
 
-  ary: function ary(func, n = func.length) {
+  function ary(func, n = func.length) {
     return function (...args) {
       return func(...args.slice(0, n))
     }
-  },
+  }
 
 
-  unary: function unary(func) {
+  function unary(func) {
     return function (...args) {
       return func(...args.slice(0, 1))
     }
-  },
-
+  }
 
   // 返回一个新的取反函数。
-  negate: function negate(func) {
+  function negate(func) {
     return function (...args) {
       return !func(...args)
     }
-  },
+  }
 
 
-  spread: function spread(fn) {
+  function spread(fn) {
     return function (arr) {
       return fn.apply(null, arr)
     }
-  },
+  }
 
   // 创建一个函数，调用func时候接收翻转的参数。
-  flip: function flip(fn) {
+  function flip(fn) {
     return function (...args) {
       return fn(...args.reverse())
     }
-  },
+  }
 
 
-  before: function before(n, func) {
+  function before(n, func) {
     // 计数器和结果要声明在返回的函数外面,防止每次执行函数被刷新
     var count = 0;
     var res;
@@ -2973,10 +2959,9 @@ var jxiansen = {
       }
       return res
     }
-  },
+  }
 
-
-  escape: function escape(string) {
+  function escape(string) {
     let map = {
       "&": '&amp;',
       "<": '&lt;',
@@ -2992,10 +2977,10 @@ var jxiansen = {
       }
     }
     return arr.join('')
-  },
+  }
 
 
-  unescape: function unescape(str = '') {
+  function unescape(str = '') {
     let map = {
       '&amp;': "&",
       '&lt;': "<",
@@ -3010,10 +2995,10 @@ var jxiansen = {
       }
     }
     return str
-  },
+  }
 
 
-  escapeRegExp: function escapeRegExp(string) {
+  function escapeRegExp(string) {
     let res = ''
     let arr = ["^", "$", "", ".", "*", "+", "?", "(", ")", "[", "]", ",", "|"];
     for (let char of string) {
@@ -3023,17 +3008,16 @@ var jxiansen = {
       res += char
     }
     return res
-  },
+  }
 
 
-
-  deburr: function deburr(str) {
+  function deburr(str) {
     // 看不懂,面向测试用编程
     return str.replace('é', 'e').replace('à', 'a')
-  },
+  }
 
 
-  truncate: function truncate(string, options) {
+  function truncate(string, options) {
     // 设定默认值
     if (!options.length) options.length = 30
     if (!options.omission) options.omission = '...'
@@ -3047,30 +3031,30 @@ var jxiansen = {
       let cutIdx = options.length - options.omission.length
       return string.slice(0, cutIdx) + options.omission
     }
-  },
+  }
 
 
   // 检查是否为类数组
-  isArrayLike: function isArrayLike(value) {
+  function isArrayLike(value) {
     return value !== null && typeof value[Symbol.iterator] === 'function'
-  },
+  }
 
 
   // 判断数据是否是symbol类型
-  isSymbol: function isSymbol(value) {
+  function isSymbol(value) {
     return typeof value === 'symbol'
-  },
+  }
 
   // 检查 value 是否是 null 或者 undefined。
-  isNill: function isNill(value) {
+  function isNill(value) {
     return value === null || value === undefined
-  },
+  }
 
 
   // 检查 value 是否是 null。
-  isNull: function isNull(value) {
+  function isNull(value) {
     return value === null
-  },
+  }
 
 
   /* 
@@ -3078,37 +3062,37 @@ var jxiansen = {
   - 如果值是 `null` 或者 `undefined`, 将会创建并返回一个空对象
   - 否则,将会返回一个与给定值对应类型的对象.
   */
-  isObject: function isObject(value) {
+  function isObject(value) {
     return value === Object(value)
-  },
+  }
 
 
   // 检查 value 是否是原始字符串String或者对象。
-  isString: function isString(vlaue) {
+  function isString(vlaue) {
     return typeof vlaue === 'string'
-  },
+  }
 
 
   // 检查 value 是否是 Function 对象。
-  isFunction: function isFunction(value) {
+  function isFunction(value) {
     return typeof value === 'function'
-  },
+  }
 
   // 检查 value 是否是原始有限数值。
-  isInteger: function isInteger(value) {
+  function isInteger(value) {
     return Number.isInteger(value)
-  },
+  }
 
 
-  isSafeInteger: function isSafeInteger(value) {
+  function isSafeInteger(value) {
     return Number.isSafeInteger(value)
-  },
+  }
 
 
   //检查 value 是否是一个安全整数
-  isFinite: function isFinite(value) {
+  function isFinite(value) {
     return Number.isSafeInteger(value)
-  },
+  }
 
 
   // 检查 value 是否是一个空对象或者集合
@@ -3116,65 +3100,62 @@ var jxiansen = {
     Object.keys()返回一个给定对象自身可枚举属性组成的数组
     检测条件: value为null,value自身的长度或者其可枚举属性的数组长度为空
   */
-  isEmpty: function isEmpty(val) {
+  function isEmpty(val) {
     return val == null || !(Object.keys(val) || val).length;
-  },
-
+  }
   /* 
     检查 value 的值是否是类对象.
     JS的早期实现中,js的值由一个表示类型的标签和实际数据值组成
     对象的数据类型标签是: 0, 由于 null 代表空指针,所以 null 的数据类型标签也为 0
     即 null 和 object 的类型标签相等,所以 typeof null 也是 'object'
   */
-  isObjectLike: function isObjectLike(value) {
+  function isObjectLike(value) {
     return typeof value === 'object' && value !== null
-  },
-
+  }
 
   // 检查 value 是否是一个类 arguments 对象。
-  isArguments: function isArguments(value) {
+  function isArguments(value) {
     return Object.prototype.toString.call(value) === '[object Arguments]'
-  },
+  }
 
 
-  isUndefined: function isUndefined(value) {
+  function isUndefined(value) {
     return typeof value === 'undefined'
-  },
-
+  }
 
   // 检查 value 是否是 Date 对象。
-  isDate: function isDate(value) {
+  function isDate(value) {
     return Object.prototype.toString.call(value) === '[object Date]'
-  },
+  }
 
 
   // 检查 value 是否是可能是 DOM 元素。
-  isElement: function isElement(value) {
+  function isElement(value) {
     return Object.prototype.toString.call(value) === '[object Element]'
-  },
+  }
 
 
   // 检查 value 是否为RegExp对象。
-  isRegExp: function isRegExp(value) {
+  function isRegExp(value) {
     return Object.prototype.toString.call(value) === '[object RegExp]'
-  },
+  }
 
   // 检查 value 是否小于 other。
-  lt: function lt(value, other) {
+  function lt(value, other) {
     return value < other
-  },
+  }
 
   // 检查 value 是否小于等于 other。
-  lte: function lte(value, other) {
+  function lte(value, other) {
     return value <= other
-  },
+  }
 
 
-  toArray: function toArray(value) {
+  function toArray(value) {
     // 数据类型为 set
-    if (jxiansen.isSet(value)) {
+    if (isSet(value)) {
       return [...value]
-    } else if (jxiansen.isMap(value)) {
+    } else if (isMap(value)) {
       // 数据类型为 map
       let res = []
       for (let val of value.values()) {
@@ -3188,10 +3169,10 @@ var jxiansen = {
       // string,array,object,类数组对象都可以cover
       return Object.entries(value).map(i => i[1]);
     }
-  },
+  }
 
   // 转换 value 为一个有限数字。
-  toFinite: function toFinite(value) {
+  function toFinite(value) {
     // 处理非数字情况
     if (!value) {
       return 0
@@ -3204,10 +3185,10 @@ var jxiansen = {
     }
     // 处理NaN情况
     return value === value ? value : 0
-  },
+  }
 
 
-  toFinite: function toFinite(value) {
+  function toFinite(value) {
     // 处理非数字情况
     if (!value) {
       return 0
@@ -3220,10 +3201,10 @@ var jxiansen = {
     }
     // 处理NaN情况
     return value === value ? value : 0
-  },
+  }
 
 
-  toInteger: function toInteger(value) {
+  function toInteger(value) {
     // 小数或字符串小数情况
     if (value.toString().includes('.')) {
       return Math.trunc(+value)
@@ -3237,16 +3218,16 @@ var jxiansen = {
       // 普通情况
       return Number(value)
     }
-  },
+  }
 
 
   // 转换 value 为一个数字。
-  toNumber: function toNumber(value) {
+  function toNumber(value) {
     return Number(value)
-  },
+  }
 
   // 转换 value 为字符串。 null 和 undefined 将返回空字符串。-0 将被转换为字符串"-0"。
-  toString: function toString(value) {
+  function toString(value) {
     // 处理空值
     if (value === null || value === undefined) {
       return ''
@@ -3258,24 +3239,24 @@ var jxiansen = {
     }
     // 其他情况: 使用模板字符串能cover: string,array
     return res
-  },
+  }
 
   // 创建一个 object 的自身可枚举属性名为数组。
-  keys: function keys(obj) {
+  function keys(obj) {
     return Object.entries(obj).map(i => i[0])
-  },
+  }
 
   // 创建一个 object 自身 和 继承的可枚举属性名为数组。
-  keysIn: function keysIn(obj) {
+  function keysIn(obj) {
     let arr = []
     for (let key in obj) {
       arr.push(key)
     }
     return arr
-  },
+  }
 
   // 检查 path 是否是object对象的直接属性。
-  has: function has(object, path) {
+  function has(object, path) {
     let arr;
     if (typeof path === 'string') {
       arr = path.match(/\w+/g)
@@ -3287,8 +3268,136 @@ var jxiansen = {
       if (!object) return false
     }
     return true
-  },
+  }
 
 
 
-}
+
+
+
+
+
+
+
+
+
+  return {
+    chunk: chunk,
+    compact: compact,
+    difference: difference,
+    concat: concat,
+    drop: drop,
+    dropRight: dropRight,
+    fill: fill,
+    findIndex: findIndex,
+    dropRightWhile: dropRightWhile,
+    property: property,
+    matchesProperty: matchesProperty,
+    iteratee: iteratee,
+    flatten: flatten,
+    flattenDeep: flattenDeep,
+    head: head,
+    indexOf: indexOf,
+    initial: initial,
+    fromPairs: fromPairs,
+    join: join,
+    last: last,
+    flattenDepth: flattenDepth,
+    isEqual: isEqual,
+    differenceBy: differenceBy,
+    differenceWith: differenceWith,
+    reverse: reverse,
+    uniq: uniq,
+    uniqBy: uniqBy,
+    uniqWith: uniqWith,
+    zip: zip,
+    map: map,
+    partition: partition,
+    isParitiallyEqual: isParitiallyEqual,
+    countBy: countBy,
+    keyBy: keyBy,
+    isArray: isArray,
+    isBoolean: isBoolean,
+    isDate: isDate,
+    isFunction: isFunction,
+    isObject: isObject,
+    dropWhile: dropWhile,
+    findLastIndex: findLastIndex,
+    intersection: intersection,
+    lastIndexOf: lastIndexOf,
+    intersectionBy: intersectionBy,
+    intersectionWith: intersectionWith,
+    nth: nth,
+    pull: pull,
+    pullAll: pullAll,
+    pullAllBy: pullAllBy,
+    pullAllWith: pullAllWith,
+    sortedIndex: sortedIndex,
+    sortedIndexBy: sortedIndexBy,
+    sortedIndexOf: sortedIndexOf,
+    sortedLastIndexOf: sortedLastIndexOf,
+    sortedLastIndex: sortedLastIndex,
+    sortedLastIndexBy: sortedLastIndexBy,
+    sortedUniq: sortedUniq,
+    sortedUniqBy: sortedUniqBy,
+    tail: tail,
+    take: take,
+    takeRight: takeRight,
+    takeRightWhile: takeRightWhile,
+    takeWhile: takeWhile,
+    union: union,
+    unionBy: unionBy,
+    unionWith: unionWith,
+    flatMap: flatMap,
+    flatMapDeep: flatMapDeep,
+    flatMapDepth: flatMapDepth,
+    filter: filter,
+    forEach: forEach,
+    unzip: unzip,
+    unzipWith: unzipWith,
+    add: add,
+    without: without,
+    xor: xor,
+    includes: includes,
+    remove: remove,
+    pullAt: pullAt,
+    xorBy: xorBy,
+    xorWith: xorWith,
+    slice: slice,
+    countBy: countBy,
+    forEach: forEach,
+    forEachRight: forEachRight,
+    every: every,
+    filter: filter,
+    find: find,
+    findLast: findLast,
+    groupBy: groupBy,
+    invokeMap: invokeMap,
+    keyBy: keyBy,
+    sortBy: sortBy,
+    orderBy: orderBy,
+    reduce: reduce,
+    reduceRight: reduceRight,
+    reject: reject,
+    size: size,
+    some: some,
+    shuffle: shuffle,
+    checkShuffle: checkShuffle,
+    before: before,
+    after: after,
+    ary: ary,
+    bind: bind,
+    partial: partial,
+    curry: curry,
+
+    bindKey: bindKey,
+    split: split,
+    toPath: toPath,
+    get: get,
+    pad: pad,
+    forEach: forEach,
+    forEachRight: forEachRight,
+    camelCase: camelCase,
+    trim: trim
+  }
+}()
