@@ -31,8 +31,6 @@ var jxiansen = function () {
     }
     return res
   }
-  // console.log(chunk(['a', 'b', 'c', 'd'], 1));
-
 
 
   /**
@@ -58,7 +56,6 @@ var jxiansen = function () {
     return res
     return array.filter(i => !!i === true);
   }
-  // console.log(compact([0, 1, false, 2, '', 3, NaN, undefined, null]));
 
 
   /**
@@ -113,7 +110,6 @@ var jxiansen = function () {
   /**
    * 创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
    *
-   
    * _.drop([1, 2, 3]);
    * // => [2, 3]
    *
@@ -3171,6 +3167,7 @@ var jxiansen = function () {
     }
   }
 
+
   // 转换 value 为一个有限数字。
   function toFinite(value) {
     // 处理非数字情况
@@ -3271,6 +3268,24 @@ var jxiansen = function () {
   }
 
 
+  // 将传入的参数转化成一个回调函数,用于其他高阶函数的调用
+  function iteratee(predicate) {
+    // 参数为字符串
+    if (typeof predicate === 'string') {
+      return property(predicate)
+    } else if (isArray(predicate)) {
+      // 参数为数组
+      return matchesProperty(predicate)
+    } else if (isObject(predicate)) {
+      // 参数为对象
+      return matches(predicate)
+    } else {
+      // 参数本身就是函数
+      return predicate
+    }
+  }
+
+
 
 
 
@@ -3289,10 +3304,7 @@ var jxiansen = function () {
     drop: drop,
     dropRight: dropRight,
     fill: fill,
-    findIndex: findIndex,
-    dropRightWhile: dropRightWhile,
     property: property,
-    matchesProperty: matchesProperty,
     iteratee: iteratee,
     flatten: flatten,
     flattenDeep: flattenDeep,
@@ -3300,104 +3312,43 @@ var jxiansen = function () {
     indexOf: indexOf,
     initial: initial,
     fromPairs: fromPairs,
-    join: join,
     last: last,
     flattenDepth: flattenDepth,
-    isEqual: isEqual,
-    differenceBy: differenceBy,
-    differenceWith: differenceWith,
     reverse: reverse,
     uniq: uniq,
-    uniqBy: uniqBy,
-    uniqWith: uniqWith,
     zip: zip,
     map: map,
-    partition: partition,
-    isParitiallyEqual: isParitiallyEqual,
-    countBy: countBy,
-    keyBy: keyBy,
     isArray: isArray,
     isBoolean: isBoolean,
     isDate: isDate,
     isFunction: isFunction,
     isObject: isObject,
-    dropWhile: dropWhile,
-    findLastIndex: findLastIndex,
     intersection: intersection,
     lastIndexOf: lastIndexOf,
-    intersectionBy: intersectionBy,
-    intersectionWith: intersectionWith,
     nth: nth,
     pull: pull,
     pullAll: pullAll,
-    pullAllBy: pullAllBy,
-    pullAllWith: pullAllWith,
-    sortedIndex: sortedIndex,
-    sortedIndexBy: sortedIndexBy,
-    sortedIndexOf: sortedIndexOf,
-    sortedLastIndexOf: sortedLastIndexOf,
-    sortedLastIndex: sortedLastIndex,
-    sortedLastIndexBy: sortedLastIndexBy,
-    sortedUniq: sortedUniq,
-    sortedUniqBy: sortedUniqBy,
     tail: tail,
     take: take,
     takeRight: takeRight,
-    takeRightWhile: takeRightWhile,
-    takeWhile: takeWhile,
     union: union,
-    unionBy: unionBy,
-    unionWith: unionWith,
-    flatMap: flatMap,
-    flatMapDeep: flatMapDeep,
-    flatMapDepth: flatMapDepth,
-    filter: filter,
-    forEach: forEach,
-    unzip: unzip,
-    unzipWith: unzipWith,
     add: add,
     without: without,
-    xor: xor,
-    includes: includes,
-    remove: remove,
     pullAt: pullAt,
-    xorBy: xorBy,
-    xorWith: xorWith,
-    slice: slice,
-    countBy: countBy,
-    forEach: forEach,
-    forEachRight: forEachRight,
-    every: every,
-    filter: filter,
-    find: find,
-    findLast: findLast,
-    groupBy: groupBy,
-    invokeMap: invokeMap,
-    keyBy: keyBy,
-    sortBy: sortBy,
-    orderBy: orderBy,
     reduce: reduce,
-    reduceRight: reduceRight,
-    reject: reject,
     size: size,
-    some: some,
-    shuffle: shuffle,
-    checkShuffle: checkShuffle,
     before: before,
-    after: after,
     ary: ary,
     bind: bind,
-    partial: partial,
-    curry: curry,
-
-    bindKey: bindKey,
     split: split,
     toPath: toPath,
     get: get,
     pad: pad,
-    forEach: forEach,
-    forEachRight: forEachRight,
     camelCase: camelCase,
     trim: trim
+
+
+
+
   }
 }()
