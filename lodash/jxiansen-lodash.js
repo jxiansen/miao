@@ -1055,34 +1055,6 @@ var jxiansen = function () {
 
 
   /**
-   * 转换 value 为一个数组.
-   *
-   * @category Lang
-   * @param {*} value 要转换的值.
-   * @returns {Array} 返回转换后的数组.
-   * @example
-   *
-   * _.toArray({ 'a': 1, 'b': 2 });
-   * // => [1, 2]
-   *
-   * _.toArray('abc');
-   * // => ['a', 'b', 'c']
-   *
-   * _.toArray(1);
-   * // => []
-   *
-   * _.toArray(null);
-   * // => []
-   */
-  function toArray(value) {
-    let res = [];
-    for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
-      res.push(value[key])     // 如果是其他的值,也无法进行遍历
-    }
-    return res;
-  }
-
-  /**
  * 与_.toPairs正好相反；这个方法返回一个由键值对pairs构成的对象.
  *
  * @category Array
@@ -3304,6 +3276,20 @@ var jxiansen = function () {
   }
 
 
+  // 创建一个深比较的方法来比较给定对象的 path 的值是否是 srcValue 。 
+  // 如果是返回 true ，否则返回 false 。
+  function matchesProperty(path, srcValue) {
+    return function (obj) {
+      let arr = toPath(path)
+      for (let item of arr) {
+        obj = obj[item]
+      }
+      return isEqual(obj, srcValue)
+    }
+  }
+
+
+
   // 将传入的参数转化成一个回调函数,用于其他高阶函数的调用
   function iteratee(predicate) {
     // 参数为字符串
@@ -3415,14 +3401,14 @@ var jxiansen = function () {
 
 
   // 实现深拷贝
-  function deepClone(obj) {
+  function cloneDeep(obj) {
     // 递归的时候如果遇到null,直接返回null
     if (obj === null) return null
     // 对当前层进行浅拷贝
     let clone = Object.assign({}, obj)
     // 对当前对象的 key 进行遍历迭代,如果值的类型是 Object ,返回内层的深拷贝值,不是则返回该值
     Object.keys(clone).forEach(
-      key => clone[key] = isObject(obj[key]) ? deepClone(obj[key]) : obj[key]
+      key => clone[key] = isObject(obj[key]) ? cloneDeep(obj[key]) : obj[key]
     );
     // 如果对象是一个数组,将clone 的 length 设置为原始对象的 length,并使用 Array.from()来创建一个克隆
     if (isArray(clone)) {
@@ -3455,7 +3441,7 @@ var jxiansen = function () {
     toLength: toLength,
     isLength: isLength,
     clone: clone,
-    deepClone: deepClone,
+    cloneDeep: cloneDeep,
     isEqual: isEqual,
     pick: pick,
     invoke: invoke,
