@@ -64,15 +64,12 @@ var jxiansen = function () {
    * // => [1]
   */
   function compact(array) {
-    let res = [];
-    for (let key in arguments) {    // 隐藏的参数都存储在arguments类数组对象中
-      if (Array.isArray(arguments[key])) {
-        res.push(...arguments[key])
-      } else {
-        res.push(arguments[key])
+    return array.reduce((acc, cur) => {
+      if (!!cur) {
+        acc.push(cur)
       }
-    }
-    return res;
+      return acc
+    }, []);
   }
 
 
@@ -970,10 +967,10 @@ var jxiansen = function () {
    * _.toArray(null);
    * // => []
    */
-  function toArray(value) {
+  function toArray(val) {
     let res = [];
-    for (let key in value) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
-      res.push(value[key])     // 如果是其他的值,也无法进行遍历
+    for (let key in val) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
+      res.push(val[key])     // 如果是其他的值,也无法进行遍历
     }
     return res;
   }
@@ -2286,7 +2283,7 @@ var jxiansen = function () {
   * // => '105'
   */
   const idCounter = {}
-  function uniqueId(prefix = '') {
+  function uniqueId(prefix = '$lodash$') {
     // 先使用idCounter来记录已经生成的ID,默认的Prefix的前缀是 $lodash$
     // 调用函数时,先判断 idCounter 有没有生成过 ID,没有初始化为 0
     if (!idCounter[prefix]) {
@@ -2889,7 +2886,9 @@ var jxiansen = function () {
 
 
   function matches(source) {
-    return bind(isMatch, null, _, source)
+    return function (obj) {
+      return Object.keys(source).every(key => obj.hasOwnProperty(key) && obj[key] === source[key])
+    }
   }
 
 
@@ -3083,6 +3082,24 @@ var jxiansen = function () {
   }
 
 
+  function isLength(value) {
+    let val = toInteger(value)
+    return val >= 0 && val < 2 ** 32
+  }
+
+
+  function isMap(value) {
+    return Object.prototype.toString.call(value) === '[object Map]'
+  }
+
+
+
+  function isSet(value) {
+    return Object.prototype.toString.call(value) === '[object Set]'
+  }
+
+
+
   function isSafeInteger(value) {
     return Number.isSafeInteger(value)
   }
@@ -3200,6 +3217,34 @@ var jxiansen = function () {
   }
 
 
+  /* 
+    toLength 将一个值转换成可以在类数组中 length 属性的值
+    数组的长度最小为 0
+    数组的长度最大为: 2 的 32 次方
+    区间: [0,2 ** 32)
+  */
+  function toLength(value) {
+    const MAX_ARRAY_LENGTH = 2 ** 32;
+    // 传入假值,直接返回0
+    if (!value) {
+      return 0
+    }
+    // 将 value 转换成整数
+    let len = toInteger(value)
+    // 小于最小取值
+    if (len < 0) {
+      return 0
+    }
+    // 大于最大取值
+    if (len > MAX_ARRAY_LENGTH) {
+      return MAX_ARRAY_LENGTH
+    }
+    // 正常返回取值
+    return len
+  }
+
+
+
   // 转换 value 为一个数字。
   function toNumber(value) {
     return Number(value)
@@ -3234,12 +3279,26 @@ var jxiansen = function () {
     return arr
   }
 
-  // 检查 path 是否是object对象的直接属性。
+  // 检查 path 是否是 object 自身可枚举属性上是否存在 key。
   function has(object, path) {
-    let arr = toPath(path)
-    for (let item of arr) {
-      object = object[item]
-      if (!object) return false
+    let keys = toPath(path)
+    for (let key of keys) {
+      if (!Object.prototype.hasOwnProperty(key)) {
+        return false
+      }
+      object = object[key]
+    }
+    return true
+  }
+
+
+  function hasIn(object, path) {
+    let keys = toPath(path)
+    for (let key in keys) {
+      if (!(key in object) || object == null) {
+        return false
+      }
+      object = object[key]
     }
     return true
   }
@@ -3284,7 +3343,93 @@ var jxiansen = function () {
 
 
   function isNaN(value) {
-    return Number.isNaN(value)
+    return typeof value === 'number' && Number.isNaN(value)
+  }
+
+
+  function invert(obj) {
+    let res = {}
+    for (let key in obj) {
+      res[obj[key]] = key
+    }
+    return res
+  }
+
+
+  // 调用object对象path上的方法。
+  function invoke(object, path, ...args) {
+    let arr = toPath(path)
+    let method = arr.pop()
+    let val = get(object, arr)
+    return val[method](...args)
+  }
+
+
+  function pick(object, props) {
+    let obj = object, arr;
+    arr = isString(props) ? [props] : props;
+    for (let key in obj) {
+      if (!arr.includes(key)) {
+        delete obj[key]
+      }
+    }
+    return obj
+  }
+
+
+  // 执行深比较来确定两者的值是否相等。
+  /* 
+    浅比较: 也称为引用相等, === 只是用来做 "浅比较" 检查左右两边是否是对同一个对象的引用
+    深比较: 检查两个对象的所有属性是否都相等,需要递归的检测,深比较不管这两个对象是不是同一对象的应用.
+            只要两个对象结构组织图完全一样就相等.
+  */
+  function isEqual(value, other) {
+    // 判断是不是两个对象是不是引用数据类型,不是的话直接比较值
+    if (!isObject(value) || !isObject(other)) {
+      return value === other
+    }
+
+    // 比较是否为同一个内存地址
+    if (value === other) {
+      return true
+    }
+
+    // 比较 key 的数量
+    let obj1KeysLen = Object.keys(value).length
+    let obj2KeysLen = Object.keys(other).length
+    if (obj1KeysLen !== obj2KeysLen) return false
+
+    // 递归的比较 value 
+    for (let key in value) {
+      let res = isEqual(value[key], other[key]);
+      if (!res) return false      // 递归遍历的时候如果遇到不等,直接返回false
+    }
+    return true
+  }
+
+
+  function clone(obj) {
+    return Object.assign({}, obj)
+  }
+
+
+
+  // 实现深拷贝
+  function deepClone(obj) {
+    // 递归的时候如果遇到null,直接返回null
+    if (obj === null) return null
+    // 对当前层进行浅拷贝
+    let clone = Object.assign({}, obj)
+    // 对当前对象的 key 进行遍历迭代,如果值的类型是 Object ,返回内层的深拷贝值,不是则返回该值
+    Object.keys(clone).forEach(
+      key => clone[key] = isObject(obj[key]) ? deepClone(obj[key]) : obj[key]
+    );
+    // 如果对象是一个数组,将clone 的 length 设置为原始对象的 length,并使用 Array.from()来创建一个克隆
+    if (isArray(clone)) {
+      clone.length = obj.length     // 对象需要添加 length 属性才能转成 Array
+      return Array.from(clone)
+    }
+    return clone
   }
 
 
@@ -3304,13 +3449,18 @@ var jxiansen = function () {
 
 
 
-
-
-
-
-
-
   return {
+    isMap: isMap,
+    isSet: isSet,
+    toLength: toLength,
+    isLength: isLength,
+    clone: clone,
+    deepClone: deepClone,
+    isEqual: isEqual,
+    pick: pick,
+    invoke: invoke,
+    invert: invert,
+    hasIn: hasIn,
     shuffle: shuffle,
     stubArray: stubArray,
     stubFalse: stubFalse,
