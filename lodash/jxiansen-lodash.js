@@ -47,14 +47,7 @@ var jxiansen = function () {
    * // => [1]
    */
   function concat(array) {
-    let res = [];
-    for (let i = 0; i < array.length; i++) {
-      if (!!array[i] === true) {      // 遍历数组,对遍历到的元素转换成布尔值,将布尔值为true的push到结果中
-        res.push(array[i])
-      }
-    }
-    return res
-    return array.filter(i => !!i === true);
+    return Object.entries(arguments).map(i => i[1]).flat()
   }
 
 
@@ -899,14 +892,7 @@ var jxiansen = function () {
    * // => 2
    */
   function sample(collection) {
-    let arr = []
-    if (Array.isArray(collection)) {
-      arr = collection;
-    } else {
-      for (let key in collection) {
-        arr.push(collection[key])
-      }
-    }
+    let arr = toArray(collection)
     return arr[~~(Math.random() * arr.length)]
   }
 
@@ -2299,8 +2285,19 @@ var jxiansen = function () {
   * _.uniqueId();
   * // => '105'
   */
+  const idCounter = {}
   function uniqueId(prefix = '') {
-    return `${prefix}${++this.countId}`
+    // 先使用idCounter来记录已经生成的ID,默认的Prefix的前缀是 $lodash$
+    // 调用函数时,先判断 idCounter 有没有生成过 ID,没有初始化为 0
+    if (!idCounter[prefix]) {
+      idCounter[prefix] = 0;
+    }
+
+    const id = ++idCounter[prefix]
+    if (prefix === '$lodash$') {
+      return `${id}`
+    }
+    return `${prefix + id}`
   }
 
 
@@ -2567,10 +2564,9 @@ var jxiansen = function () {
      * _.inRange(-3, -2, -6);
      * // => true
      */
-  function inRange(number, start = 0, end) {
-    let arr = [...arguments]
-    if (arr.length === 2) [number, start, end] = [arr[0], 0, arr[1]];
-    return number >= start && number < end
+  function inRange(n, start = 0, end) {
+    if (end && start > end) [end, start] = [start, end];
+    return end == null ? n >= 0 && n < start : n >= start && n < end;
   }
 
 
@@ -2660,9 +2656,16 @@ var jxiansen = function () {
  * // => [2, 3, 1] 
  */
   function sampleSize(collection, n = 1) {
-    if (n > collection.length) n = collection.length
-    return new Array(n).fill('').map(i => sample(collection))
+    let res = []
+    let arr = toArray(collection)
+    let count = n >= arr.length ? arr.length : n;
+    while (count) {
+      res.push(sample(arr))
+      count--
+    }
+    return res
   }
+
 
   function replace(string, pattern, replacement) {
     let reg = new RegExp(pattern, 'g');
@@ -3085,9 +3088,9 @@ var jxiansen = function () {
   }
 
 
-  //检查 value 是否是一个安全整数
+  //检查 value 是否是原始有限数值。
   function isFinite(value) {
-    return Number.isSafeInteger(value)
+    return typeof value === 'number' && value > -Infinity && value < Infinity
   }
 
 
@@ -3144,27 +3147,6 @@ var jxiansen = function () {
   // 检查 value 是否小于等于 other。
   function lte(value, other) {
     return value <= other
-  }
-
-
-  function toArray(value) {
-    // 数据类型为 set
-    if (isSet(value)) {
-      return [...value]
-    } else if (isMap(value)) {
-      // 数据类型为 map
-      let res = []
-      for (let val of value.values()) {
-        res.push(val)
-      }
-      return res
-    } else if (value === null) {
-      // 数据类型为 null
-      return []
-    } else {
-      // string,array,object,类数组对象都可以cover
-      return Object.entries(value).map(i => i[1]);
-    }
   }
 
 
@@ -3254,12 +3236,7 @@ var jxiansen = function () {
 
   // 检查 path 是否是object对象的直接属性。
   function has(object, path) {
-    let arr;
-    if (typeof path === 'string') {
-      arr = path.match(/\w+/g)
-    } else {
-      arr = path
-    }
+    let arr = toPath(path)
     for (let item of arr) {
       object = object[item]
       if (!object) return false
@@ -3287,6 +3264,31 @@ var jxiansen = function () {
 
 
 
+  /* 
+  使用Fisher–Yates shuffle算法:
+  1. 从0到n中随机选出一个数和最后的一个数n交换
+  2. 然后从0到n-1中再选一个数和n-1交换
+*/
+  function shuffle(arr) {
+    // 右指针
+    let r = arr.length
+    while (r) {
+      // 从右到左遍历,random()刚好随机到数组中的每一个元素
+      let l = ~~(Math.random() * r--);
+      [arr[l], arr[r]] = [arr[r], arr[l]];
+    }
+    return arr
+  }
+  // 洗牌算法Fisher–Yates shuffle讲解:https://zhuanlan.zhihu.com/p/110630952
+
+
+
+  function isNaN(value) {
+    return Number.isNaN(value)
+  }
+
+
+
 
 
 
@@ -3309,6 +3311,7 @@ var jxiansen = function () {
 
 
   return {
+    shuffle: shuffle,
     stubArray: stubArray,
     stubFalse: stubFalse,
     stubObject: stubObject,
