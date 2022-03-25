@@ -344,6 +344,12 @@ var jxiansen = function () {
   }
 
 
+  // 将 array 中的所有元素转换为由 separator 分隔的字符串。
+  function join(array, separator = ',') {
+    return array.reduce((acc, cur, idx, arr) => acc + cur + (idx === arr.length - 1 ? "" : separator), '')
+  }
+
+
   /**
    * 这个方法类似_.indexOf ，区别是它是从右到左遍历array的元素。
    *
@@ -3500,8 +3506,8 @@ var jxiansen = function () {
 
   return {
     assign: assign,
-    set: set,
-    zipObject: zipObject,
+    // set: set,
+    // zipObject: zipObject,
     matchesProperty: matchesProperty,
     isMap: isMap,
     isSet: isSet,
@@ -3654,6 +3660,6 @@ var jxiansen = function () {
     escape: escape,
     unescape: unescape,
     identity: identity,
-
+    join: join,
   }
 }()
