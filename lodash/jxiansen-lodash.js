@@ -967,12 +967,11 @@ var jxiansen = function () {
    * _.toArray(null);
    * // => []
    */
-  function toArray(val) {
-    let res = [];
-    for (let key in val) {     // 如果传进来的值是字符串或者对象(数组也是对象)可以用for...in遍历来循环遍历
-      res.push(val[key])     // 如果是其他的值,也无法进行遍历
+  function toArray(value) {
+    if (!value) {
+      return []
     }
-    return res;
+    return Object.keys(value).map(key => value[key])
   }
 
 
@@ -1815,9 +1814,8 @@ var jxiansen = function () {
    * _.map(['  foo  ', '  bar  '], _.trim);
    * // => ['foo', 'bar']
    */
-
   function trim(string, chars = ' ') {
-    return trimEnd(trimStart(string, chars))
+    return trimEnd(trimStart(string, chars), chars)
   }
 
 
@@ -1841,14 +1839,13 @@ var jxiansen = function () {
    * _.trimEnd('-_-abc-_-', '_-');
    * // => '-_-abc'
    */
-  function trimEnd(str, char) {
-    if (!char) return str.replace(/\s+$/g, '')
-    for (var i = str.length - 1; i > 0; i--) {
-      if (!char.includes(str[i])) {
-        break;
+  function trimEnd(str, char = ' ') {
+    let arr = toArray(str)
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (!char.includes(arr[i])) {
+        return arr.slice(0, i + 1).join('')
       }
     }
-    return str.slice(0, i)
   }
 
 
@@ -1868,14 +1865,12 @@ var jxiansen = function () {
    * // => 'abc-_-'
    */
   function trimStart(str, char = ' ') {
-    // 如果没有第二个参数,把字符串前面的空格正则替换
-    if (!char) return str.replace(/^\s+/g, '')
-    for (var i = 0; i < str.length; i++) {
-      if (!char.includes(str[i])) {
-        break;
+    let arr = toArray(str)
+    for (let i = 0; i < arr.length; i++) {
+      if (!char.includes(arr[i])) {
+        return arr.slice(i).join('')
       }
     }
-    return str.slice(i)
   }
 
 
@@ -2988,11 +2983,15 @@ var jxiansen = function () {
 
 
   function truncate(string, options) {
-    // 设定默认值
-    if (!options.length) options.length = 30
-    if (!options.omission) options.omission = '...'
+    // 处理传入的默认值
+    if (options) {
+      var sep;
+      sep = options.separator ? options.separator : sep;
+      var len = options.length ? options.length : 30;
+      var omi = options.omission ? options.omission : '...';
+    }
     // 没超过限定长度,直接返回
-    if (string.length <= options.length) return string
+    if (len > string.length) return string
     // 如果截断点存在的话,截取
     if (options.separator) {
       let matchReg = new RegExp(options.separator, 'g')
@@ -3055,8 +3054,12 @@ var jxiansen = function () {
 
 
   function isLength(value) {
-    let val = toInteger(value)
-    return val >= 0 && val < 2 ** 32
+    // 传入的值必须要是整数,并且要在取值范围中
+    // Number.MIN_VALUE: 无限接近于0的正值,而不是最小的负值
+    if (!isInteger(value)) {
+      return false
+    }
+    return value >= 0 && value < 2 ** 32
   }
 
 
@@ -3329,6 +3332,11 @@ var jxiansen = function () {
 
 
   function isNaN(value) {
+    // 针对new Number(NaN)的情况
+    if (typeof value === 'object') {
+      // NaN 需要满足 自身不等于自身的条件
+      return value.valueOf() !== value.valueOf()
+    }
     return typeof value === 'number' && Number.isNaN(value)
   }
 
@@ -3420,9 +3428,64 @@ var jxiansen = function () {
 
 
 
+  /* 
+    分配来源对象的可枚举属性到目标对象上。 
+    来源对象的应用规则是从左到右，随后的下一个对象的属性会覆盖上一个对象的属性。
+  */
+  function assign(object, ...args) {
+    return [...args].reduce((acc, cur) => {
+      Object.keys(cur).forEach(key => acc[key] = cur[key])
+      return acc
+    }, object)
+  }
 
 
 
+
+
+
+
+  function zipObject(props, values) {
+    let obj = {}
+    for (let i = 0; i < props.length; i++) {
+      if (values[i]) {
+        obj[props[i]] = values[i]
+      }
+    }
+    return obj
+  }
+
+
+
+  /*   function zipObjectDeep(props, values) {
+      var res = {}
+      let arr = zip(props, values)
+      let paramToObj = (res, str, val) => {
+        let path = toPath(props)
+        for (let key of path) {
+          res[key] = 
+        }
+      }
+    }
+   */
+
+
+
+  // Set 接入一个 object ,然后将值 value 设置到属性路径 path 上。
+  function set(object, path, value) {
+    // 判断object是不是对象
+    if (isObject(object)) {
+      return object
+    }
+    // 解析出路径数组
+    let pathArr = toPath(path)
+    let len = pathArr.length
+    let next = object
+    let idx = -1;
+    for (let key of pathArr) {
+
+    }
+  }
 
 
 
@@ -3436,6 +3499,10 @@ var jxiansen = function () {
 
 
   return {
+    assign: assign,
+    set: set,
+    zipObject: zipObject,
+    matchesProperty: matchesProperty,
     isMap: isMap,
     isSet: isSet,
     toLength: toLength,
