@@ -3471,23 +3471,23 @@ var jxiansen = function () {
 
 
 
-  // Set 接入一个 object ,然后将值 value 设置到属性路径 path 上。
-  function set(object, path, value) {
-    // 判断object是不是对象
-    if (isObject(object)) {
-      return object
+  /*   // Set 接入一个 object ,然后将值 value 设置到属性路径 path 上。
+    function set(object, path, value) {
+      // 判断object是不是对象
+      if (isObject(object)) {
+        return object
+      }
+      // 解析出路径数组
+      let pathArr = toPath(path)
+      let len = pathArr.length
+      let next = object
+      let idx = -1;
+      for (let key of pathArr) {
+  
+      }
     }
-    // 解析出路径数组
-    let pathArr = toPath(path)
-    let len = pathArr.length
-    let next = object
-    let idx = -1;
-    for (let key of pathArr) {
-
-    }
-  }
-
-
+  
+   */
 
 
 
