@@ -1,4 +1,4 @@
-var jxiansen = function () {
+var _ = function () {
   /**
    * 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 
    * 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
@@ -209,17 +209,12 @@ var jxiansen = function () {
     * // => [1, 2, [3, [4]], 5]
   */
   function flatten(array) {
-    let res = [];
+    let res = []
     for (let item of array) {
-      if (Array.isArray(item)) {
-        res.push(...item)
-      } else {
-        res.push(item)
-      }
+      Array.isArray(item) ? res.push(...item) : res.push(item)
     }
-    return res;
+    return res
   }
-  // console.log(flatten([1, [2, [3, [4]], 5]]));
 
 
 
@@ -235,30 +230,17 @@ var jxiansen = function () {
    * // => [1, 2, 3, 4, 5]
    */
   function flattenDeep(array) {
-    let res = [];
-    function flattenDeep(array) {
-      let res = [];
-      for (let item of array) {
-        if (Array.isArray(item)) {
-          res = [...res, ...flattenDeep(item)]     // 递归形式的遍历,如果遍历到的是数组,给他打散后与上一次的调用的结果拼接组成新的结果
-        } else {
-          res.push(item)
-        }
-      }
-      return res
-    }
+    let res = []
     for (let item of array) {
       if (Array.isArray(item)) {
-        res = [...res, ...flattenDeep(item)]     // 递归形式的遍历,如果遍历到的是数组,给他打散后与上一次的调用的结果拼接组成新的结果
+        res.push(...flattenDeep(item))
       } else {
         res.push(item)
       }
     }
     return res
+    // return array.reduce((acc, cur) => Array.isArray(cur) ? acc.push(...flattenDeep(cur)) : acc.push(cur), [])
   }
-  // console.log(flattenDeep([1, [2, [3, [4]], 5]]));
-
-
 
 
   /**
@@ -3287,32 +3269,31 @@ var jxiansen = function () {
 
   // 创建一个深比较的方法来比较给定对象的 path 的值是否是 srcValue 。 
   // 如果是返回 true ，否则返回 false 。
-  function matchesProperty(path, srcValue) {
+  function matchesProperty(array) {
     return function (obj) {
-      let arr = toPath(path)
-      for (let item of arr) {
-        obj = obj[item]
-      }
-      return isEqual(obj, srcValue)
+      return isEqual(obj[array[0]], array[1])
     }
   }
 
 
 
   // 将传入的参数转化成一个回调函数,用于其他高阶函数的调用
-  function iteratee(predicate) {
+  function iteratee(param) {
+    // 参数本身就是函数
+    if (typeof param === 'function') {
+      return param
+    }
     // 参数为字符串
-    if (typeof predicate === 'string') {
-      return property(predicate)
-    } else if (isArray(predicate)) {
-      // 参数为数组
-      return matchesProperty(predicate)
-    } else if (isObject(predicate)) {
-      // 参数为对象
-      return matches(predicate)
-    } else {
-      // 参数本身就是函数
-      return predicate
+    if (typeof param === 'string') {
+      return property(param)
+    }
+    // 参数为数组
+    if (isArray(param)) {
+      return matchesProperty(param)
+    }
+    // 参数为对象
+    if (isObject(param)) {
+      return matches(param)
     }
   }
 
@@ -3498,6 +3479,112 @@ var jxiansen = function () {
 
 
 
+  function map(collection, identity) {
+    let res = []
+    let func = iteratee(identity)
+    for (let key in collection) {
+      res.push(func(collection[key]))
+    }
+    return res
+  }
+
+
+  /* 
+  通过 predicate（断言函数） 检查 collection（集合）中的 所有 元素是否都返回真值。
+  一旦 predicate（断言函数） 返回假值，迭代就马上停止。
+  predicate（断言函数）调用三个参数： (value, index|key, collection)。
+    对于空集合返回 true，因为空集合的任何元素都是 true 。
+  */
+  function every(collection, identity) {
+    if (isElement(collection)) {
+      return true
+    }
+    let func = iteratee(identity)
+    for (let key in collection) {
+      if (!func(collection[key])) {
+        return false
+      }
+    }
+    return true
+  }
+
+
+
+
+
+
+  /* 
+    遍历 collection（集合）元素，返回 predicate（断言函数）返回真值 的所有元素的数组。 
+    predicate（断言函数）调用三个参数：(value, index|key, collection)。
+  */
+  function filter(collection, identity) {
+    let res = []
+    let func = iteratee(identity)
+    for (let key in collection) {
+      if (func(collection[key])) {
+        res.push(collection[key])
+      }
+    }
+    return res
+  }
+
+
+  // 找到满足identity函数条件第一个元素并返回,从fromIndex的位置开始找
+  function find(collection, identity, fromIndex = 0) {
+    let func = iteratee(identity)
+    let count = 0
+    for (let key in collection) {
+      if (count >= fromIndex && func(collection[key])) {
+        return collection[key]
+      }
+      count++
+    }
+  }
+
+
+  // find的反向版本
+  function findLast(collection, identity, fromIndex = collection.length - 1) {
+    let func = iteratee(identity)
+    // 此处偷懒只考虑collection为数组,对象的反向遍历不好处理
+    for (let i = fromIndex; i >= 0; i--) {
+      if (func(collection[i])) {
+        return collection[i]
+      }
+    }
+  }
+
+
+  function flatMap(collection, identity) {
+    // 参数通过iteratee转发处理下
+    let func = iteratee(identity)
+    let res = []
+    for (let key in collection) {
+      res.push(func(collection[key]))
+    }
+    return flatten(res)
+  }
+
+
+
+  function flatMapDeep(collection, identity) {
+    let func = iteratee(identity)
+    let res = []
+    for (let key in collection) {
+      res.push(func(collection[key]))
+    }
+    return flattenDeep(res)
+  }
+
+
+
+  function flatMapDepth(collection, identity, depth = 1) {
+    let func = iteratee(identity)
+    let res = []
+    for (let key in collection) {
+      res.push(func(collection[key]))
+    }
+    return flattenDepth(res, depth)
+  }
 
 
 
@@ -3505,9 +3592,17 @@ var jxiansen = function () {
 
 
   return {
+    flatMapDeep: flatMapDeep,
+    flatMap: flatMap,
+    flatMapDepth: flatMapDepth,
+    find: find,
+    findLast: findLast,
+    every: every,
+    filter: filter,
+    map: map,
     assign: assign,
     // set: set,
-    // zipObject: zipObject,
+    zipObject: zipObject,
     matchesProperty: matchesProperty,
     isMap: isMap,
     isSet: isSet,
