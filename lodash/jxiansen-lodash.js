@@ -1,4 +1,4 @@
-var jxiansen = function () {
+var _ = function () {
   /**
    * 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 
    * 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
@@ -918,16 +918,8 @@ var jxiansen = function () {
    * _.union([2], [1, 2]);
    * // => [2, 1]
    */
-  function union(arrays) {
-    let res = [];
-    for (let item of arguments) {     // arguments: 实质上是一个对象;但是也可以用数组方法遍历
-      for (let i of item) {       // 遍历子数组
-        if (!res.includes(i)) {
-          res.push(i)
-        }
-      }
-    }
-    return res;
+  function union(...args) {
+    return [...new Set(flattenDeep(args))]
   }
 
 
@@ -3245,7 +3237,7 @@ var jxiansen = function () {
   function has(object, path) {
     let keys = toPath(path)
     for (let key of keys) {
-      if (!Object.prototype.hasOwnProperty(key)) {
+      if (!Object.hasOwnProperty(key)) {
         return false
       }
       object = object[key]
@@ -3294,6 +3286,8 @@ var jxiansen = function () {
     if (isObject(param)) {
       return matches(param)
     }
+    // 啥都不是的时候,返回自身
+    return param => param
   }
 
 
@@ -3552,6 +3546,27 @@ var jxiansen = function () {
     }
   }
 
+  // 该方法类似_.find，区别是该方法返回第一个通过 predicate 
+  // 判断为真值的元素的索引值（index），而不是元素本身。
+  function findIndex(array, identity, fromIndex = 0) {
+    let func = iteratee(identity)
+    for (let i = fromIndex; i < array.length; i++) {
+      if (func(array[i])) {
+        return i
+      }
+    }
+  }
+
+
+  function findLastIndex(array, identity, fromIndex = array.length - 1) {
+    let func = iteratee(identity)
+    for (let i = fromIndex; i >= 0; i--) {
+      if (func(array[i])) {
+        return i
+      }
+    }
+  }
+
 
   function flatMap(collection, identity) {
     // 参数通过iteratee转发处理下
@@ -3586,11 +3601,248 @@ var jxiansen = function () {
   }
 
 
+  /* function dropWhile(array, identity) {
+    let func = iteratee(identity)
+    let res = array.slice()
+    for (let item of array) {
+      if (func(item)) {
+        return res
+      } else {
+        res.shift()
+      }
+    }
+  }
+
+  function dropRightWhile(array, identity) {
+    let func = iteratee(identity)
+    let res = []
+    for (let item of array) {
+      if (!func(item)) {
+        return res
+      } else {
+        res.push(item)
+      }
+    }
+  } */
+
+
+
+  function unionBy(...args) {
+    // 接受参数,并扁平化为一维数组
+    let arr = flattenDeep(args)
+    // 接受迭代函数参数
+    let func = iteratee(arr.pop())
+    let map = new Map()
+    let set = new Set()
+    for (let item of arr) {
+      map.set(item, func(item))
+      set.add(func(item))
+    }
+    let res = []
+    for (let key of map.keys()) {
+      if (set.has(map.get(key))) {
+        set.delete(map.get(key))
+        res.push(key)
+      }
+      if (!set.size) {
+        return res
+      }
+    }
+  }
+
+
+  function forIn(object, identity) {
+    let func = identity
+    for (let key in object) {
+      func(object[key], key, object)
+    }
+    return object
+  }
+
+
+
+  function forInRight(object, identity) {
+    let func = identity
+    let keysArr = []
+    for (let key in object) {
+      keysArr.push(key)
+    }
+    for (let i = keysArr.length; i >= 0; i--) {
+      func(object[keysArr[i]], keysArr[i], object)
+    }
+    return object
+  }
+
+
+  function forOwn(object, identity) {
+    let func = identity
+    Object.keys(object).forEach(i => func(object[i], i, object))
+    return object
+  }
+
+
+  function forOwnRight(object, identity) {
+    let func = identity
+    Object.keys(object).reverse().forEach(i => func(object[i], i, object))
+    return object
+  }
+
+
+  function functions(object) {
+    return Object.keys(object)
+  }
+
+
+
+  function functionsIn(object) {
+    let res = []
+    for (let key in object) {
+      res.push(key)
+    }
+    return res
+  }
+
+
+
+  function invertBy(object, identity) {
+    let res = {}
+    // iteratee 函数中需要对传入空参数处理
+    let func = iteratee(identity)
+    for (let key in object) {
+      let resKey = func(object[key])
+      resKey in res ? res[resKey].push(key) : res[resKey] = [key]
+      // res中如果有key则push新的值到其数组中,没有将当前的值设为数组
+    }
+    return res
+  }
+
+
+
+  function mapKeys(object, identity) {
+    let res = {}
+    let func = iteratee(identity)
+    for (let key in object) {
+      res[func(object[key], key, object)] = object[key]
+    }
+    return res
+  }
+
+
+  function mapValues(object, identity) {
+    let res = {}
+    let func = iteratee(identity)
+    for (let key in object) {
+      res[key] = func(object[key], key, object)
+    }
+    return res
+  }
+
+
+  function omit(object, props) {
+    let res = {}
+    for (let key in object) {
+      if (!props.includes(key)) {
+        res[key] = object[key]
+      }
+    }
+    return res
+  }
+
+  function omitBy(object, identity) {
+    let res = {}
+    let func = iteratee(identity)
+    for (let key in object) {
+      if (!func(object[key])) {
+        res[key] = object[key]
+      }
+    }
+    return res
+  }
+
+
+  function pickBy(object, identity) {
+    let res = {}
+    let func = iteratee(identity)
+    for (let key in object) {
+      if (func(object[key])) {
+        res[key] = object[key]
+      }
+    }
+    return res
+  }
+
+
+
+  function toPairs(object) {
+    return Object.entries(object)
+  }
+
+
+  function toPairsIn(object) {
+    let res = []
+    for (let key in object) {
+      res.push([key, object[key]])
+    }
+    return res
+  }
+
+
+
+  function values(object) {
+    return Object.keys(object).map(key => object[key])
+  }
+
+
+
+  function valuesIn(object) {
+    let res = []
+    for (let key in object) {
+      res.push(object[key])
+    }
+    return res
+  }
+
+
+  function assignIn(object, ...args) {
+    let source = [...args]
+    let forIn = (tar, sou) => {
+      for (let key in sou) {
+        tar[key] = sou[key]
+      }
+      return tar
+    }
+    for (let item of source) {
+      forIn(object, item)
+    }
+    return object
+  }
 
 
 
 
   return {
+    // dropWhile: dropWhile,
+    // dropRightWhile: dropRightWhile,
+    assignIn: assignIn,
+    values: values,
+    valuesIn: valuesIn,
+    toPairs: toPairs,
+    toPairsIn: toPairsIn,
+    pickBy: pickBy,
+    omit: omit,
+    omitBy: omitBy,
+    invertBy: invertBy,
+    mapValues: mapValues,
+    forOwn: forOwn,
+    mapKeys: mapKeys,
+    functions: functions,
+    functionsIn: functionsIn,
+    forOwnRight: forOwnRight,
+    forIn: forIn,
+    forInRight: forInRight,
+    unionBy: unionBy,
+    findIndex: findIndex,
+    findLastIndex: findLastIndex,
     flatMapDeep: flatMapDeep,
     flatMap: flatMap,
     flatMapDepth: flatMapDepth,
