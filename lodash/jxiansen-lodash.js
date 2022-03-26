@@ -3191,11 +3191,27 @@ var jxiansen = function () {
     }
     // 大于最大取值
     if (len > MAX_ARRAY_LENGTH) {
-      return MAX_ARRAY_LENGTH
+      return MAX_ARRAY_LENGTH - 1
     }
     // 正常返回取值
     return len
   }
+
+
+  function toSafeInteger(value) {
+    // 安全整数范围为 -(2^53 - 1)到 2^53 - 1 之间的整数，
+    // 包含 - (2 ^ 53 - 1)和 2 ^ 53 - 1
+    const MAX_SAFE_INTEGER = 2 ** 53 - 1;
+    let val = toInteger(value)
+    if (value > MAX_SAFE_INTEGER) {
+      return MAX_SAFE_INTEGER
+    }
+    if (value < -MAX_SAFE_INTEGER) {
+      return -MAX_SAFE_INTEGER
+    }
+    return val
+  }
+
 
 
 
@@ -3818,11 +3834,69 @@ var jxiansen = function () {
   }
 
 
+  function maxBy(array, identity) {
+    let func = iteratee(identity)
+    let res = array[0]
+    for (let item of array) {
+      if (func(item) > func(res)) {
+        res = item
+      }
+    }
+    return res
+  }
+
+
+  function mean(array) {
+    return array.reduce((a, c) => a + c, 0) / (array.length)
+  }
+
+  function meanBy(array, identity) {
+    let sum = 0
+    let func = iteratee(identity)
+    for (let item of array) {
+      sum += func(item)
+    }
+    return sum / array.length
+  }
+
+
+
+  function minBy(array, identity) {
+    let func = iteratee(identity)
+    let res = array[0]
+    for (let item of array) {
+      if (func(item) < func(res)) {
+        res = item
+      }
+    }
+    return res
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   return {
     // dropWhile: dropWhile,
     // dropRightWhile: dropRightWhile,
+    mean: mean,
+    minBy: minBy,
+    maxBy: maxBy,
+    meanBy: meanBy,
+    toSafeInteger: toSafeInteger,
     assignIn: assignIn,
     values: values,
     valuesIn: valuesIn,
