@@ -1,4 +1,4 @@
-var jxiansen = function () {
+var _ = function () {
   /**
    * 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 
    * 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
@@ -919,7 +919,7 @@ var jxiansen = function () {
    * // => [2, 1]
    */
   function union(...args) {
-    return [...new Set(flattenDeep(args))]
+    return [...new Set(args.flat())]
   }
 
 
@@ -1236,32 +1236,11 @@ var jxiansen = function () {
   * _.map(users, 'user');
   * // => ['barney', 'fred']
   */
-  function map(collection, iteratee) {
-    let res = [];
-    // 如果第二个参数是字符串
-    if (typeof (iteratee) === 'string') {
-      for (let i = 0; i < collection.length; i++) {
-        if (!iteratee.includes('.')) {        // 字符串中包含'.'
-          res.push(collection[i][iteratee])
-        } else {                    // 不包含 "."
-          let obj = collection[i], tmp;
-          for (let str of iteratee) {
-            if (str === '.') {
-              continue;
-            }
-            tmp = obj[str];
-            obj = tmp;
-          }
-          res.push(tmp)
-        }
-      }
-    }
-
-    // 如果第二个参数为函数
-    if (typeof (iteratee) === 'function') {
-      for (let key in collection) {
-        res.push(iteratee(collection[key], Number(key), collection))
-      }
+  function map(collection, identity) {
+    let res = []
+    let func = iteratee(identity)
+    for (let item of collection) {
+      res.push(func(item))
     }
     return res
   }
@@ -3589,9 +3568,9 @@ var jxiansen = function () {
     let func = iteratee(identity)
     let res = []
     for (let key in collection) {
-      res.push(func(collection[key]))
+      res.push(...func(collection[key], key, collection))
     }
-    return flatten(res)
+    return res
   }
 
 
@@ -3617,35 +3596,34 @@ var jxiansen = function () {
   }
 
 
-  /* function dropWhile(array, identity) {
-    let func = iteratee(identity)
-    let res = array.slice()
-    for (let item of array) {
-      if (func(item)) {
-        return res
-      } else {
-        res.shift()
-      }
-    }
-  }
+  // function dropWhile(array, identity) {
+  //   let func = iteratee(identity)
+  //   // let i = 0
+  //   // while (func(array[i])) {
+  //   //   array.shift()
+  //   // }
+  //   return [func(array[0]), func(array[1]), func(array[2])]
+  // }
 
-  function dropRightWhile(array, identity) {
-    let func = iteratee(identity)
-    let res = []
-    for (let item of array) {
-      if (!func(item)) {
-        return res
-      } else {
-        res.push(item)
+
+  /* 
+    function dropRightWhile(array, identity) {
+      let func = iteratee(identity)
+      let res = []
+      for (let item of array) {
+        if (!func(item)) {
+          return res
+        } else {
+          res.push(item)
+        }
       }
-    }
-  } */
+    } */
 
 
 
   function unionBy(...args) {
     // 接受参数,并扁平化为一维数组
-    let arr = flattenDeep(args)
+    let arr = args.flat()
     // 接受迭代函数参数
     let func = iteratee(arr.pop())
     let map = new Map()
@@ -3874,6 +3852,236 @@ var jxiansen = function () {
 
 
 
+  // function pullAllBy(array, values, identity) {
+  //   let func = iteratee(identity)
+  //   let res = []
+  //   while (array) {
+  //     let item = array.shift()
+  //     for (let val of values) {
+  //       if (func(item) !== func(val)) {
+  //         res.push(item)
+  //       }
+  //     }
+  //   }
+  //   array = res
+  //   return array
+  // }
+
+
+
+
+  function xor(...args) {
+    // 参数扁平化处理后,用map统计出频率
+    let arr = args.flat()
+    let map = new Map()
+    let res = []
+    for (let key of arr) {
+      map.set(key, map.get(key) + 1 || 1)
+    }
+    for (let [key, count] of map.entries()) {
+      if (count === 1) {
+        res.push(key)
+      }
+    }
+    return res
+  }
+
+
+  function xorBy(...args) {
+    let arr = [...args]
+    let func = iteratee(arr.pop())
+    arr = arr.flat()
+    let map = new Map()
+    let res = []
+    for (let key of arr.map(func)) {
+      map.set(key, map.get(key) + 1 || 1)
+    }
+    for (let [key, count] of map.entries()) {
+      if (count === 1) {
+        res.push(arr.find(i => func(i) === key))
+      }
+    }
+    return res
+  }
+
+
+  function forEach(collection, identity) {
+    let func = iteratee(identity)
+    for (let key in collection) {
+      if (Object.prototype.hasOwnProperty(collection[key])) {
+        func(collection[key], key, collection)
+      }
+    }
+    return collection
+  }
+
+
+
+  function forEachRight(collection, identity) {
+    let func = iteratee(identity)
+    let arr = Object.entries(collection).reverse()
+    for (let [key, val] of arr) {
+      func(val, key, collection)
+    }
+    return collection
+  }
+
+
+  function groupBy(collection, identity) {
+    let func = iteratee(identity)
+    let res = {}
+    for (let key in collection) {
+      let item = collection[key]
+      let objKey = func(item)
+      res[objKey] ? res[objKey].push(item) : res[objKey] = [item]
+    }
+    return res
+  }
+
+
+  function includes(collection, value, fromIndex = 0) {
+    if (isString(collection) || isArray(collection)) {
+      return collection.includes(value, fromIndex)
+    }
+    let count = 0
+    for (let key in collection) {
+      if (count >= fromIndex && collection[key] === value) {
+        return true
+      }
+      count++
+    }
+    return false
+  }
+
+
+  function invokeMap(collection, path, args) {
+    // 直接在原 collection 上修改
+    for (let i = 0; i < collection.length; i++) {
+      let item = collection[i]
+      if (typeof path === 'string') {
+        item = item[path](args)
+      } else {
+        collection[i] = path.call(item, args)
+      }
+    }
+    return collection
+  }
+
+
+  function keyBy(collection, identity) {
+    let res = {}
+    let func = iteratee(identity)
+    for (let key in collection) {
+      let item = collection[key]
+      res[func(item)] = item
+    }
+    return res
+  }
+
+  /*  function orderBy(collection, identity, orders) {
+     for (let i = 0; i < identity.length; i++) {
+       let item = identity[i]
+       let order = orders ? orders[i] : 'asc'
+       if (typeof (collection[0][item]) === 'string') {
+         collection.sort((a, b) => {
+           let vala = a[item].toLowerCase()
+           let valb = b[item].toLowerCase()
+           if (vala < valb) return -1
+           if (vala > valb) return 1
+           return 0
+         })
+       }
+       if (order === 'asc') {
+         collection.sort((a, b) => iteratee(item)(a) - iteratee(item)(b))
+       } else {
+         collection.sort((a, b) => iteratee(item)(b) - iteratee(item)(a))
+       }
+     }
+     return collection
+   } */
+
+
+  function partition(collection, identity) {
+    let res = [[], []]
+    let func = iteratee(identity)
+    for (let item of collection) {
+      func(item) ? res[0].push(item) : res[1].push(item)
+    }
+    return res
+  }
+
+
+  function reduceRight(collection, identity, accumulator) {
+    let func = iteratee(identity)
+    let arr = collection.reverse()
+    for (let item of arr) {
+      // func 函数每次处理完的返回值,再添加到累加器中
+      accumulator = func(accumulator, item)
+    }
+    return accumulator
+  }
+
+
+  function reject(collection, identity) {
+    return collection.reduce((acc, cur) => {
+      let func = iteratee(identity)
+      if (!func(cur)) {
+        acc.push(cur)
+      }
+      return acc
+    }, [])
+  }
+
+
+
+  function some(collection, identity) {
+    let func = iteratee(identity)
+    for (let key in collection) {
+      let item = collection[key]
+      if (func(item)) {
+        return true
+      }
+    }
+    return false
+  }
+
+
+
+  function gt(value, other) {
+    return value > other
+  }
+
+
+  function gte(value, other) {
+    return value >= other
+  }
+
+
+  function conformsTo(object, source) {
+    for (let key in source) {
+      let func = source[key]
+      if (!func(object[key])) {
+        return false
+      }
+    }
+    return true
+  }
+
+
+
+  function countBy(collection, identity) {
+    let func = iteratee(identity)
+    let res = {}
+    for (let item of collection) {
+      let key = func(item)
+      res[key] = res[key] + 1 || 1;
+    }
+    return res
+  }
+
+
+
+
 
 
 
@@ -3890,6 +4098,24 @@ var jxiansen = function () {
 
 
   return {
+    countBy: countBy,
+    conformsTo: conformsTo,
+    gte: gte,
+    gt: gt,
+    some: some,
+    reject: reject,
+    reduceRight: reduceRight,
+    partition: partition,
+    // orderBy: orderBy,
+    keyBy: keyBy,
+    invokeMap: invokeMap,
+    includes: includes,
+    groupBy: groupBy,
+    forEach: forEach,
+    forEachRight: forEachRight,
+    xor: xor,
+    xorBy: xorBy,
+    // pullAllBy: pullAllBy,
     // dropWhile: dropWhile,
     // dropRightWhile: dropRightWhile,
     mean: mean,
