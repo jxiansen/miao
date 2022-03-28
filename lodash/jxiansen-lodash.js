@@ -1,4 +1,4 @@
-var jxiansen = function () {
+var _ = function () {
   /**
    * 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。 
    * 如果array 无法被分割成全部等长的区块，那么最后剩余的元素将组成一个区块。
@@ -96,6 +96,42 @@ var jxiansen = function () {
     }
     return res
   }
+
+
+
+
+  function differenceBy(array, values, identity) {
+    let func = iteratee(identity)
+    let res = []
+    for (let val of values) {
+      for (let item of array) {
+        if (func(val) === func(item)) {
+          continue
+        }
+        res.push(val)
+      }
+    }
+    return res
+  }
+
+
+  function differenceWith(array, values, comparator) {
+    let res = []
+    for (let val of values) {
+      for (let item of array) {
+        if (comparator(val) === comparator(item)) {
+          continue
+        }
+        res.push(val)
+      }
+    }
+    return res
+  }
+
+
+
+
+
 
   /**
    * 创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
@@ -601,14 +637,45 @@ var jxiansen = function () {
    * // => [2, 1]
    */
   function uniq(array) {
-    let res = [];
+    return [...new Set(...array)]
+  }
+
+
+  function uniqBy(array, identity) {
+    let res = []
+    let func = iteratee(identity)
+    let map = new Map()
+    // map中添加数值对时,重复的自动被去除了
     for (let item of array) {
-      if (!res.includes(item)) {
-        res.push(item)
+      map.set(func(item), item)
+    }
+    for (let val of map.values()) {
+      res.push(val)
+    }
+    return res
+  }
+
+
+
+  function uniqWith(array, comparator) {
+    let res = []
+    for (let i = 0; i < array.length; i++) {
+      for (let j = i + 1; j < array.length; j++) {
+        // 双重遍历,第一层遍历到的元素,经过comparator比较后,没有找到一样的,说明是唯一的
+        if (comparator(array[i], array[j])) {
+          break
+          // 找到相同的,跳出当前内循环什么都不做,因为此时 array[i] 并不是唯一,后面还有遇到的机会
+        }
+        // 遍历完都没有找到一样的说明 array[i] 就是唯一
+        res.push(array[i])
       }
     }
     return res
   }
+
+
+
+
 
 
   /**
@@ -718,16 +785,19 @@ var jxiansen = function () {
   * // => []
   */
   function take(array, n = 1) {
-    let res = [];
-    if (n >= array.length) {
-      return array
-    }
-    while (n > 0) {
-      res.push(array.shift())
-      n--
-    }
-    return res;
+    return array.slice(0, n);
   }
+
+
+  function takeWhile(array, identity) {
+    let func = iteratee(identity)
+    return array.reduce((acc, cur) => {
+      if (func(cur)) acc.push(cur)
+      return acc
+    }, [])
+  }
+
+
 
   /**
    * 创建一个数组切片，从array数组的最后一个元素开始提取n个元素
@@ -754,21 +824,44 @@ var jxiansen = function () {
    * // => []
    */
   function takeRight(array, n = 1) {
-    let res = [], count = 0;
-    if (n >= array.length) {
-      return array;
-    }
-    if (n === 0) {
-      return res
-    }
-    for (let i = array.length - 1; i >= 0; i--) {
-      res.unshift(array[i])
-      count++
-      if (count === n) {
-        return res
-      }
-    }
+    return take(array.reverse(), n)
   }
+
+
+
+
+  function takeRightWhile(array, identity) {
+    let func = iteratee(identity)
+    return array.reverse().reduce((acc, cur) => {
+      if (func(cur)) acc.push(cur)
+      return acc
+    }, [])
+  }
+
+
+
+  function unzip(array) {
+    let res = []
+    let count = array[0].length
+    for (let i = 0; i < count; i++) {
+      res.push(array.map(item => item[i]))
+    }
+    return res
+  }
+
+
+
+  function unzipWith(array, identity) {
+    let func = iteratee(identity)
+    let res = []
+    let count = array[0].length
+    for (let i = 0; i < count; i++) {
+      res.push(array.map(item => func(item[i])))
+    }
+    return res
+  }
+
+
 
   /**
    * 创建一个包含从 start 到 end，但不包含 end 本身范围数字的数组。 
@@ -1197,6 +1290,48 @@ var jxiansen = function () {
     }
     return res
   }
+
+
+
+  function intersectionBy(...args) {
+    let arr = [...args]
+    let func = iteratee(arr.pop())
+    arr = flattenDeep(arr)
+    let map1 = new Map(), map2 = new Map();
+    let res = []
+    for (let item of arr) {
+      map1.set(func(item), item)
+      map2.set(func(item), map2.get(item) + 1 || 1)
+    }
+    for (let [mapVal, key] of map2.entries()) {
+      if (key === arr.length) {
+        res.push(map.get(mapVal))
+      }
+    }
+    return res
+  }
+
+
+
+  function intersectionWith(...args) {
+    let arr = [...args]
+    let func = iteratee(arr.pop())
+    arr = flattenDeep(arr)
+    let map1 = new Map(), map2 = new Map();
+    let res = []
+    for (let item of arr) {
+      map1.set(func(item), item)
+      map2.set(func(item), map2.get(item) + 1 || 1)
+    }
+    for (let [mapVal, key] of map2.entries()) {
+      if (key === arr.length) {
+        res.push(map.get(mapVal))
+      }
+    }
+    return res
+  }
+
+
 
 
   /**
@@ -3579,7 +3714,8 @@ var jxiansen = function () {
     let func = iteratee(identity)
     let res = []
     for (let key in collection) {
-      res.push(func(collection[key]))
+      let item = collection[key]
+      res.push(func(item))
     }
     return flattenDeep(res)
   }
@@ -3596,28 +3732,18 @@ var jxiansen = function () {
   }
 
 
-  // function dropWhile(array, identity) {
-  //   let func = iteratee(identity)
-  //   // let i = 0
-  //   // while (func(array[i])) {
-  //   //   array.shift()
-  //   // }
-  //   return [func(array[0]), func(array[1]), func(array[2])]
-  // }
+  function dropWhile(array, identity) {
+    let func = iteratee(identity)
+    let idx = array.findIndex(func)
+    return array.slice(idx)
+  }
 
 
-  /* 
-    function dropRightWhile(array, identity) {
-      let func = iteratee(identity)
-      let res = []
-      for (let item of array) {
-        if (!func(item)) {
-          return res
-        } else {
-          res.push(item)
-        }
-      }
-    } */
+
+  function dropRightWhile(array, identity) {
+    // 反转传入的数组再传入dropWhile()处理
+    return dropWhile(array.reverse(), identity)
+  }
 
 
 
@@ -3726,7 +3852,8 @@ var jxiansen = function () {
     let res = {}
     let func = iteratee(identity)
     for (let key in object) {
-      res[key] = func(object[key], key, object)
+      let item = object[key]
+      res[key] = func(item, key, object)
     }
     return res
   }
@@ -3852,21 +3979,32 @@ var jxiansen = function () {
 
 
 
-  // function pullAllBy(array, values, identity) {
-  //   let func = iteratee(identity)
-  //   let res = []
-  //   while (array) {
-  //     let item = array.shift()
-  //     for (let val of values) {
-  //       if (func(item) !== func(val)) {
-  //         res.push(item)
-  //       }
-  //     }
-  //   }
-  //   array = res
-  //   return array
-  // }
+  function pullAllBy(array, values, identity) {
+    let func = iteratee(identity)
+    for (let i = values.length; i >= 0; i--) {
+      for (let item of values) {
+        if (func(array[i]) === func(item)) {
+          array.splice(i, 1)
+          break
+        }
+      }
+    }
+    return array
+  }
 
+
+  function pullAllWith(array, values, identity) {
+    let func = iteratee(identity)
+    for (let i = values.length; i >= 0; i--) {
+      for (let item of values) {
+        if (func(array[i]) === func(item)) {
+          array.splice(i, 1)
+          break
+        }
+      }
+    }
+    return array
+  }
 
 
 
@@ -3903,6 +4041,29 @@ var jxiansen = function () {
     }
     return res
   }
+
+
+  function sortedIndex(array, value) {
+    for (let i = 0; i < array.length; i++) {
+      if (value >= array[i]) {
+        return i
+      }
+    }
+    return array.length - 1
+  }
+
+
+  function sortedIndexBy(array, value, identity) {
+    let func = iteratee(identity)
+    for (let key in array) {
+      if (func(array[key]) >= value) {
+        return key
+      }
+    }
+    return array.length - 1
+  }
+
+
 
 
   function forEach(collection, identity) {
@@ -4038,7 +4199,7 @@ var jxiansen = function () {
     let func = iteratee(identity)
     for (let key in collection) {
       let item = collection[key]
-      if (func(item)) {
+      if (func(item, key, collection)) {
         return true
       }
     }
@@ -4102,9 +4263,10 @@ var jxiansen = function () {
     forEachRight: forEachRight,
     xor: xor,
     xorBy: xorBy,
-    // pullAllBy: pullAllBy,
-    // dropWhile: dropWhile,
-    // dropRightWhile: dropRightWhile,
+    pullAllBy: pullAllBy,
+    pullAllWith: pullAllWith,
+    dropWhile: dropWhile,
+    dropRightWhile: dropRightWhile,
     mean: mean,
     minBy: minBy,
     maxBy: maxBy,
@@ -4139,6 +4301,8 @@ var jxiansen = function () {
     filter: filter,
     map: map,
     assign: assign,
+    sortedIndex: sortedIndex,
+    sortedIndexBy: sortedIndexBy,
     // set: set,
     zipObject: zipObject,
     matchesProperty: matchesProperty,
@@ -4203,11 +4367,15 @@ var jxiansen = function () {
     compact: compact,
     concat: concat,
     uniq: uniq,
+    uniqBy: uniqBy,
+    uniqWith: uniqWith,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     map: map,
     reduce: reduce,
     zip: zip,
+    unzip: unzip,
+    unzipWith: unzipWith,
     keys: keys,
     fill: fill,
     reverse: reverse,
@@ -4220,7 +4388,11 @@ var jxiansen = function () {
     sumBy: sumBy,
     parseJson: parseJson,
     difference: difference,
+    differenceBy: differenceBy,
+    differenceWith: differenceWith,
     intersection: intersection,
+    intersectionBy: intersectionBy,
+    intersectionWith: intersectionWith,
     floor: floor,
     isMatch: isMatch,
     matches: matches,
@@ -4262,7 +4434,9 @@ var jxiansen = function () {
     without: without,
     tail: tail,
     take: take,
+    takeWhile: takeWhile,
     takeRight: takeRight,
+    takeRightWhile: takeRightWhile,
     sample: sample,
     sampleSize: sampleSize,
     size: size,
