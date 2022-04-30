@@ -1,0 +1,16 @@
+{
+	"dependencies": {
+		"nodemon": "^2.0.16"
+	},
+	"scripts": {
+		"start": "nodemon server.js"
+	},
+	"name": "simple-http-server",
+	"version": "1.0.0",
+	"main": "server.js",
+	"devDependencies": {},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": ""
+}
